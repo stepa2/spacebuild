@@ -1,3 +1,3 @@
 ﻿ENT.Type = "anim"
-ENT.Base = "base_rd3_entity"
+ENT.Base = "caf_base_resource_distribution"
 ENT.PrintName = "Air Hydroponics"

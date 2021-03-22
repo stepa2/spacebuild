@@ -6,7 +6,7 @@ util.PrecacheSound("apc_engine_start")
 include("shared.lua")
 local Pressure_Increment = 80
 local Energy_Increment = 10
-DEFINE_BASECLASS("base_rd3_entity")
+DEFINE_BASECLASS("caf_base_resource_distribution")
 
 function ENT:Initialize()
 	BaseClass.Initialize(self)

@@ -4,7 +4,7 @@ util.PrecacheSound("Airboat_engine_idle")
 util.PrecacheSound("Airboat_engine_stop")
 include("shared.lua")
 local Energy_Increment = 100 --60
-DEFINE_BASECLASS("base_rd3_entity")
+DEFINE_BASECLASS("caf_base_resource_distribution")
 
 function ENT:Initialize()
 	BaseClass.Initialize(self)

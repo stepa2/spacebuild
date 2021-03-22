@@ -3,7 +3,7 @@ AddCSLuaFile("shared.lua")
 util.PrecacheSound("apc_engine_start")
 util.PrecacheSound("apc_engine_stop")
 include("shared.lua")
-DEFINE_BASECLASS("base_rd3_entity")
+DEFINE_BASECLASS("caf_base_resource_distribution")
 local Energy_Increment = 125
 local Water_Increment = 200
 local Generator_Effect = 1 --Less than one means that this generator "leak" resources

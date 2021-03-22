@@ -1,7 +1,7 @@
 ﻿AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include("shared.lua")
-DEFINE_BASECLASS("base_rd3_entity")
+DEFINE_BASECLASS("caf_base_resource_distribution")
 local Energy_Increment = 100 --40 before  --randomize for weather
 
 function ENT:Initialize()

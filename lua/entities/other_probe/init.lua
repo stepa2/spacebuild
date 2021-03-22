@@ -2,7 +2,7 @@
 AddCSLuaFile("shared.lua")
 util.PrecacheSound("Buttons.snd17")
 include("shared.lua")
-DEFINE_BASECLASS("base_rd3_entity")
+DEFINE_BASECLASS("caf_base_resource_distribution")
 local Energy_Increment = 4
 local BeepCount = 3
 

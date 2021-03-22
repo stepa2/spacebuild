@@ -2,7 +2,7 @@
 AddCSLuaFile("shared.lua")
 util.PrecacheSound("ambient.steam01")
 include("shared.lua")
-DEFINE_BASECLASS("base_rd3_entity")
+DEFINE_BASECLASS("caf_base_resource_distribution")
 
 function ENT:Initialize()
 	BaseClass.Initialize(self)

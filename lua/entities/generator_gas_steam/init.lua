@@ -3,7 +3,7 @@ AddCSLuaFile("shared.lua")
 util.PrecacheSound("apc_engine_start")
 util.PrecacheSound("apc_engine_stop")
 include("shared.lua")
-DEFINE_BASECLASS("base_rd3_entity")
+DEFINE_BASECLASS("caf_base_resource_distribution")
 
 local Water_Increment = 10
 local RD = CAF.GetAddon("Resource Distribution")

@@ -3,7 +3,7 @@ AddCSLuaFile("shared.lua")
 include("shared.lua")
 --Was 15, reduced by popular request.
 local Energy_Increment = 8
-DEFINE_BASECLASS("base_rd3_entity")
+DEFINE_BASECLASS("caf_base_resource_distribution")
 
 function ENT:Initialize()
 	BaseClass.Initialize(self)

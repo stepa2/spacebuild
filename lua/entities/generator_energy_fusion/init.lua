@@ -3,7 +3,7 @@ AddCSLuaFile("shared.lua")
 util.PrecacheSound("k_lab.ambient_powergenerators")
 util.PrecacheSound("ambient/machines/thumper_startup1.wav")
 include("shared.lua")
-DEFINE_BASECLASS("base_rd3_entity")
+DEFINE_BASECLASS("caf_base_resource_distribution")
 
 local RD = CAF.GetAddon("Resource Distribution")
 
