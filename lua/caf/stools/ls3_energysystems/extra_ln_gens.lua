@@ -1,4 +1,4 @@
-﻿DEVICEGROUP.type = "generator_liquid_nitrogen"
+﻿DEVICEGROUP.type = "caf_rd_generator_liquid_nitrogen"
 
 --[[
 	You can also use skin = number here to define a skin to make the Module spawn with

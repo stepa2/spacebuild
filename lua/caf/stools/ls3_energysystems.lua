@@ -4,7 +4,7 @@ TOOL.DeviceName = "Generator"
 TOOL.DeviceNamePlural = "Generators"
 TOOL.ClassName = "ls3_energysystems"
 TOOL.DevSelect = true
-TOOL.CCVar_type = "generator_gas_o2"
+TOOL.CCVar_type = "caf_rd_generator_gas_o2"
 TOOL.CCVar_sub_type = "default_O2"
 TOOL.CCVar_model = "models/chipstiks_ls3_models/OxygenCompressor/oxygencompressor.mdl"
 TOOL.Limited = true
@@ -39,28 +39,28 @@ end
 
 TOOL.Renamed = {
 	class = {
-		air_compressor = "generator_gas_o2",
-		coolant_compressor = "generator_liquid_water",
-		energy_hydro = "generator_energy_hydro",
-		energy_solar = "generator_energy_solar",
-		energy_wind = "generator_energy_wind",
-		hvywater_electrolyzer = "generator_liquid_hvywater",
-		warp_core = "generator_energy_fusion",
-		water_air_extractor = "generator_gas_o2h_water",
-		water_heater = "generator_gas_steam",
-		water_pump = "generator_liquid_water",
+		air_compressor = "caf_rd_generator_gas_o2",
+		coolant_compressor = "caf_rd_generator_liquid_water",
+		energy_hydro = "caf_rd_generator_energy_hydro",
+		energy_solar = "caf_rd_generator_energy_solar",
+		energy_wind = "caf_rd_generator_energy_wind",
+		hvywater_electrolyzer = "caf_rd_generator_liquid_hvywater",
+		warp_core = "caf_rd_generator_energy_fusion",
+		water_air_extractor = "caf_rd_generator_gas_o2h_water",
+		water_heater = "caf_rd_generator_gas_steam",
+		water_pump = "caf_rd_generator_liquid_water",
 	},
 	type = {
-		air_compressor = "generator_gas_o2",
-		coolant_compressor = "generator_liquid_water",
-		energy_hydro = "generator_energy_hydro",
-		energy_solar = "generator_energy_solar",
-		energy_wind = "generator_energy_wind",
-		hvywater_electrolyzer = "generator_liquid_hvywater",
-		warp_core = "generator_energy_fusion",
-		water_air_extractor = "generator_gas_o2h_water",
-		water_heater = "generator_gas_steam",
-		water_pump = "generator_liquid_water",
+		air_compressor = "caf_rd_generator_gas_o2",
+		coolant_compressor = "caf_rd_generator_liquid_water",
+		energy_hydro = "caf_rd_generator_energy_hydro",
+		energy_solar = "caf_rd_generator_energy_solar",
+		energy_wind = "caf_rd_generator_energy_wind",
+		hvywater_electrolyzer = "caf_rd_generator_liquid_hvywater",
+		warp_core = "caf_rd_generator_energy_fusion",
+		water_air_extractor = "caf_rd_generator_gas_o2h_water",
+		water_heater = "caf_rd_generator_gas_steam",
+		water_pump = "caf_rd_generator_liquid_water",
 	},
 }
 
@@ -71,24 +71,24 @@ local function gas_generator_func(ent, type, sub_type, devinfo, Extra_Data, ent_
 	local base_health = 600
 	local res = ""
 
-	if type == "generator_gas_o2" then
+	if type == "caf_rd_generator_gas_o2" then
 		base_volume = 284267
 		res = "oxygen"
-	elseif type == "generator_gas_h" then
+	elseif type == "caf_rd_generator_gas_h" then
 		base_volume = 284267 --Change to the actual base volume later on
 		res = "hydrogen"
-	elseif type == "generator_gas_n" then
+	elseif type == "caf_rd_generator_gas_n" then
 		base_volume = 284267 --Change to the actual base volume later on
 		res = "nitrogen"
-	elseif type == "generator_gas_co2" then
+	elseif type == "caf_rd_generator_gas_co2" then
 		base_volume = 284267 --Change to the actual base volume later on
 		res = "carbon dioxide"
-	elseif type == "generator_gas_steam" then
+	elseif type == "caf_rd_generator_gas_steam" then
 		base_volume = 57804 --Change to the actual base volume later on
 		base_mass = 150
 		base_health = 300
 		res = "water"
-	elseif type == "generator_gas_o2h_water" then
+	elseif type == "caf_rd_generator_gas_o2h_water" then
 		base_volume = 49738 --Change to the actual base volume later on
 		base_mass = 120
 		base_health = 350
@@ -120,16 +120,16 @@ local function liquid_generator_func(ent, type, sub_type, devinfo, Extra_Data, e
 	local base_mass = 60
 	local base_health = 200
 
-	if type == "generator_liquid_water" then
+	if type == "caf_rd_generator_liquid_water" then
 		base_volume = 18619 --27929
-	elseif type == "generator_liquid_water_liquifier" then
+	elseif type == "caf_rd_generator_liquid_water_liquifier" then
 		base_volume = 27929
 		base_mass = 80
-	elseif type == "generator_liquid_hvywater" then
+	elseif type == "caf_rd_generator_liquid_hvywater" then
 		base_volume = 284267 --Change to the actual base volume later on
 		base_mass = 500
 		base_health = 800
-	elseif type == "generator_liquid_nitrogen" then
+	elseif type == "caf_rd_generator_liquid_nitrogen" then
 		base_volume = 284267
 		base_mass = 300
 		base_health = 500
@@ -167,7 +167,7 @@ local function energy_generator_func(ent, type, sub_type, devinfo, Extra_Data, e
 		volume = math.Round(vol)
 	end
 
-	if type == "generator_energy_fusion" then
+	if type == "caf_rd_generator_energy_fusion" then
 		base_volume = 339933 * 3 --3399325
 
 		if volume ~= -1 then
@@ -178,7 +178,7 @@ local function energy_generator_func(ent, type, sub_type, devinfo, Extra_Data, e
 		base_health = 1000
 		ent:AddResource("energy", math.ceil(volume_mul * 5000))
 		ent:AddResource("water", math.ceil(volume_mul * 0.08 * 45))
-	elseif type == "generator_energy_hydro" then
+	elseif type == "caf_rd_generator_energy_hydro" then
 		base_volume = 69897
 
 		if volume ~= -1 then
@@ -188,7 +188,7 @@ local function energy_generator_func(ent, type, sub_type, devinfo, Extra_Data, e
 		base_mass = 100
 		base_health = 150
 		ent:AddResource("energy", math.ceil(volume_mul * 100))
-	elseif type == "generator_energy_solar" then
+	elseif type == "caf_rd_generator_energy_solar" then
 		base_volume = 1982 --2950 --1014
 
 		if volume ~= -1 then
@@ -196,7 +196,7 @@ local function energy_generator_func(ent, type, sub_type, devinfo, Extra_Data, e
 		end
 
 		ent:AddResource("energy", math.ceil(volume_mul * 8))
-	elseif type == "generator_energy_wind" then
+	elseif type == "caf_rd_generator_energy_wind" then
 		base_volume = 34586 --17293 --9882
 
 		if volume ~= -1 then
@@ -206,7 +206,7 @@ local function energy_generator_func(ent, type, sub_type, devinfo, Extra_Data, e
 		base_mass = 200
 		base_health = 200
 		ent:AddResource("energy", math.ceil(volume_mul * 100))
-	elseif type == "generator_energy_steam_turbine" then
+	elseif type == "caf_rd_generator_energy_steam_turbine" then
 		base_volume = 18619 --27929
 
 		if volume ~= -1 then
@@ -229,10 +229,10 @@ local function energy_generator_func(ent, type, sub_type, devinfo, Extra_Data, e
 end
 
 TOOL.Devices = {
-	generator_gas_o2 = {
+	caf_rd_generator_gas_o2 = {
 		Name = "Oxygen Compressor",
-		type = "generator_gas_o2",
-		class = "generator_gas",
+		type = "caf_rd_generator_gas_o2",
+		class = "caf_rd_generator_gas",
 		func = gas_generator_func,
 		devices = {
 			default_O2 = {
@@ -243,10 +243,10 @@ TOOL.Devices = {
 			},
 		},
 	},
-	generator_liquid_nitrogen = {
+	caf_rd_generator_liquid_nitrogen = {
 		Name = "Liquid Nitrogen Generator",
-		type = "generator_liquid_nitrogen",
-		class = "generator_liquid_nitrogen",
+		type = "caf_rd_generator_liquid_nitrogen",
+		class = "caf_rd_generator_liquid_nitrogen",
 		func = liquid_generator_func,
 		devices = {
 			default_nitrogen_rec = {
@@ -257,10 +257,10 @@ TOOL.Devices = {
 			},
 		},
 	},
-	generator_gas_co2 = {
+	caf_rd_generator_gas_co2 = {
 		Name = "Carbon Dioxide Compressor",
-		type = "generator_gas_co2",
-		class = "generator_gas",
+		type = "caf_rd_generator_gas_co2",
+		class = "caf_rd_generator_gas",
 		func = gas_generator_func,
 		devices = {
 			default_co2 = {
@@ -271,10 +271,10 @@ TOOL.Devices = {
 			},
 		},
 	},
-	generator_gas_h = {
+	caf_rd_generator_gas_h = {
 		Name = "Hydrogen Compressor",
-		type = "generator_gas_h",
-		class = "generator_gas",
+		type = "caf_rd_generator_gas_h",
+		class = "caf_rd_generator_gas",
 		func = gas_generator_func,
 		devices = {
 			default_h = {
@@ -285,10 +285,10 @@ TOOL.Devices = {
 			},
 		},
 	},
-	generator_gas_n = {
+	caf_rd_generator_gas_n = {
 		Name = "Nitrogen Compressor",
-		type = "generator_gas_n",
-		class = "generator_gas",
+		type = "caf_rd_generator_gas_n",
+		class = "caf_rd_generator_gas",
 		func = gas_generator_func,
 		devices = {
 			default_n = {
@@ -299,17 +299,17 @@ TOOL.Devices = {
 			},
 		},
 	},
-	generator_gas_steam = {
+	caf_rd_generator_gas_steam = {
 		Name = "Water Heater",
-		type = "generator_gas_steam",
-		class = "generator_gas_steam",
+		type = "caf_rd_generator_gas_steam",
+		class = "caf_rd_generator_gas_steam",
 		func = gas_generator_func,
 		devices = {},
 	},
-	generator_energy_steam_turbine = {
+	caf_rd_generator_energy_steam_turbine = {
 		Name = "Steam Turbine",
-		type = "generator_energy_steam_turbine",
-		class = "generator_energy_steam_turbine",
+		type = "caf_rd_generator_energy_steam_turbine",
+		class = "caf_rd_generator_energy_steam_turbine",
 		func = energy_generator_func,
 		devices = {
 			add_one = {
@@ -319,10 +319,10 @@ TOOL.Devices = {
 			},
 		},
 	},
-	generator_gas_o2h_water = {
+	caf_rd_generator_gas_o2h_water = {
 		Name = "H2O Splitter",
-		type = "generator_gas_o2h_water",
-		class = "generator_gas_o2h_water",
+		type = "caf_rd_generator_gas_o2h_water",
+		class = "caf_rd_generator_gas_o2h_water",
 		func = gas_generator_func,
 		devices = {
 			large_phx = {
@@ -333,10 +333,10 @@ TOOL.Devices = {
 			},
 		},
 	},
-	generator_liquid_water2 = {
+	caf_rd_generator_liquid_water2 = {
 		Name = "Hydrogen Fuel Cell",
-		type = "generator_liquid_water2",
-		class = "generator_liquid_water2",
+		type = "caf_rd_generator_liquid_water2",
+		class = "caf_rd_generator_liquid_water2",
 		func = liquid_generator_func,
 		devices = {
 			large_phx = {
@@ -347,10 +347,10 @@ TOOL.Devices = {
 			},
 		},
 	},
-	generator_liquid_water = {
+	caf_rd_generator_liquid_water = {
 		Name = "Water Pump",
-		type = "generator_liquid_water",
-		class = "generator_liquid_water",
+		type = "caf_rd_generator_liquid_water",
+		class = "caf_rd_generator_liquid_water",
 		func = liquid_generator_func,
 		devices = {
 			small_phx = {
@@ -361,10 +361,10 @@ TOOL.Devices = {
 			},
 		},
 	},
-	generator_liquid_hvywater = {
+	caf_rd_generator_liquid_hvywater = {
 		Name = "Heavy Water Electrolyzer",
-		type = "generator_liquid_hvywater",
-		class = "generator_liquid_hvywater",
+		type = "caf_rd_generator_liquid_hvywater",
+		class = "caf_rd_generator_liquid_hvywater",
 		func = liquid_generator_func,
 		devices = {
 			small_phx = {
@@ -375,17 +375,17 @@ TOOL.Devices = {
 			},
 		},
 	},
-	generator_energy_fusion = {
+	caf_rd_generator_energy_fusion = {
 		Name = "Fusion Generator",
-		type = "generator_energy_fusion",
-		class = "generator_energy_fusion",
+		type = "caf_rd_generator_energy_fusion",
+		class = "caf_rd_generator_energy_fusion",
 		func = energy_generator_func,
 		devices = {},
 	},
-	generator_energy_hydro = {
+	caf_rd_generator_energy_hydro = {
 		Name = "Hydro Energy Generator",
-		type = "generator_energy_hydro",
-		class = "generator_energy_hydro",
+		type = "caf_rd_generator_energy_hydro",
+		class = "caf_rd_generator_energy_hydro",
 		func = energy_generator_func,
 		devices = {
 			small_phx = {
@@ -396,10 +396,10 @@ TOOL.Devices = {
 			},
 		},
 	},
-	generator_energy_solar = {
+	caf_rd_generator_energy_solar = {
 		Name = "Solar Panels",
-		type = "generator_energy_solar",
-		class = "generator_energy_solar",
+		type = "caf_rd_generator_energy_solar",
+		class = "caf_rd_generator_energy_solar",
 		func = energy_generator_func,
 		devices = {
 			small_phx = {
@@ -422,10 +422,10 @@ TOOL.Devices = {
 			},
 		},
 	},
-	generator_energy_wind = {
+	caf_rd_generator_energy_wind = {
 		Name = "Wind Generator",
-		type = "generator_energy_wind",
-		class = "generator_energy_wind",
+		type = "caf_rd_generator_energy_wind",
+		class = "caf_rd_generator_energy_wind",
 		func = energy_generator_func,
 		devices = {
 			large_1 = {
@@ -451,7 +451,7 @@ TOOL.Devices = {
 	generator_h_ramscoop = {
 		Name = "Hydrogen Ram Scoop",
 		type = "generator_h_ramscoop",
-		class = "generator_ramscoop",
+		class = "caf_rd_generator_ramscoop",
 		func = gas_generator_func,
 		devices = {
 			normal = {
@@ -471,7 +471,7 @@ TOOL.Devices = {
 	generator_n_ramscoop = {
 		Name = "Nitrogen Ram Scoop",
 		type = "generator_n_ramscoop",
-		class = "generator_ramscoop",
+		class = "caf_rd_generator_ramscoop",
 		func = gas_generator_func,
 		devices = {
 			normal = {

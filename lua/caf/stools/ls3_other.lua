@@ -4,7 +4,7 @@ TOOL.DeviceName = "Special Device"
 TOOL.DeviceNamePlural = "Special Devices"
 TOOL.ClassName = "ls3_other"
 TOOL.DevSelect = true
-TOOL.CCVar_type = "other_screen"
+TOOL.CCVar_type = "caf_rd_other_screen"
 TOOL.CCVar_sub_type = "Small"
 TOOL.CCVar_model = "models/SnakeSVx/small_screen_ls_1.mdl"
 TOOL.Limited = true
@@ -43,10 +43,10 @@ local function screen_func(ent, type, sub_type, devinfo, Extra_Data, ent_extras)
 end
 
 TOOL.Devices = {
-	other_screen = {
+	caf_rd_other_screen = {
 		Name = "LS Info Screens",
-		type = "other_screen",
-		class = "other_screen",
+		type = "caf_rd_other_screen",
+		class = "caf_rd_other_screen",
 		func = screen_func,
 		devices = {
 			s_small = {

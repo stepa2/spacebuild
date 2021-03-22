@@ -1,4 +1,4 @@
-﻿DEVICEGROUP.type = "storage_liquid_water"
+﻿DEVICEGROUP.type = "caf_rd_storage_liquid_water"
 
 --[[
 	You can also use skin = number here to define a skin to make the Module spawn with

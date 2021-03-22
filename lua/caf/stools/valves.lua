@@ -4,7 +4,7 @@ TOOL.DeviceName = "Resource Valve"
 TOOL.DeviceNamePlural = "Resource Valves"
 TOOL.ClassName = "valves"
 TOOL.DevSelect = true
-TOOL.CCVar_type = "rd_ent_valve"
+TOOL.CCVar_type = "caf_rd_value_entity"
 TOOL.CCVar_sub_type = "normal"
 TOOL.CCVar_model = "models/ResourcePump/resourcepump.mdl"
 TOOL.Limited = true
@@ -31,10 +31,10 @@ local function resource_valve_func(ent, type, sub_type, devinfo, Extra_Data, ent
 end
 
 TOOL.Devices = {
-	rd_ent_valve = {
+	caf_rd_value_entity = {
 		Name = "Entity <-> Resource Node valve",
-		type = "rd_ent_valve",
-		class = "rd_ent_valve",
+		type = "caf_rd_value_entity",
+		class = "caf_rd_value_entity",
 		func = resource_valve_func,
 		devices = {
 			normal = {
@@ -47,10 +47,10 @@ TOOL.Devices = {
 			},
 		},
 	},
-	rd_node_valve = {
+	caf_rd_value_node = {
 		Name = "Resource Node <-> Resource Node (2-way) valve",
-		type = "rd_node_valve",
-		class = "rd_node_valve",
+		type = "caf_rd_value_node",
+		class = "caf_rd_value_node",
 		func = resource_valve_func,
 		devices = {
 			normal = {
@@ -63,10 +63,10 @@ TOOL.Devices = {
 			},
 		},
 	},
-	rd_one_way_valve = {
+	caf_rd_value_node_oneway = {
 		Name = "Resource Node -> Resource Node (1-way) valve",
-		type = "rd_one_way_valve",
-		class = "rd_one_way_valve",
+		type = "caf_rd_value_node_oneway",
+		class = "caf_rd_value_node_oneway",
 		func = resource_valve_func,
 		devices = {
 			normal = {

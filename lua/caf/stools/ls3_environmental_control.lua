@@ -4,8 +4,8 @@ TOOL.DeviceName = "Environmental Control"
 TOOL.DeviceNamePlural = "Environmental Controls"
 TOOL.ClassName = "ls3_environmental_control"
 TOOL.DevSelect = true
-TOOL.CCVar_type = "other_dispenser"
-TOOL.CCVar_sub_type = "default_other_dispenser"
+TOOL.CCVar_type = "caf_rd_other_dispenser"
+TOOL.CCVar_sub_type = "default_caf_rd_other_dispenser"
 TOOL.CCVar_model = "models/props_combine/combine_emitter01.mdl"
 TOOL.Limited = true
 TOOL.LimitName = "ls3_environmental_control"
@@ -27,17 +27,17 @@ local function environmental_control_func(ent, type, sub_type, devinfo, Extra_Da
 	local base_mass = 10
 	local base_health = 100
 
-	if type == "other_dispenser" then
+	if type == "caf_rd_other_dispenser" then
 		base_volume = 4084 --This will need changed
 	elseif type == "base_climate_control" then
 		base_volume = 4084
 		base_mass = 1200
 		base_health = 1000
-	elseif type == "other_probe" then
+	elseif type == "caf_rd_other_probe" then
 		base_volume = 4084
 		base_mass = 20
 		base_health = 1000
-	elseif type == "nature_plant" then
+	elseif type == "caf_rd_nature_plant" then
 		base_volume = 4084
 		base_mass = 10
 		base_health = 50
@@ -65,13 +65,13 @@ local function sbCheck()
 end
 
 TOOL.Devices = {
-	other_dispenser = {
+	caf_rd_other_dispenser = {
 		Name = "Suit Dispensers",
-		type = "other_dispenser",
-		class = "other_dispenser",
+		type = "caf_rd_other_dispenser",
+		class = "caf_rd_other_dispenser",
 		func = environmental_control_func,
 		devices = {
-			default_other_dispenser = {
+			default_caf_rd_other_dispenser = {
 				Name = "Suit Dispenser",
 				model = "models/props_combine/combine_emitter01.mdl",
 				skin = 0,
@@ -94,10 +94,10 @@ TOOL.Devices = {
 			},
 		},
 	},
-	other_probe = {
+	caf_rd_other_probe = {
 		Name = "Atmospheric Probes",
-		type = "other_probe",
-		class = "other_probe",
+		type = "caf_rd_other_probe",
+		class = "caf_rd_other_probe",
 		func = environmental_control_func,
 		EnableFunc = sbCheck,
 		devices = {
@@ -109,10 +109,10 @@ TOOL.Devices = {
 			},
 		},
 	},
-	nature_plant = {
+	caf_rd_nature_plant = {
 		Name = "Air Hydroponics",
-		type = "nature_plant",
-		class = "nature_plant",
+		type = "caf_rd_nature_plant",
+		class = "caf_rd_nature_plant",
 		func = environmental_control_func,
 		devices = {
 			normal = {

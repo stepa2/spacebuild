@@ -39,17 +39,17 @@ end
 TOOL.Renamed = {
 	class = {
 		air_tank = "storage_gas_o2",
-		coolant_tank = "storage_liquid_water",
-		energy_cell = "storage_energy",
-		water_tank = "storage_liquid_water",
-		hvywater_tank = "storage_liquid_hvywater"
+		coolant_tank = "caf_rd_storage_liquid_water",
+		energy_cell = "caf_rd_storage_energy",
+		water_tank = "caf_rd_storage_liquid_water",
+		hvywater_tank = "caf_rd_storage_liquid_hvywater"
 	},
 	type = {
 		air_tank = "storage_gas_o2",
-		coolant_tank = "storage_liquid_water",
-		energy_cell = "storage_energy",
-		water_tank = "storage_liquid_water",
-		hvywater_tank = "storage_liquid_hvywater",
+		coolant_tank = "caf_rd_storage_liquid_water",
+		energy_cell = "caf_rd_storage_energy",
+		water_tank = "caf_rd_storage_liquid_water",
+		hvywater_tank = "caf_rd_storage_liquid_hvywater",
 	},
 }
 
@@ -218,7 +218,7 @@ TOOL.Devices = {
 	storage_gas_o2 = {
 		Name = "Oxygen Tanks",
 		type = "storage_gas_o2",
-		class = "storage_gas",
+		class = "caf_rd_storage_gas",
 		func = gas_tank_func,
 		--EnableFunc = function() return false end,
 		devices = {
@@ -263,7 +263,7 @@ TOOL.Devices = {
 	storage_gas_co2 = {
 		Name = "Carbon Dioxide Tanks",
 		type = "storage_gas_co2",
-		class = "storage_gas",
+		class = "caf_rd_storage_gas",
 		func = gas_tank_func,
 		devices = {
 			small_phx = {
@@ -308,7 +308,7 @@ TOOL.Devices = {
 	storage_gas_h = {
 		Name = "Hydrogen Tanks",
 		type = "storage_gas_h",
-		class = "storage_gas",
+		class = "caf_rd_storage_gas",
 		func = gas_tank_func,
 		devices = {
 			small_phx = {
@@ -352,7 +352,7 @@ TOOL.Devices = {
 	storage_gas_n = {
 		Name = "Nitrogen Tanks",
 		type = "storage_gas_n",
-		class = "storage_gas",
+		class = "caf_rd_storage_gas",
 		func = gas_tank_func,
 		devices = {
 			small_phx = {
@@ -393,10 +393,10 @@ TOOL.Devices = {
 			},
 		},
 	},
-	storage_liquid_water = {
+	caf_rd_storage_liquid_water = {
 		Name = "Water Tanks",
-		type = "storage_liquid_water",
-		class = "storage_liquid_water",
+		type = "caf_rd_storage_liquid_water",
+		class = "caf_rd_storage_liquid_water",
 		func = liquid_tank_func,
 		devices = {
 			small_phx = {
@@ -437,10 +437,10 @@ TOOL.Devices = {
 			},
 		},
 	},
-	storage_liquid_hvywater = {
+	caf_rd_storage_liquid_hvywater = {
 		Name = "Heavy Water Tanks",
-		type = "storage_liquid_hvywater",
-		class = "storage_liquid_hvywater",
+		type = "caf_rd_storage_liquid_hvywater",
+		class = "caf_rd_storage_liquid_hvywater",
 		func = heavywater_tank_func,
 		devices = {
 			small_phx = {
@@ -481,10 +481,10 @@ TOOL.Devices = {
 			},
 		},
 	},
-	storage_energy = {
+	caf_rd_storage_energy = {
 		Name = "Batteries",
-		type = "storage_energy",
-		class = "storage_energy",
+		type = "caf_rd_storage_energy",
+		class = "caf_rd_storage_energy",
 		func = energy_func,
 		devices = {
 			small_phx = {
@@ -507,9 +507,9 @@ TOOL.Devices = {
 			},
 		},
 	},
-	storage_cache = {
+	caf_rd_storage_cache = {
 		Name = "Resource Caches",
-		type = "storage_cache",
+		type = "caf_rd_storage_cache",
 		func = cache_func,
 		devices = {
 			small = {
