@@ -4,7 +4,7 @@ TOOL.DeviceName = "Special Device"
 TOOL.DeviceNamePlural = "Special Devices"
 TOOL.ClassName = "ls3_other_lights"
 TOOL.DevSelect = true
-TOOL.CCVar_type = "caf_rd_other_lamp"
+TOOL.CCVar_type = "other_lamp"
 TOOL.CCVar_sub_type = "small"
 TOOL.CCVar_model = "models/props_c17/FurnitureBoiler001a.mdl"
 TOOL.Limited = true
@@ -40,10 +40,10 @@ local function light_func(ent, type, sub_type, devinfo, Extra_Data, ent_extras)
 end
 
 TOOL.Devices = {
-	caf_rd_other_lamp = {
+	other_lamp = {
 		Name = "LS Lamps",
-		type = "caf_rd_other_lamp",
-		class = "caf_rd_other_lamp",
+		type = "other_lamp",
+		class = "other_lamp",
 		func = light_func,
 		devices = {
 			small = {
@@ -52,10 +52,10 @@ TOOL.Devices = {
 			},
 		}
 	},
-	caf_rd_other_spotlight = {
+	other_spotlight = {
 		Name = "LS Spotlights",
-		type = "caf_rd_other_spotlight",
-		class = "caf_rd_other_spotlight",
+		type = "other_spotlight",
+		class = "other_spotlight",
 		func = light_func,
 		devices = {
 			small = {

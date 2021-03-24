@@ -1,4 +1,4 @@
-﻿DEVICEGROUP.type = "caf_rd_generator_energy_fusion"
+﻿DEVICEGROUP.type = "generator_energy_fusion"
 
 --[[
 	You can also use skin = number here to define a skin to make the Module spawn with

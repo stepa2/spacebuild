@@ -4,7 +4,7 @@ util.PrecacheSound("Airboat_engine_idle")
 util.PrecacheSound("Airboat_engine_stop")
 util.PrecacheSound("apc_engine_start")
 include("shared.lua")
-DEFINE_BASECLASS("caf_base_resource_distribution")
+DEFINE_BASECLASS("base_rd3_entity")
 
 function ENT:Initialize()
 	BaseClass.Initialize(self)

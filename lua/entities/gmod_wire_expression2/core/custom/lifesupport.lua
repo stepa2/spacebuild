@@ -144,7 +144,7 @@ end
 
 -- PUMP FUNCTIONS
 local function ls_ensure_valid_pump(ent)
-	return ent and IsValid(ent) and ent:GetClass() == "caf_rd_resource_pump"
+	return ent and IsValid(ent) and ent:GetClass() == "rd_pump"
 end
 
 e2function number entity:lsPumpSetResourceAmount(string res, number amount)

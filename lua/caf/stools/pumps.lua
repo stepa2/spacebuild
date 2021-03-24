@@ -4,7 +4,7 @@ TOOL.DeviceName = "Resource Pump"
 TOOL.DeviceNamePlural = "Resource Pumps"
 TOOL.ClassName = "pumps"
 TOOL.DevSelect = true
-TOOL.CCVar_type = "caf_rd_resource_pump"
+TOOL.CCVar_type = "rd_pump"
 TOOL.CCVar_sub_type = "normal"
 TOOL.CCVar_model = "models/props_lab/tpplugholder_single.mdl"
 TOOL.Limited = true
@@ -31,10 +31,10 @@ local function resource_pump_func(ent, type, sub_type, devinfo, Extra_Data, ent_
 end
 
 TOOL.Devices = {
-	caf_rd_resource_pump = {
+	rd_pump = {
 		Name = "Resource Pump",
-		type = "caf_rd_resource_pump",
-		class = "caf_rd_resource_pump",
+		type = "rd_pump",
+		class = "rd_pump",
 		func = resource_pump_func,
 		devices = {
 			normal = {

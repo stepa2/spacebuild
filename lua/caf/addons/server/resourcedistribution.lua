@@ -290,7 +290,7 @@ end
 	RegisterNonStorageDevice( entity)
 	
 		Used to register non-storage Device ( devices that have a max of 0 for all resources)
-		Add the to-display resources to the "list.Set( "LSEntOverlayText" , "caf_rd_generator_energy_fusion", {HasOOO = true, num = 2, resnames = {"nitrogen","heavy water"}} )" call specific for your Sent
+		Add the to-display resources to the "list.Set( "LSEntOverlayText" , "generator_energy_fusion", {HasOOO = true, num = 2, resnames = {"nitrogen","heavy water"}} )" call specific for your Sent
 
 ]]
 function RD.RegisterNonStorageDevice(ent)

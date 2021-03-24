@@ -4,7 +4,7 @@ TOOL.DeviceName = "Resource Node"
 TOOL.DeviceNamePlural = "Resource Nodes"
 TOOL.ClassName = "resourcenodes"
 TOOL.DevSelect = true
-TOOL.CCVar_type = "caf_rd_resource_node"
+TOOL.CCVar_type = "resource_node"
 TOOL.CCVar_sub_type = "small_node"
 TOOL.CCVar_model = "models/SnakeSVx/small_res_node.mdl"
 TOOL.Limited = true
@@ -44,7 +44,7 @@ local function link_in_range(ent, range)
 	end
 end
 
-local function caf_rd_resource_node_func(ent, type, sub_type, devinfo, Extra_Data, ent_extras)
+local function resource_node_func(ent, type, sub_type, devinfo, Extra_Data, ent_extras)
 	local volume_mul = 1 --Change to be 0 by default later on
 	local base_volume = 2958
 	local base_mass = 20
@@ -95,11 +95,11 @@ local function caf_rd_resource_node_func(ent, type, sub_type, devinfo, Extra_Dat
 end
 
 TOOL.Devices = {
-	caf_rd_resource_node = {
+	resource_node = {
 		Name = "Resource Node",
-		type = "caf_rd_resource_node",
-		class = "caf_rd_resource_node",
-		func = caf_rd_resource_node_func,
+		type = "resource_node",
+		class = "resource_node",
+		func = resource_node_func,
 		devices = {
 			s_small_node = {
 				Name = "Tiny node 128",

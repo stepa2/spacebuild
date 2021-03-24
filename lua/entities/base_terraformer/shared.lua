@@ -1,5 +1,5 @@
 ﻿ENT.Type = "anim"
-ENT.Base = "caf_base_resource_distribution"
+ENT.Base = "base_rd3_entity"
 ENT.PrintName = "Planet Terraformer"
 ENT.Author = "PortalCake"
 ENT.Purpose = "Terraformes Planets"

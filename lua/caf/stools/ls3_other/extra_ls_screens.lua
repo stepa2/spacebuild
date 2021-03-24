@@ -1,4 +1,4 @@
-﻿DEVICEGROUP.type = "caf_rd_other_screen"
+﻿DEVICEGROUP.type = "other_screen"
 
 --[[
 	You can also use skin = number here to define a skin to make the Module spawn with
