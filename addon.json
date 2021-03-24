@@ -5,6 +5,8 @@
 	"description":	"Garry's Mod Spacebuild Project",
 	"ignore"	:
 	[
+		".luacheckrc",
+		"*.js",
 		"*.psd",
 		"*.vcproj",
 		"*.svn*",
@@ -17,6 +19,7 @@
 		"NOTICE",
 		"*.md",
 		"*.gma",
-		"*.jpg"
+		"*.jpg",
+		"*.json"
 	]
 }
