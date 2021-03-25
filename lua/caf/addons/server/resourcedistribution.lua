@@ -329,7 +329,8 @@ function RD.AddResource(ent, resource, maxamount, defaultvalue)
 	if not IsValid(ent) then return false, "Not a valid entity" end
 	if not resource then return false, "No resource given" end
 
-	local temperature = ent:GetTemperature()
+	local temperatureFn = ent.GetTemperature
+	local temperature = temperatureFn and temperatureFn(ent) or 0
 
 	if not defaultvalue then
 		defaultvalue = 0
@@ -651,7 +652,8 @@ function RD.SupplyResource(ent, resource, amount, temperature)
 	local left = amount
 
 	if not temperature then
-		temperature = ent:GetTemperature()
+		local temperatureFn = ent.GetTemperature
+		temperature = temperatureFn and temperatureFn(ent) or 0
 	end
 
 	if ent_table[ent:EntIndex()] then
