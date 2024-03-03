@@ -1,22 +1,21 @@
-﻿local CAF2 = CAF
-local CAF3 = CAF2.CAF3
-local Addons = CAF3.Addons
-local addonlevel = CAF3.addonlevel
+﻿local CAF = CAF
+local Addons = CAF.Addons
+local addonlevel = CAF.addonlevel
 
-function CAF2.begintime()
+function CAF.begintime()
 	return os.clock()
 end
 
-function CAF2.endtime(begintime)
-	return CAF2.begintime() - begintime
+function CAF.endtime(begintime)
+	return CAF.begintime() - begintime
 end
 
-CAF2.version = 0.5
+CAF.version = 0.5
 --COLOR Settings
-CAF2.colors = {}
-CAF2.colors.red = Color(230, 0, 0, 230)
-CAF2.colors.green = Color(0, 230, 0, 230)
-CAF2.colors.white = Color(255, 255, 255, 255)
+CAF.colors = {}
+CAF.colors.red = Color(230, 0, 0, 230)
+CAF.colors.green = Color(0, 230, 0, 230)
+CAF.colors.white = Color(255, 255, 255, 255)
 
 --END COLOR Settings
 -- CAF Custom Status Saving
@@ -33,16 +32,16 @@ local function InsertVar(name, value)
 	sql.Query("INSERT INTO CAF_Custom_Vars(varname, varvalue) VALUES(" .. name .. ", " .. value .. ");")
 end
 
-function CAF2.SaveVar(name, value)
+function CAF.SaveVar(name, value)
 	if not name or not value then return false, "Problem with the Parameters" end
-	CAF2.LoadVar(name, value)
+	CAF.LoadVar(name, value)
 	name = sql.SQLStr(name)
 	value = sql.SQLStr(value)
 	sql.Query("UPDATE CAF_Custom_Vars SET varvalue=" .. value .. " WHERE varname=" .. name .. ";")
 	vars[name] = value
 end
 
-function CAF2.LoadVar(name, defaultvalue)
+function CAF.LoadVar(name, defaultvalue)
 	if not defaultvalue then
 		defaultvalue = "0"
 	end
@@ -67,7 +66,7 @@ end
 --[[
 	Returns the reference to the Custom Addon, nil if not existant
 ]]
-function CAF2.GetAddon(AddonName)
+function CAF.GetAddon(AddonName)
 	if not AddonName then return nil, "No AddonName given" end
 
 	return Addons[AddonName]
@@ -77,7 +76,7 @@ end
 	Registers an addon with the game name into the table
 	Overwrites if 2 addons use the same name
 ]]
-function CAF2.RegisterAddon(AddonName, AddonClass, level)
+function CAF.RegisterAddon(AddonName, AddonClass, level)
 	if not AddonName then return nil, "No AddonName given" end
 	if not AddonClass then return nil, "No AddonClass given" end
 
@@ -99,6 +98,6 @@ function CAF2.RegisterAddon(AddonName, AddonClass, level)
 	return true
 end
 
-function CAF2.GetLangVar(name)
-	return CAF2.LANGUAGE[name] or name
+function CAF.GetLangVar(name)
+	return CAF.LANGUAGE[name] or name
 end

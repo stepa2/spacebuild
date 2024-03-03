@@ -13,25 +13,22 @@ for _, v in pairs(net_pools) do
 end
 
 -- Variable Declarations
-local CAF2 = {}
-CAF = CAF2
-local CAF3 = {}
-CAF2.CAF3 = CAF3
-CAF2.StartingUp = false
+CAF = {}
+CAF.StartingUp = false
 local DEBUG = true
-CAF3.DEBUG = DEBUG
+CAF.DEBUG = DEBUG
 local Addons = {}
-CAF3.Addons = Addons
+CAF.Addons = Addons
 
 local addonlevel = {}
-CAF3.addonlevel = addonlevel
+CAF.addonlevel = addonlevel
 addonlevel[1] = {}
 addonlevel[2] = {}
 addonlevel[3] = {}
 addonlevel[4] = {}
 addonlevel[5] = {}
 
-function CAF2.AllowSpawn(type, sub_type, class, model)
+function CAF.AllowSpawn(type, sub_type, class, model)
 	local res = hook.Call("CAFTOOLAllowEntitySpawn", type, sub_type, class, model)
 	if res ~= nil then
 		return res
@@ -48,9 +45,7 @@ local function ErrorOffStuff(String)
 end
 
 AddCSLuaFile("autorun/client/cl_caf_autostart.lua")
-CAF2.CAF3 = CAF3
 include("caf/core/shared/sh_general_caf.lua")
-CAF2.CAF3 = nil
 
 if not sql.TableExists("CAF_AddonStatus") then
 	sql.Query("CREATE TABLE IF NOT EXISTS CAF_AddonStatus ( id VARCHAR(50) PRIMARY KEY , status TINYINT(1));")
@@ -109,7 +104,7 @@ local function OnAddonConstruct(name)
 	net.WriteString(name)
 	net.Broadcast()
 
-	if not CAF2.StartingUp then
+	if not CAF.StartingUp then
 		hook.Call("CAFOnAddonConstruct", name)
 	end
 end
@@ -121,7 +116,7 @@ end
 		2) the specified file into the CAF_DEBUG/Server/ folder
 			If the file doesn't exist it will be created
 ]]
-function CAF2.WriteToDebugFile(filename, message)
+function CAF.WriteToDebugFile(filename, message)
 	if not filename or not message then return nil, "Missing Argument" end
 
 	print("Filename: " .. tostring(filename) .. ", Message: " .. tostring(message))
@@ -132,7 +127,7 @@ end
 		This function will clear the given file in the debug folder
 		It will return the content that was in the file before it got cleared
 ]]
-function CAF2.ClearDebugFile(filename)
+function CAF.ClearDebugFile(filename)
 	if not filename then return nil, "Missing Argument" end
 	local contents = file.Read("CAF_Debug/server/" .. filename .. ".txt")
 	contents = contents or ""
@@ -143,7 +138,7 @@ end
 	GetSavedAddonStatus
 		This function will return the the status that was stored in the SQL file last time to make it easier so admins won't need to disable Addons again every time.
 ]]
-function CAF2.GetSavedAddonStatus(addon, defaultstatus)
+function CAF.GetSavedAddonStatus(addon, defaultstatus)
 	return LoadAddonStatus(addon, defaultstatus)
 end
 
@@ -152,9 +147,9 @@ end
 	Start
 		This function loads all the Custom Addons on Startup
 ]]
-function CAF2.Start()
+function CAF.Start()
 	Msg("Starting CAF Addons\n")
-	CAF2.StartingUp = true
+	CAF.StartingUp = true
 	net.Start("CAF_Start_true")
 	net.Broadcast()
 
@@ -171,7 +166,7 @@ function CAF2.Start()
 				local ok, err = pcall(Addons[v].AddResourcesToSend)
 
 				if not ok then
-					CAF2.WriteToDebugFile("CAF_ResourceSend", "AddResourcesToSend Error: " .. err .. "\n")
+					CAF.WriteToDebugFile("CAF_ResourceSend", "AddResourcesToSend Error: " .. err .. "\n")
 				end
 			end
 
@@ -189,13 +184,13 @@ function CAF2.Start()
 				continue
 			end
 
-			local state = CAF2.GetSavedAddonStatus(v, Addons[v].DEFAULTSTATUS)
+			local state = CAF.GetSavedAddonStatus(v, Addons[v].DEFAULTSTATUS)
 
 			if Addons[v].__AutoStart then
 				local ok2, err = pcall(Addons[v].__AutoStart, state)
 
 				if not ok2 then
-					CAF2.WriteToDebugFile("CAF_AutoStart", "Couldn't call AutoStart for " .. v .. ": " .. err .. "\n")
+					CAF.WriteToDebugFile("CAF_AutoStart", "Couldn't call AutoStart for " .. v .. ": " .. err .. "\n")
 				else
 					OnAddonConstruct(v)
 					print("-->", "Auto Started Addon: " .. v .. "\n")
@@ -204,7 +199,7 @@ function CAF2.Start()
 				local ok2, err = pcall(Addons[v].__Construct)
 
 				if not ok2 then
-					CAF2.WriteToDebugFile("CAF_Construct", "Couldn't call constructor for " .. v .. ": " .. err .. "\n")
+					CAF.WriteToDebugFile("CAF_Construct", "Couldn't call constructor for " .. v .. ": " .. err .. "\n")
 				else
 					OnAddonConstruct(v)
 					print("-->", "Loaded addon: " .. v .. "\n")
@@ -212,17 +207,17 @@ function CAF2.Start()
 			end
 		end
 	end
-	CAF2.StartingUp = false
+	CAF.StartingUp = false
 	net.Start("CAF_Start_false")
 	net.Broadcast()
 end
 
-hook.Add("InitPostEntity", "CAF_Start", CAF2.Start)
+hook.Add("InitPostEntity", "CAF_Start", CAF.Start)
 
 --[[
 	This function will call the construct function of an addon  and return if it's was succesfull or not (+ the errormessage)
 ]]
-function CAF2.Construct(addon)
+function CAF.Construct(addon)
 	if not addon then return end
 	if not Addons[addon] then return end
 	local ok, mes = Addons[addon].__Construct()
@@ -264,7 +259,7 @@ local function AddonConstruct(ply, com, args)
 		end
 	end
 
-	local ok, mes = CAF2.Construct(args[1])
+	local ok, mes = CAF.Construct(args[1])
 
 	if ok then
 		ply:ChatPrint("Addon Succesfully Enabled")
@@ -278,7 +273,7 @@ concommand.Add("CAF_Addon_Construct", AddonConstruct)
 --[[
 	This function will update the Client with all active addons
 ]]
-function CAF2.PlayerSpawn(ply)
+function CAF.PlayerSpawn(ply)
 	for k, v in pairs(Addons) do
 		net.Start("CAF_Addon_Construct")
 		net.WriteString(k)
@@ -286,13 +281,13 @@ function CAF2.PlayerSpawn(ply)
 	end
 end
 
-hook.Add("PlayerFullLoad", "CAF_In_Spawn", CAF2.PlayerSpawn)
+hook.Add("PlayerFullLoad", "CAF_In_Spawn", CAF.PlayerSpawn)
 
 --msg, location, color, displaytime
-function CAF2.POPUP(ply, msg, location, color, displaytime)
+function CAF.POPUP(ply, msg, location, color, displaytime)
 	if msg then
 		location = location or "top"
-		color = color or CAF2.colors.white
+		color = color or CAF.colors.white
 		displaytime = displaytime or 1
 		net.Start("CAF_Addon_POPUP")
 		net.WriteString(msg)
@@ -306,7 +301,7 @@ function CAF2.POPUP(ply, msg, location, color, displaytime)
 	end
 end
 
-CAF = CAF2
+CAF = CAF
 
 --[[
 	The following code sends the clientside and shared files to the client and includes CAF core code

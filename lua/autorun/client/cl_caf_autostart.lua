@@ -6,12 +6,10 @@ end
 
 local net = net
 --Variable Declarations
-local CAF2 = {}
-CAF = CAF2
-local CAF3 = {}
-CAF2.StartingUp = false
-CAF2.HasInternet = false
-CAF2.InternetEnabled = true --Change this to false if you crash when CAF2 loads clientside
+CAF = {}
+CAF.StartingUp = false
+CAF.HasInternet = false
+CAF.InternetEnabled = true --Change this to false if you crash when CAF loads clientside
 
 surface.CreateFont("GModCAFNotify", {
 	font = "verdana",
@@ -21,9 +19,9 @@ surface.CreateFont("GModCAFNotify", {
 
 --nederlands, english
 local DEBUG = true
-CAF3.DEBUG = DEBUG
+CAF.DEBUG = DEBUG
 local Addons = {}
-CAF3.Addons = Addons
+CAF.Addons = Addons
 --Derma stuff
 local MainInfoMenuData = nil
 --local MainStatusMenuData = nil;
@@ -32,7 +30,7 @@ local MainInfoMenuData = nil
 --local TopLabel = nil
 --End Derma stuff
 local addonlevel = {}
-CAF3.addonlevel = addonlevel
+CAF.addonlevel = addonlevel
 addonlevel[1] = {}
 addonlevel[2] = {}
 addonlevel[3] = {}
@@ -46,9 +44,7 @@ local function ErrorOffStuff(String)
 	Msg(tostring(String) .. "\n")
 end
 
-CAF2.CAF3 = CAF3
 include("caf/core/shared/sh_general_caf.lua")
-CAF2.CAF3 = nil
 
 local function OnAddonConstruct(name)
 	if not name then return end
@@ -57,28 +53,28 @@ local function OnAddonConstruct(name)
 		local test, err = pcall(Addons[name].__Construct)
 
 		if not test then
-			CAF2.WriteToDebugFile("CAF_Construct", "Couldn't call constructor for " .. name .. " error: " .. err .. "\n")
-			AddPopup(CAF.GetLangVar("Error loading Addon") .. ": " .. CAF.GetLangVar(name), "top", CAF2.colors.red)
+			CAF.WriteToDebugFile("CAF_Construct", "Couldn't call constructor for " .. name .. " error: " .. err .. "\n")
+			AddPopup(CAF.GetLangVar("Error loading Addon") .. ": " .. CAF.GetLangVar(name), "top", CAF.colors.red)
 		elseif not err then
-			AddPopup(CAF.GetLangVar("An error occured when trying to enable Addon") .. ": " .. CAF.GetLangVar(name), "top", CAF2.colors.red)
+			AddPopup(CAF.GetLangVar("An error occured when trying to enable Addon") .. ": " .. CAF.GetLangVar(name), "top", CAF.colors.red)
 		end
 	end
 
-	if not CAF2.StartingUp then
+	if not CAF.StartingUp then
 		hook.Call("CAFOnAddonConstruct", name)
 
-		CAF2.RefreshMainMenu()
+		CAF.RefreshMainMenu()
 	end
 end
 
 --Global function
-function CAF2.WriteToDebugFile(filename, message)
+function CAF.WriteToDebugFile(filename, message)
 	if not filename or not message then return nil, "Missing Argument" end
 
 	print("Filename: " .. tostring(filename) .. ", Message: " .. tostring(message))
 end
 
-function CAF2.ClearDebugFile(filename)
+function CAF.ClearDebugFile(filename)
 	if not filename then return nil, "Missing Argument" end
 	local contents = file.Read("CAF_Debug/client/" .. filename .. ".txt")
 	contents = contents or ""
@@ -86,25 +82,25 @@ function CAF2.ClearDebugFile(filename)
 end
 
 --Server-Client Synchronisation
-function CAF2.ConstructAddon(len, client)
+function CAF.ConstructAddon(len, client)
 	local name = net.ReadString()
 	OnAddonConstruct(name)
 	--RunConsoleCommand("Main_CAF_Menu");
 end
 
-net.Receive("CAF_Addon_Construct", CAF2.ConstructAddon)
+net.Receive("CAF_Addon_Construct", CAF.ConstructAddon)
 
-function CAF2.Start(len, client)
-	CAF2.StartingUp = true
+function CAF.Start(len, client)
+	CAF.StartingUp = true
 end
 
-net.Receive("CAF_Start_true", CAF2.Start)
+net.Receive("CAF_Start_true", CAF.Start)
 
-function CAF2.endStart(len, client)
-	CAF2.StartingUp = false
+function CAF.endStart(len, client)
+	CAF.StartingUp = false
 end
 
-net.Receive("CAF_Start_false", CAF2.endStart)
+net.Receive("CAF_Start_false", CAF.endStart)
 local displaypopups = {}
 local popups = {}
 --PopupSettings
@@ -202,7 +198,7 @@ function AddPopup(message, location, color, displaytime)
 		message = message or "Corrupt Message",
 		location = location or "top",
 		time = displaytime or 1,
-		color = color or CAF2.colors.white
+		color = color or CAF.colors.white
 	}
 
 	table.insert(popups[location], obj)
@@ -246,7 +242,7 @@ local function GetHelpPanel(frame)
 			local Node = node:AddNode(l)
 
 			function Node.DoClick(btn)
-				if CAF2.HasInternet and w.interneturl then
+				if CAF.HasInternet and w.interneturl then
 					local HTMLTest = vgui.Create("HTML", RightPanel)
 					HTMLTest:StretchToParent(10, 10, 10, 10)
 					HTMLTest:OpenURL(w.interneturl)
@@ -262,7 +258,7 @@ local function GetHelpPanel(frame)
 				local cnode = Node:AddNode(m)
 
 				function cnode.DoClick(btn)
-					if CAF2.HasInternet and x.interneturl then
+					if CAF.HasInternet and x.interneturl then
 						RightPanel:Clear()
 						local HTMLTest = vgui.Create("HTML", RightPanel)
 						HTMLTest:StretchToParent(10, 10, 10, 10)
@@ -281,7 +277,7 @@ local function GetHelpPanel(frame)
 	return panel
 end
 
-function CAF2.Notice(message, title)
+function CAF.Notice(message, title)
 	if not message then return false end
 
 	if not title then
@@ -310,7 +306,7 @@ local function GetClientMenu(contentpanel)
 	local y = 0
 	--Title
 	local lblTitle = vgui.Create("DLabel", panel)
-	lblTitle:SetText(CAF2.GetLangVar("Clientside CAF Options"))
+	lblTitle:SetText(CAF.GetLangVar("Clientside CAF Options"))
 	lblTitle:SizeToContents()
 	lblTitle:SetPos(x, y)
 	y = y + 35
@@ -329,7 +325,7 @@ local function AddCAFInfoToStatus(List)
 	local cafAddon = {}
 
 	function cafAddon.GetVersion()
-		return CAF2.version, "Core"
+		return CAF.version, "Core"
 	end
 
 	function cafAddon.CanChangeStatus()
@@ -580,20 +576,20 @@ end
 
 local MainFrame = nil
 
-function CAF2.CloseMainMenu()
+function CAF.CloseMainMenu()
 	if MainFrame then
 		MainFrame:Close()
 	end
 end
 
-function CAF2.RefreshMainMenu()
+function CAF.RefreshMainMenu()
 	if MainFrame then
-		CAF2.OpenMainMenu()
+		CAF.OpenMainMenu()
 	end
 end
 
-function CAF2.OpenMainMenu()
-	CAF2.CloseMainMenu()
+function CAF.OpenMainMenu()
+	CAF.CloseMainMenu()
 	MainFrame = vgui.Create("DFrame")
 	MainFrame:SetDeleteOnClose()
 	MainFrame:SetDraggable(false)
@@ -614,7 +610,7 @@ function CAF2.OpenMainMenu()
 	MainFrame:MakePopup()
 end
 
-concommand.Add("Main_CAF_Menu", CAF2.OpenMainMenu)
+concommand.Add("Main_CAF_Menu", CAF.OpenMainMenu)
 
 --Panel
 local function BuildMenu(Panel)
@@ -638,7 +634,7 @@ end
 
 hook.Add("PopulateToolMenu", "Caf_OpenMenu_AddMenu", CreateMenu)
 
-function CAF2.POPUP(msg, location, color, displaytime)
+function CAF.POPUP(msg, location, color, displaytime)
 	if msg then
 		AddPopup(msg, location, color, displaytime)
 	end
@@ -649,11 +645,11 @@ local function ProccessMessage(len, client)
 	local location = net.ReadString()
 	local color = net.ReadColor()
 	local displaytime = net.ReadUInt(16)
-	CAF2.POPUP(msg, location, color, displaytime)
+	CAF.POPUP(msg, location, color, displaytime)
 end
 
 net.Receive("CAF_Addon_POPUP", ProccessMessage)
---CAF = CAF2
+--CAF = CAF
 --Include clientside files
 --Core
 local coreFiles = file.Find("caf/core/client/*.lua", "LUA")
