@@ -13,6 +13,7 @@ stp.IncludeList("caf/", {
     "tools_sh.lua",
     "entity_util_sv.lua",
 
+    "spacebuild/environment_sv.lua",
     "spacebuild/fx_sh.lua"
 })
 

@@ -54,7 +54,7 @@ function ENT:CreateEnvironment(radius, temp1, temp2, temp3, name)
 	end
 
 	BaseBaseClass.CreateEnvironment(self, 0, 100, temp1, 0, 0, 100, 0, name)
-	self:SendSunBeam()
+	CAF.LibSB.SendSunConfig(self)
 end
 
 function ENT:UpdateEnvironment(radius, temp1, temp2, temp3)
@@ -74,5 +74,5 @@ function ENT:UpdateEnvironment(radius, temp1, temp2, temp3)
 		self.sbenvironment.temperature3 = temp3
 	end
 
-	self:SendSunBeam()
+	CAF.LibSB.SendSunConfig(self)
 end

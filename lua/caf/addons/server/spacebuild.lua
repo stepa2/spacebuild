@@ -9,23 +9,20 @@ util.PrecacheModel("models/player/samzanemesis/MarineMedic.mdl")
 util.PrecacheModel("models/player/samzanemesis/MarineSpecial.mdl")
 util.PrecacheModel("models/player/samzanemesis/MarineOfficer.mdl")
 util.PrecacheModel("models/player/samzanemesis/MarineTech.mdl")
+
 local SB = {}
 --local NextUpdateTime
 local SB_InSpace = 0
 --SetGlobalInt("InSpace", 0)
 TrueSun = {}
 SunAngle = nil
-SB.Override_PlayerHeatDestroy = 0
-SB.Override_EntityHeatDestroy = 0
 SB.Override_PressureDamage = 0
 SB.PlayerOverride = 0
-local volumes = {}
+
 CreateConVar("SB_NoClip", "1")
 CreateConVar("SB_PlanetNoClipOnly", "1")
 CreateConVar("SB_AdminSpaceNoclip", "1")
 CreateConVar("SB_SuperAdminSpaceNoclip", "1")
-
-local ForceModel = CreateConVar("SB_Force_Model", "0", {FCVAR_ARCHIVE})
 
 --Think + Environments
 local Environments = {}
@@ -65,7 +62,7 @@ local function PlayerInitialSpawn(ply)
 	if Stars then
 		for k, v in pairs(Stars) do
 			if IsValid(v) then
-				v:SendSunBeam(ply)
+				CAF.LibSB.SendSunConfig(v)
 			end
 		end
 	end
@@ -610,28 +607,6 @@ local function Register_Environments()
 	end)
 end
 
-local function ForcePlyModel(ply)
-	if ForceModel:GetInt() == 1 then
-		if not ply.sbmodel then
-			local i = math.Rand(0, 4)
-
-			if i <= 1 then
-				ply.sbmodel = "models/player/samzanemesis/MarineMedic.mdl"
-			elseif i <= 2 then
-				ply.sbmodel = "models/player/samzanemesis/MarineSpecial.mdl"
-			elseif i <= 3 then
-				ply.sbmodel = "models/player/samzanemesis/MarineOfficer.mdl"
-			else --if i <= 4 then
-				ply.sbmodel = "models/player/samzanemesis/MarineTech.mdl"
-			end
-		end
-
-		ply:SetModel(ply.sbmodel)
-
-		return true
-	end
-end
-
 --End Local Stuff
 --[[
 	The AutoStart functions
@@ -671,7 +646,6 @@ function SB.__Construct()
 	if SB_InSpace == 1 then
 		hook.Add("PlayerNoClip", "SB_PlayerNoClip_Check", PlayerNoClip)
 		hook.Add("PlayerFullLoad", "SB_PlayerInitialSpawn_Check", PlayerInitialSpawn)
-		hook.Add("PlayerSetModel", "SB_Force_Model_Check", ForcePlyModel)
 		timer.Create("SBEnvironmentCheck", 1, 0, SB.PerformEnvironmentCheck)
 		ResetGravity()
 
@@ -861,17 +835,6 @@ end
 function SB.AddOverride_PressureDamage()
 	SB.Override_PressureDamage = SB.Override_PressureDamage + 1
 end
-
---Volume Functions
---[[
-* @param name
-* @return Volume(table) or nil
-*
-]]
-function SB.GetVolume(name)
-	return volumes[name]
-end
-
 
 function SB.FindClosestPlanet(pos, starsto)
 	local closestplanet = nil

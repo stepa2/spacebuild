@@ -1,4 +1,20 @@
-if CLIENT then
+if SERVER then
+    util.AddNetworkString("AddStar")
+
+    function CAF.LibSB.SendSunConfig(sun, ply)
+        net.Start("AddStar")
+        net.WriteEntity(sun)
+        net.WriteVector(sun:GetPos())
+        net.WriteString(sun:GetEnvironmentName())
+        net.WriteFloat(sun.sbenvironment.size)
+    
+        if ply then
+            net.Send(ply)
+        else
+            net.Broadcast()
+        end
+    end
+else
     local stars = {}
 
     local function DrawSunEffects()
@@ -60,7 +76,7 @@ if CLIENT then
 
     -- receive sun information
     net.Receive("AddStar", function()
-        local ent = net.ReadInt(32)
+        local ent = net.ReadEntity()
         local position = net.ReadVector()
         local tmpname = net.ReadString()
         local radius = net.ReadFloat()

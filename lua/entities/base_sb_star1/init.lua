@@ -61,7 +61,7 @@ function ENT:CreateEnvironment(radius)
 	end
 
 	BaseClass.CreateEnvironment(self, 0, 100, 100000, 0, 0, 100, 0, "Star")
-	self:SendSunBeam()
+	CAF.LibSB.SendSunConfig(self)
 end
 
 function ENT:UpdateEnvironment(radius)
@@ -69,7 +69,7 @@ function ENT:UpdateEnvironment(radius)
 		self:UpdateSize(self.sbenvironment.size, radius)
 	end
 
-	self:SendSunBeam()
+	CAF.LibSB.SendSunConfig(self)
 end
 
 function ENT:GetPriority()
@@ -96,19 +96,3 @@ function ENT:Remove()
 	BaseClass.Remove(self)
 	table.remove(TrueSun, self:GetPos())
 end
-
-function ENT:SendSunBeam(ply)
-	net.Start("AddStar")
-	net.WriteInt(self:EntIndex(), 32)
-	net.WriteVector(self:GetPos())
-	net.WriteString(self:GetEnvironmentName())
-	net.WriteFloat(self.sbenvironment.size)
-
-	if ply then
-		net.Send(ply)
-	else
-		net.Broadcast()
-	end
-end
-
-util.AddNetworkString("AddStar")
