@@ -1,7 +1,7 @@
 ﻿include("shared.lua")
 ENT.RenderGroup = RENDERGROUP_BOTH
 
-local RD = CAF.GetAddon("Resource Distribution")
+local RD = CAF.LibRD
 
 surface.CreateFont("ConflictText", {
 	font = "Verdana",

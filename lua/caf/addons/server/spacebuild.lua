@@ -693,7 +693,7 @@ function SB.GetVersion()
 	return 3.1, "Beta"
 end
 
-CAF.RegisterAddon("Spacebuild", SB, "1")
+CAF.LibSB = SB
 
 function SB.PerformEnvironmentCheck()
 	if SB_InSpace == 0 then return end

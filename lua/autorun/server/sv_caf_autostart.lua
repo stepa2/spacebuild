@@ -6,7 +6,7 @@ end
 
 local net = net
 
-local net_pools = {"CAF_Addon_Construct", "CAF_Start_true", "CAF_Start_false", "CAF_Addon_POPUP"}
+local net_pools = {"CAF_Addon_POPUP"}
 
 for _, v in pairs(net_pools) do
 	util.AddNetworkString(v)
@@ -14,19 +14,8 @@ end
 
 -- Variable Declarations
 CAF = {}
-CAF.StartingUp = false
 local DEBUG = true
 CAF.DEBUG = DEBUG
-local Addons = {}
-CAF.Addons = Addons
-
-local addonlevel = {}
-CAF.addonlevel = addonlevel
-addonlevel[1] = {}
-addonlevel[2] = {}
-addonlevel[3] = {}
-addonlevel[4] = {}
-addonlevel[5] = {}
 
 function CAF.AllowSpawn(type, sub_type, class, model)
 	local res = hook.Call("CAFTOOLAllowEntitySpawn", type, sub_type, class, model)
@@ -52,74 +41,12 @@ include("caf/core/shared/sh_general_caf.lua")
 
 --Local functions
 
-local function OnAddonConstruct(name)
-	if not name then return end
-	net.Start("CAF_Addon_Construct")
-	net.WriteString(name)
-	net.Broadcast()
-end
+hook.Add("InitPostEntity", "CAF_Start", function()
+	CAF.LibRD.__Construct()
+	CAF.LibSB.__Construct()
 
---[[
-	Start
-		This function loads all the Custom Addons on Startup
-]]
-function CAF.Start()
-	Msg("Starting CAF Addons\n")
-	CAF.StartingUp = true
-	net.Start("CAF_Start_true")
-	net.Broadcast()
-
-	for level, tab in pairs(addonlevel) do
-		print("Loading Level " .. tostring(level) .. " Addons\n")
-
-		for k, v in pairs(tab) do
-			if not Addons[v] then
-				continue
-			end
-			print("-->", "Loading addon " .. tostring(v) .. "\n")
-
-			local state = Addons[v].DEFAULTSTATUS
-
-			if Addons[v].__AutoStart then
-				local ok2, err = pcall(Addons[v].__AutoStart, state)
-
-				if not ok2 then
-					print("CAF_AutoStart", "Couldn't call AutoStart for " .. v .. ": " .. err .. "\n")
-				else
-					OnAddonConstruct(v)
-					print("-->", "Auto Started Addon: " .. v .. "\n")
-				end
-			else
-				local ok2, err = pcall(Addons[v].__Construct)
-
-				if not ok2 then
-					print("CAF_Construct", "Couldn't call constructor for " .. v .. ": " .. err .. "\n")
-				else
-					OnAddonConstruct(v)
-					print("-->", "Loaded addon: " .. v .. "\n")
-				end
-			end
-		end
-	end
-	CAF.StartingUp = false
-	net.Start("CAF_Start_false")
-	net.Broadcast()
-end
-
-hook.Add("InitPostEntity", "CAF_Start", CAF.Start)
-
---[[
-	This function will update the Client with all active addons
-]]
-function CAF.PlayerSpawn(ply)
-	for k, v in pairs(Addons) do
-		net.Start("CAF_Addon_Construct")
-		net.WriteString(k)
-		net.Send(ply)
-	end
-end
-
-hook.Add("PlayerFullLoad", "CAF_In_Spawn", CAF.PlayerSpawn)
+	CAF.LibLS.__Construct()
+end)
 
 --msg, location, color, displaytime
 function CAF.POPUP(ply, msg, location, color, displaytime)

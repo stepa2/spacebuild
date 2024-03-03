@@ -169,7 +169,7 @@ local function OpenMenu()
 	end
 
 	local netid = ent:GetNWInt("netid")
-	local nettable = CAF.GetAddon("Resource Distribution").GetNetTable(netid)
+	local nettable = CAF.LibRD.GetNetTable(netid)
 
 	if nettable and nettable.resources then
 		for k, v in pairs(nettable.resources) do
@@ -209,7 +209,7 @@ net.Receive("RD_Add_ResourceRate_to_Pump", AddResource)
 function ENT:Draw(bDontDrawModel)
 	self:DoNormalDraw()
 	--draw beams by MadDog
-	CAF.GetAddon("Resource Distribution").Beam_Render(self)
+	CAF.LibRD.Beam_Render(self)
 
 	if Wire_Render then
 		Wire_Render(self)
@@ -302,7 +302,7 @@ function ENT:DoNormalDraw(bDontDrawModel)
 		end
 
 		if table.Count(self.ResourcesToSend) > 0 then
-			local rd = CAF.GetAddon("Resource Distribution")
+			local rd = CAF.LibRD
 			for k, v in pairs(self.ResourcesToSend) do
 				OverlayText = OverlayText .. rd.GetProperResourceName(k) .. ": " .. tostring(v) .. "\n"
 			end
@@ -380,7 +380,7 @@ function ENT:DoNormalDraw(bDontDrawModel)
 		surface.DrawText("Resources Being Transfered: ")
 		TempY = TempY + 70
 
-		local rd = CAF.GetAddon("Resource Distribution")
+		local rd = CAF.LibRD
 
 		for k, v in pairs(self.ResourcesToSend) do
 			stringUsage = stringUsage .. "[" .. rd.GetProperResourceName(k) .. ": " .. tostring(v) .. "] "

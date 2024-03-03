@@ -5,7 +5,7 @@ util.PrecacheSound("ambient/machines/thumper_startup1.wav")
 include("shared.lua")
 DEFINE_BASECLASS("base_rd3_entity")
 
-local RD = CAF.GetAddon("Resource Distribution")
+local RD = CAF.LibRD
 
 local MIN_FUSION_TEMP = 1000000
 

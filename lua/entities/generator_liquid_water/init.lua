@@ -190,8 +190,8 @@ function ENT:Repair()
 end
 
 function ENT:Destruct()
-	if CAF and CAF.GetAddon("Life Support") then
-		CAF.GetAddon("Life Support").Destruct(self, true)
+	if CAF and CAF.LibLS then
+		CAF.LibLS.Destruct(self, true)
 	end
 end
 
@@ -230,8 +230,8 @@ function ENT:Pump_Water()
 		if self.overdrive == 1 then
 			winc = winc * 3
 
-			if CAF and CAF.GetAddon("Life Support") then
-				CAF.GetAddon("Life Support").DamageLS(self, math.random(2, 3))
+			if CAF and CAF.LibLS then
+				CAF.LibLS.DamageLS(self, math.random(2, 3))
 			else
 				self:SetHealth(self:Health() - math.Random(2, 3))
 

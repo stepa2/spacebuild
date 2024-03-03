@@ -6,7 +6,7 @@ include("shared.lua")
 DEFINE_BASECLASS("base_rd3_entity")
 
 local Water_Increment = 10
-local RD = CAF.GetAddon("Resource Distribution")
+local RD = CAF.LibRD
 
 function ENT:Initialize()
 	BaseClass.Initialize(self)
@@ -174,8 +174,8 @@ function ENT:Repair()
 end
 
 function ENT:Destruct()
-	if CAF and CAF.GetAddon("Life Support") then
-		CAF.GetAddon("Life Support").Destruct(self, true)
+	if CAF and CAF.LibLS then
+		CAF.LibLS.Destruct(self, true)
 	end
 end
 

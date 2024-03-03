@@ -51,8 +51,8 @@ function ENT:Repair()
 end
 
 function ENT:Destruct()
-	if CAF and CAF.GetAddon("Life Support") then
-		CAF.GetAddon("Life Support").Destruct(self, true)
+	if CAF and CAF.LibLS then
+		CAF.LibLS.Destruct(self, true)
 	end
 end
 
@@ -60,7 +60,7 @@ function ENT:Extract_Energy(mul)
 	mul = mul or 0
 	if mul == 0 then return end
 	local inc = 0
-	local SB = CAF.GetAddon("Spacebuild")
+	local SB = CAF.LibSB
 
 	if SB then
 		if not self.environment then return end

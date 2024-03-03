@@ -10,7 +10,7 @@ function ENT:Draw(bDontDrawModel)
 
 	--draw beams by MadDog
 	if CAF then
-		local RD = CAF.GetAddon("Resource Distribution")
+		local RD = CAF.LibRD
 
 		if RD then
 			RD.Beam_Render(self)
@@ -35,7 +35,7 @@ function ENT:DoNormalDraw(bDontDrawModel)
 	local RD
 
 	if CAF then
-		RD = CAF.GetAddon("Resource Distribution")
+		RD = CAF.LibRD
 	end
 
 	local mode = self:GetNWInt("overlaymode")

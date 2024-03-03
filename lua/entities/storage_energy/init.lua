@@ -47,8 +47,8 @@ function ENT:Repair()
 end
 
 function ENT:Destruct()
-	if CAF and CAF.GetAddon("Life Support") then
-		CAF.GetAddon("Life Support").Destruct(self, true)
+	if CAF and CAF.LibLS then
+		CAF.LibLS.Destruct(self, true)
 	end
 end
 
@@ -56,8 +56,8 @@ function ENT:Leak()
 	local energy = self:GetResourceAmount("energy")
 	local zapme
 
-	if CAF.GetAddon("Life Support") then
-		zapme = CAF.GetAddon("Life Support").ZapMe
+	if CAF.LibLS then
+		zapme = CAF.LibLS.ZapMe
 	end
 
 	if energy == 0 then

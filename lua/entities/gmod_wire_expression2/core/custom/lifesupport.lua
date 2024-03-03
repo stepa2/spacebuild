@@ -1,5 +1,5 @@
 --glualint:ignore-file
-local RD = CAF.GetAddon("Resource Distribution")
+local RD = CAF.LibRD
 E2Lib.RegisterExtension("lifesupport", false)
 
 local function bool_to_number(val)

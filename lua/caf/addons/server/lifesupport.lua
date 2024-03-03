@@ -64,8 +64,8 @@ end
 	The Constructor for this Custom Addon Class
 ]]
 function LS.__Construct()
-	RD = CAF.GetAddon("Resource Distribution")
-	if not RD then return false, "Resource Distribution is Required and needs to be Active!" end
+	RD = CAF.LibRD
+	
 	util.PrecacheSound("vehicles/v8/skid_lowfriction.wav")
 	util.PrecacheSound("NPC_Stalker.BurnFlesh")
 	util.PrecacheModel("models/player/charple.mdl")
@@ -77,7 +77,7 @@ function LS.__Construct()
 
 	hook.Add("PlayerSpawnedVehicle", "LS_vehicle_spawn", LS_Reg_Veh)
 
-	CAF.GetAddon("Spacebuild").AddOverride_PressureDamage()
+	CAF.LibSB.AddOverride_PressureDamage()
 
 	if SunAngle == nil then
 		SunAngle = Vector(0, 0, -1)
@@ -101,7 +101,7 @@ function LS.GetVersion()
 	return 3.08, "Beta"
 end
 
-CAF.RegisterAddon("Life Support", LS, "2")
+CAF.LibLS = LS
 
 --Extra Methodes
 function LS.AddAirRegulator(ent)

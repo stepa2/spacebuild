@@ -14,7 +14,7 @@ CAFToolSetup.SetLang("Life Support Special Devices", "Create Special Devices att
 
 function TOOL.EnableFunc()
 	if not CAF then return false end
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 	if not rd then return false end
 
 	return true
@@ -27,7 +27,7 @@ local function screen_func(ent, type, sub_type, devinfo, Extra_Data, ent_extras)
 	local base_volume = 11829 --Change to the actual base volume later on
 	local base_mass = 20
 	local base_health = 60
-	CAF.GetAddon("Resource Distribution").RegisterNonStorageDevice(ent)
+	CAF.LibRD.RegisterNonStorageDevice(ent)
 	local phys = ent:GetPhysicsObject()
 
 	if phys:IsValid() then

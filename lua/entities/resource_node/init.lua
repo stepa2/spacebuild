@@ -6,7 +6,7 @@ function ENT:Initialize()
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
-	self.netid = CAF.GetAddon("Resource Distribution").CreateNetwork(self)
+	self.netid = CAF.LibRD.CreateNetwork(self)
 	self:SetNWInt("netid", self.netid)
 	self:SetNWInt("overlaymode", 2)
 	self.range = self.range or 512
@@ -41,13 +41,13 @@ function ENT:OnTakeDamage(DmgInfo)
 		return
 	end
 
-	if CAF and CAF.GetAddon("Life Support") then
-		CAF.GetAddon("Life Support").DamageLS(self, DmgInfo:GetDamage())
+	if CAF and CAF.LibLS then
+		CAF.LibLS.DamageLS(self, DmgInfo:GetDamage())
 	end
 end
 
 function ENT:Think()
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 	local nettable = rd.GetNetTable(self.netid)
 
 	for k, ent in pairs(nettable.entities) do
@@ -91,7 +91,7 @@ function ENT:Think()
 end
 
 function ENT:OnRemove()
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 	rd.UnlinkAllFromNode(self.netid)
 	rd.RemoveRDEntity(self)
 
@@ -107,7 +107,7 @@ function ENT:OnRestore()
 end
 
 function ENT:PreEntityCopy()
-	CAF.GetAddon("Resource Distribution").BuildDupeInfo(self)
+	CAF.LibRD.BuildDupeInfo(self)
 
 	if WireAddon ~= nil then
 		local DupeInfo = WireLib.BuildDupeInfo(self)
@@ -119,7 +119,7 @@ function ENT:PreEntityCopy()
 end
 
 function ENT:PostEntityPaste(Player, Ent, CreatedEntities)
-	CAF.GetAddon("Resource Distribution").ApplyDupeInfo(Ent, CreatedEntities)
+	CAF.LibRD.ApplyDupeInfo(Ent, CreatedEntities)
 
 	if WireAddon ~= nil and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then
 		WireLib.ApplyDupeInfo(Player, Ent, Ent.EntityMods.WireDupeInfo, function(id) return CreatedEntities[id] end)

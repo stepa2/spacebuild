@@ -188,7 +188,7 @@ function RD.GetDescription()
 	return {"Resource Distribution", "", ""}
 end
 
-CAF.RegisterAddon("Resource Distribution", RD, "1")
+CAF.LibRD = RD
 
 function RD.GetNetResourceAmount(netid, resource)
 	if not resource then return 0, "No resource given" end

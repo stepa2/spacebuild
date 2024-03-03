@@ -14,7 +14,7 @@ TOOL.AdminOnly = true
 CAFToolSetup.SetLang(CAF.GetLangVar("sb_dev_plants_title"), CAF.GetLangVar("sb_dev_plants_desc"), CAF.GetLangVar("sb_dev_plants_desc2"))
 
 function TOOL.EnableFunc()
-	local SB = CAF.GetAddon("Spacebuild")
+	local SB = CAF.LibSB
 	if not SB then return false end
 
 	return true

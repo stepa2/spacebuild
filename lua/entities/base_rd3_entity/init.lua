@@ -2,7 +2,7 @@
 AddCSLuaFile("shared.lua")
 include("shared.lua")
 
-local RD = CAF.GetAddon("Resource Distribution")
+local RD = CAF.LibRD
 
 local EnergyToTemperature_Increment = 250
 
@@ -143,8 +143,8 @@ function ENT:OnTakeDamage(DmgInfo)
 		return
 	end
 
-	if CAF and CAF.GetAddon("Life Support") then
-		CAF.GetAddon("Life Support").DamageLS(self, DmgInfo:GetDamage())
+	if CAF and CAF.LibLS then
+		CAF.LibLS.DamageLS(self, DmgInfo:GetDamage())
 	end
 end
 

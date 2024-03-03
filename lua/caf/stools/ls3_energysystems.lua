@@ -14,7 +14,7 @@ CAFToolSetup.SetLang("Life Support Generators", "Create Generators attached to a
 
 function TOOL.EnableFunc()
 	if not CAF then return false end
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 	if not rd then return false end
 
 	return true
@@ -99,7 +99,7 @@ local function gas_generator_func(ent, type, sub_type, devinfo, Extra_Data, ent_
 	end
 
 	ent.caf.custom.resource = res
-	CAF.GetAddon("Resource Distribution").RegisterNonStorageDevice(ent)
+	CAF.LibRD.RegisterNonStorageDevice(ent)
 	local phys = ent:GetPhysicsObject()
 
 	if phys:IsValid() then
@@ -139,7 +139,7 @@ local function liquid_generator_func(ent, type, sub_type, devinfo, Extra_Data, e
 		base_health = 500
 	end
 
-	CAF.GetAddon("Resource Distribution").RegisterNonStorageDevice(ent)
+	CAF.LibRD.RegisterNonStorageDevice(ent)
 	local phys = ent:GetPhysicsObject()
 
 	if phys:IsValid() then
@@ -219,7 +219,7 @@ local function energy_generator_func(ent, type, sub_type, devinfo, Extra_Data, e
 		ent:AddResource("water", math.ceil(volume_mul * 10))
 	end
 
-	--CAF.GetAddon("Resource Distribution").RegisterNonStorageDevice(ent)
+	--CAF.LibRD.RegisterNonStorageDevice(ent)
 	ent:SetMultiplier(volume_mul)
 	local mass = math.Round(base_mass * volume_mul)
 	ent.mass = mass

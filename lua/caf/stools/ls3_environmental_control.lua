@@ -13,7 +13,7 @@ TOOL.Limit = 30
 CAFToolSetup.SetLang("Environmental Controls", "Create life support devices attached to any surface.", "Left-Click: Spawn a Device.  Reload: Repair Device.")
 
 function TOOL.EnableFunc()
-	return not not (CAF and CAF.GetAddon("Resource Distribution"))
+	return not not (CAF and CAF.LibRD)
 end
 
 TOOL.ExtraCCVars = {
@@ -43,7 +43,7 @@ local function environmental_control_func(ent, type, sub_type, devinfo, Extra_Da
 		base_health = 50
 	end
 
-	CAF.GetAddon("Resource Distribution").RegisterNonStorageDevice(ent)
+	CAF.LibRD.RegisterNonStorageDevice(ent)
 	local phys = ent:GetPhysicsObject()
 
 	if phys:IsValid() then
@@ -59,7 +59,7 @@ local function environmental_control_func(ent, type, sub_type, devinfo, Extra_Da
 end
 
 local function sbCheck()
-	if CAF.GetAddon("Spacebuild") then return true end
+	if CAF.LibSB then return true end
 
 	return false
 end

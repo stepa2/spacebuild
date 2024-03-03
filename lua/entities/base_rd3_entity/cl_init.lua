@@ -7,7 +7,7 @@ OOO[2] = "Overdrive"
 CreateClientConVar("number_to_send", "0", true, false) -- TODO Unused?
 CreateClientConVar("number_to_hold", "1", true, false)
 
-local RD = CAF.GetAddon("Resource Distribution")
+local RD = CAF.LibRD
 
 function ENT:Draw(bDontDrawModel)
 	self:DoNormalDraw()

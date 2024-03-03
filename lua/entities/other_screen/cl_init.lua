@@ -2,7 +2,7 @@
 language.Add("other_screen", "Life Support Screen")
 local MainFrames = {}
 
-local RD = CAF.GetAddon("Resource Distribution")
+local RD = CAF.LibRD
 
 function ENT:Initialize()
 	self.resources = {}

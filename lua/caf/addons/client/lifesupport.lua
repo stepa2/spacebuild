@@ -1,4 +1,5 @@
 ﻿local LS = {}
+
 --Local Stuff
 local Display_temperature = CreateClientConVar("LS_Display_Temperature", "K", true, false)
 local Display_hud = CreateClientConVar("LS_Display_HUD", "1", true, false)
@@ -93,7 +94,7 @@ local function lifesupport_HUDPaint()
 	end
 	local ls_sb_mode = false
 
-	if CAF.GetAddon("Spacebuild") then
+	if CAF.LibSB then
 		ls_sb_mode = true
 	end
 
@@ -413,4 +414,4 @@ function LS.GetDescription()
 	return {"Life Support 3", "", ""}
 end
 
-CAF.RegisterAddon("Life Support", LS, "2")
+CAF.LibLS = LS

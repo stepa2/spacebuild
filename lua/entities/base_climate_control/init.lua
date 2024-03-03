@@ -156,12 +156,12 @@ function ENT:Repair()
 end
 
 function ENT:Destruct()
-	CAF.GetAddon("Spacebuild").RemoveEnvironment(self)
-	CAF.GetAddon("Life Support").LS_Destruct(self, true)
+	CAF.LibSB.RemoveEnvironment(self)
+	CAF.LibLS.LS_Destruct(self, true)
 end
 
 function ENT:OnRemove()
-	CAF.GetAddon("Spacebuild").RemoveEnvironment(self)
+	CAF.LibSB.RemoveEnvironment(self)
 	BaseClass.OnRemove(self)
 	self:StopSound("apc_engine_start")
 end

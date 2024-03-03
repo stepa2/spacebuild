@@ -35,7 +35,7 @@ function ENT:Initialize()
 		name = "No Name"
 	}
 
-	CAF.GetAddon("Spacebuild").AddEnvironment(self)
+	CAF.LibSB.AddEnvironment(self)
 end
 
 function ENT:SBUpdatePhysics()
@@ -204,8 +204,8 @@ function ENT:OnTakeDamage(DmgInfo)
 		return
 	end
 
-	if CAF and CAF.GetAddon("Life Support") then
-		CAF.GetAddon("Life Support").DamageLS(self, DmgInfo:GetDamage())
+	if CAF and CAF.LibLS then
+		CAF.LibLS.DamageLS(self, DmgInfo:GetDamage())
 	end
 end
 
@@ -221,7 +221,7 @@ function ENT:Think()
 end
 
 function ENT:OnRemove()
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 	rd.Unlink(self)
 	rd.RemoveRDEntity(self)
 
@@ -237,7 +237,7 @@ function ENT:OnRestore()
 end
 
 function ENT:PreEntityCopy()
-	CAF.GetAddon("Resource Distribution").BuildDupeInfo(self)
+	CAF.LibRD.BuildDupeInfo(self)
 
 	if WireAddon ~= nil then
 		local DupeInfo = WireLib.BuildDupeInfo(self)
@@ -249,7 +249,7 @@ function ENT:PreEntityCopy()
 end
 
 function ENT:PostEntityPaste(Player, Ent, CreatedEntities)
-	CAF.GetAddon("Resource Distribution").ApplyDupeInfo(Ent, CreatedEntities)
+	CAF.LibRD.ApplyDupeInfo(Ent, CreatedEntities)
 
 	if WireAddon ~= nil and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then
 		WireLib.ApplyDupeInfo(Player, Ent, Ent.EntityMods.WireDupeInfo, function(id) return CreatedEntities[id] end)
@@ -258,43 +258,43 @@ end
 
 --NEW Functions 
 function ENT:RegisterNonStorageDevice()
-	CAF.GetAddon("Resource Distribution").RegisterNonStorageDevice(self)
+	CAF.LibRD.RegisterNonStorageDevice(self)
 end
 
 function ENT:AddResource(resource, maxamount, defaultvalue)
-	return CAF.GetAddon("Resource Distribution").AddResource(self, resource, maxamount, defaultvalue)
+	return CAF.LibRD.AddResource(self, resource, maxamount, defaultvalue)
 end
 
 function ENT:ConsumeResource(resource, amount)
-	return CAF.GetAddon("Resource Distribution").ConsumeResource(self, resource, amount)
+	return CAF.LibRD.ConsumeResource(self, resource, amount)
 end
 
 function ENT:SupplyResource(resource, amount)
-	return CAF.GetAddon("Resource Distribution").SupplyResource(self, resource, amount)
+	return CAF.LibRD.SupplyResource(self, resource, amount)
 end
 
 function ENT:Link(netid)
-	CAF.GetAddon("Resource Distribution").Link(self, netid)
+	CAF.LibRD.Link(self, netid)
 end
 
 function ENT:Unlink()
-	CAF.GetAddon("Resource Distribution").Unlink(self)
+	CAF.LibRD.Unlink(self)
 end
 
 function ENT:GetResourceAmount(resource)
-	return CAF.GetAddon("Resource Distribution").GetResourceAmount(self, resource)
+	return CAF.LibRD.GetResourceAmount(self, resource)
 end
 
 function ENT:GetUnitCapacity(resource)
-	return CAF.GetAddon("Resource Distribution").GetUnitCapacity(self, resource)
+	return CAF.LibRD.GetUnitCapacity(self, resource)
 end
 
 function ENT:GetNetworkCapacity(resource)
-	return CAF.GetAddon("Resource Distribution").GetNetworkCapacity(self, resource)
+	return CAF.LibRD.GetNetworkCapacity(self, resource)
 end
 
 function ENT:GetEntityTable()
-	return CAF.GetAddon("Resource Distribution").GetEntityTable(self)
+	return CAF.LibRD.GetEntityTable(self)
 end
 
 --END NEW Functions
@@ -447,7 +447,7 @@ function ENT:GetSBGravity()
 	return self.sbenvironment.gravity or 0
 end
 
-local SB = CAF.GetAddon("Spacebuild")
+local SB = CAF.LibSB
 function ENT:UpdatePressure(ent)
 	if not ent or SB.Override_PressureDamage > 0 then return end
 	if ent:IsPlayer() and SB.PlayerOverride > 0 then return end
@@ -990,5 +990,5 @@ function ENT:IsPreferredOver(environment)
 end
 
 function ENT:Remove()
-	CAF.GetAddon("Spacebuild").RemoveEnvironment(self)
+	CAF.LibSB.RemoveEnvironment(self)
 end

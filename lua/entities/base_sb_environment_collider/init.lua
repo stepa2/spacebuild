@@ -2,7 +2,7 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include("shared.lua")
 
-local SB = CAF.GetAddon("Spacebuild")
+local SB = CAF.LibSB
 
 function ENT:Initialize()
 	self:DrawShadow(false)

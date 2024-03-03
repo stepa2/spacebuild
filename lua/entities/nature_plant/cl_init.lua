@@ -13,7 +13,7 @@ function ENT:DoNormalDraw(bDontDrawModel)
 		return
 	end
 
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 	local nettable = rd.GetEntityTable(self)
 	if table.Count(nettable) <= 0 then return end
 	local playername = self:GetPlayerName()

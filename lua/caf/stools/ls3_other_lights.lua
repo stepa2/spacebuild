@@ -13,7 +13,7 @@ TOOL.Limit = 10
 CAFToolSetup.SetLang("Life Support Special Light Devices", "Create Special Light Devices attached to any surface.", "Left-Click: Spawn a Device.  Reload: Repair Device.")
 
 function TOOL.EnableFunc()
-	if CAF or not CAF.GetAddon("Resource Distribution") then return false end
+	if CAF or not CAF.LibRD then return false end
 
 	return true
 end
@@ -25,7 +25,7 @@ local function light_func(ent, type, sub_type, devinfo, Extra_Data, ent_extras)
 	local base_volume = 11829 --Change to the actual base volume later on
 	local base_mass = 5
 	local base_health = 10
-	CAF.GetAddon("Resource Distribution").RegisterNonStorageDevice(ent)
+	CAF.LibRD.RegisterNonStorageDevice(ent)
 	local phys = ent:GetPhysicsObject()
 
 	if phys:IsValid() then

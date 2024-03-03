@@ -7,7 +7,6 @@ end
 local net = net
 --Variable Declarations
 CAF = {}
-CAF.StartingUp = false
 
 surface.CreateFont("GModCAFNotify", {
 	font = "verdana",
@@ -18,8 +17,6 @@ surface.CreateFont("GModCAFNotify", {
 --nederlands, english
 local DEBUG = true
 CAF.DEBUG = DEBUG
-local Addons = {}
-CAF.Addons = Addons
 --Derma stuff
 local MainInfoMenuData = nil
 --local MainStatusMenuData = nil;
@@ -27,13 +24,7 @@ local MainInfoMenuData = nil
 --local TopFrameHasText = false;
 --local TopLabel = nil
 --End Derma stuff
-local addonlevel = {}
-CAF.addonlevel = addonlevel
-addonlevel[1] = {}
-addonlevel[2] = {}
-addonlevel[3] = {}
-addonlevel[4] = {}
-addonlevel[5] = {}
+
 
 local function ErrorOffStuff(String)
 	Msg("----------------------------------------------------------------------\n")
@@ -44,40 +35,14 @@ end
 
 include("caf/core/shared/sh_general_caf.lua")
 
-local function OnAddonConstruct(name)
-	if not name then return end
+hook.Add("InitPostEntity", "CAF_Start", function()
+	CAF.LibRD.__Construct()
+	CAF.LibSB.__AutoStart()
+	-- TODO: CAF.LibSB.__Construct()
 
-	if Addons[name] then
-		local test, err = pcall(Addons[name].__Construct)
+	CAF.LibLS.__Construct()
+end)
 
-		if not test then
-			print("CAF_Construct", "Couldn't call constructor for " .. name .. " error: " .. err .. "\n")
-			AddPopup(CAF.GetLangVar("Error loading Addon") .. ": " .. CAF.GetLangVar(name), "top", CAF.colors.red)
-		elseif not err then
-			AddPopup(CAF.GetLangVar("An error occured when trying to enable Addon") .. ": " .. CAF.GetLangVar(name), "top", CAF.colors.red)
-		end
-	end
-end
-
---Server-Client Synchronisation
-function CAF.ConstructAddon(len, client)
-	local name = net.ReadString()
-	OnAddonConstruct(name)
-end
-
-net.Receive("CAF_Addon_Construct", CAF.ConstructAddon)
-
-function CAF.Start(len, client)
-	CAF.StartingUp = true
-end
-
-net.Receive("CAF_Start_true", CAF.Start)
-
-function CAF.endStart(len, client)
-	CAF.StartingUp = false
-end
-
-net.Receive("CAF_Start_false", CAF.endStart)
 local displaypopups = {}
 local popups = {}
 --PopupSettings

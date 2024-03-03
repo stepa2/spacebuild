@@ -17,7 +17,7 @@ end
 function TOOL:LeftClick(trace)
 	if not trace.Entity:IsValid() then return false end
 	if CLIENT then return true end
-	CAF.GetAddon("Resource Distribution").PrintDebug(trace.Entity)
+	CAF.LibRD.PrintDebug(trace.Entity)
 
 	return true
 end
@@ -25,7 +25,7 @@ end
 function TOOL:RightClick(trace)
 	if not trace.Entity:IsValid() then return false end
 	if SERVER or not IsFirstTimePredicted() then return true end
-	CAF.GetAddon("Resource Distribution").PrintDebug(trace.Entity)
+	CAF.LibRD.PrintDebug(trace.Entity)
 
 	return true
 end

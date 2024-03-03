@@ -33,7 +33,7 @@ TOOL.ClientConVar["color_a"] = "255"
 function TOOL:LeftClick(trace)
 	if not trace.Entity:IsValid() or trace.Entity:IsPlayer() then return end
 	if CLIENT then return true end
-	local enttable = CAF.GetAddon("Resource Distribution").GetEntityTable(trace.Entity)
+	local enttable = CAF.LibRD.GetEntityTable(trace.Entity)
 
 	if table.Count(enttable) > 0 or trace.Entity.IsNode or trace.Entity.IsValve or trace.Entity.IsPump then
 		local iNum = self:NumObjects()
@@ -57,7 +57,7 @@ function TOOL:RightClick(trace)
 		return true
 	end
 
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 		-- Get information we're about to use
 	for k, v in pairs(self.Objects) do
 		local Ent1, Ent2 = self:GetEnt(k), trace.Entity

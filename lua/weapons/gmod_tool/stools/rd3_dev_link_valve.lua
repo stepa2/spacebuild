@@ -43,7 +43,7 @@ function TOOL:LeftClick(trace)
 	--save clicked postion
 	self:SetObject(iNum, trace.Entity, trace.HitPos, trace.Entity:GetPhysicsObjectNum(trace.PhysicsBone), trace.PhysicsBone, trace.HitNormal)
 
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 
 	--first clicked object
 	if iNum == 1 then
@@ -118,7 +118,7 @@ function TOOL:RightClick(trace)
 	--save clicked postion
 	self:SetObject(iNum, trace.Entity, trace.HitPos, trace.Entity:GetPhysicsObjectNum(trace.PhysicsBone), trace.PhysicsBone, trace.HitNormal)
 
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 
 	--first clicked object
 	if iNum == 1 then
@@ -187,7 +187,7 @@ function TOOL:Reload(trace)
 	--if client exit
 	if CLIENT then return true end
 
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 
 
 	if trace.Entity.IsNode then

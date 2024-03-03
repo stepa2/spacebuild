@@ -31,7 +31,7 @@ TOOL.ClientConVar["color_b"] = "255"
 TOOL.ClientConVar["color_a"] = "255"
 
 local function link_in_range(ent, range)
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 
 	for k, v in pairs(ents.FindInSphere(ent:GetPos(), range)) do
 		local enttable = rd.GetEntityTable(v)
@@ -76,7 +76,7 @@ function TOOL:RightClick(trace)
 	-- Get information we're about to use
 	local Ent1, Ent2 = self:GetEnt(1), self:GetEnt(2)
 
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 
 	if Ent1 == Ent2 then
 		if Ent1.IsNode then
@@ -172,7 +172,7 @@ function TOOL:Reload(trace)
 	--if client exit
 	if CLIENT then return true end
 
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 
 
 	if trace.Entity.IsNode then

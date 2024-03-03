@@ -67,8 +67,8 @@ function ENT:Repair()
 end
 
 function ENT:Destruct()
-	if CAF and CAF.GetAddon("Life Support") then
-		CAF.GetAddon("Life Support").Destruct(self, true)
+	if CAF and CAF.LibLS then
+		CAF.LibLS.Destruct(self, true)
 	end
 end
 
@@ -132,7 +132,7 @@ function ENT:Think()
 	self.thinkcount = self.thinkcount + 1
 
 	if self.thinkcount == 10 then
-		local SB = CAF.GetAddon("Spacebuild")
+		local SB = CAF.LibSB
 
 		if SB then
 			if self.environment then

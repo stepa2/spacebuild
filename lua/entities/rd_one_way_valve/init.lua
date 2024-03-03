@@ -37,7 +37,7 @@ function ENT:GetNode2()
 end
 
 function ENT:SetNode1(node1)
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 
 	if self.connected.node1 and self.Active == 1 then
 		local nettable = rd.GetNetTable(self.connected.node1.netid)
@@ -68,7 +68,7 @@ function ENT:SetNode1(node1)
 end
 
 function ENT:SetNode2(node2)
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 
 	if self.connected.node2 and self.Active == 1 then
 		local nettable = rd.GetNetTable(self.connected.node1.netid)
@@ -100,7 +100,7 @@ end
 
 function ENT:TurnOn()
 	if self.Active == 0 and self.connected.node1 and self.connected.node2 then
-		local nettable = CAF.GetAddon("Resource Distribution").GetNetTable(self.connected.node1.netid)
+		local nettable = CAF.LibRD.GetNetTable(self.connected.node1.netid)
 		table.insert(nettable.cons, self.connected.node2.netid)
 		nettable.haschanged = true
 		self.Active = 1
@@ -114,7 +114,7 @@ end
 
 function ENT:TurnOff()
 	if self.Active == 1 and self.connected.node1 and self.connected.node2 then
-		local nettable = CAF.GetAddon("Resource Distribution").GetNetTable(self.connected.node1.netid)
+		local nettable = CAF.LibRD.GetNetTable(self.connected.node1.netid)
 
 		for k, v in pairs(nettable.cons) do
 			if v == self.connected.node2.netid then
@@ -182,8 +182,8 @@ function ENT:OnTakeDamage(DmgInfo)
 		return
 	end
 
-	if CAF and CAF.GetAddon("Life Support") then
-		CAF.GetAddon("Life Support").DamageLS(self, DmgInfo:GetDamage())
+	if CAF and CAF.LibLS then
+		CAF.LibLS.DamageLS(self, DmgInfo:GetDamage())
 	end
 end
 
@@ -234,7 +234,7 @@ function ENT:OnRestore()
 end
 
 function ENT:PreEntityCopy()
-	CAF.GetAddon("Resource Distribution").BuildDupeInfo(self)
+	CAF.LibRD.BuildDupeInfo(self)
 
 	if WireAddon ~= nil then
 		local DupeInfo = WireLib.BuildDupeInfo(self)
@@ -246,7 +246,7 @@ function ENT:PreEntityCopy()
 end
 
 function ENT:PostEntityPaste(Player, Ent, CreatedEntities)
-	CAF.GetAddon("Resource Distribution").ApplyDupeInfo(Ent, CreatedEntities)
+	CAF.LibRD.ApplyDupeInfo(Ent, CreatedEntities)
 
 	if WireAddon ~= nil and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then
 		WireLib.ApplyDupeInfo(Player, Ent, Ent.EntityMods.WireDupeInfo, function(id) return CreatedEntities[id] end)

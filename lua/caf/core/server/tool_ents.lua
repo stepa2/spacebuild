@@ -131,7 +131,7 @@ function CAFEnts.MakeEnt(tool, ply, Ang, Pos, class, type, sub_type, model, froz
 
 	if devinfo.res then
 		for res, amt in pairs(devinfo.res) do
-			local RD = CAF.GetAddon("Resource Distribution")
+			local RD = CAF.LibRD
 
 			if RD then
 				RD.AddResource(ent, res, amt)

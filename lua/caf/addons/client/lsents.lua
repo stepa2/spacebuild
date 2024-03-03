@@ -1,13 +1,5 @@
 ﻿local RD = {}
 
---The Class
---[[
-	The Constructor for this Custom Addon Class
-]]
-function RD.__Construct()
-	return true, "No Implementation yet"
-end
-
 --[[
 	Get the Version of this Custom Addon Class
 ]]
@@ -70,5 +62,3 @@ end
 function RD.GetDescription()
 	return {"Life Support Entities", "", ""}
 end
-
-CAF.RegisterAddon("Life Support Entities", RD, "2")

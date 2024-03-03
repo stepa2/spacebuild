@@ -182,8 +182,8 @@ function ENT:Repair()
 end
 
 function ENT:Destruct()
-	if CAF and CAF.GetAddon("Life Support") then
-		CAF.GetAddon("Life Support").Destruct(self, true)
+	if CAF and CAF.LibLS then
+		CAF.LibLS.Destruct(self, true)
 	end
 end
 
@@ -203,7 +203,7 @@ function ENT:Think()
 end
 
 function ENT:PreEntityCopy()
-	local RD = CAF.GetAddon("Resource Distribution")
+	local RD = CAF.LibRD
 
 	RD.BuildDupeInfo(self)
 
@@ -224,7 +224,7 @@ end
 duplicator.RegisterEntityModifier("SBOtherScreen", function() end)
 
 function ENT:PostEntityPaste(ply, ent, CreatedEntities)
-	local RD = CAF.GetAddon("Resource Distribution")
+	local RD = CAF.LibRD
 	RD.ApplyDupeInfo(ent, CreatedEntities)
 
 	if WireAddon ~= nil and ent.EntityMods and ent.EntityMods.WireDupeInfo then

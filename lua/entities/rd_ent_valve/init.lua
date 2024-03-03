@@ -70,7 +70,7 @@ function ENT:TurnOn()
 	if self.Active == 1 or not self.connected.ent or not self.connected.node then
 		return
 	end
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 
 	rd.Unlink(self.connected.ent)
 	rd.Link(self.connected.ent, self.connected.node.netid)
@@ -86,7 +86,7 @@ function ENT:TurnOff()
 	if self.Active == 0 or not self.connected.ent and not self.connected.node then
 		return
 	end
-	CAF.GetAddon("Resource Distribution").Unlink(self.connected.ent)
+	CAF.LibRD.Unlink(self.connected.ent)
 	self.Active = 0
 	self:SetOOO(0)
 
@@ -145,8 +145,8 @@ function ENT:OnTakeDamage(DmgInfo)
 		return
 	end
 
-	if CAF and CAF.GetAddon("Life Support") then
-		CAF.GetAddon("Life Support").DamageLS(self, DmgInfo:GetDamage())
+	if CAF and CAF.LibLS then
+		CAF.LibLS.DamageLS(self, DmgInfo:GetDamage())
 	end
 end
 
@@ -196,7 +196,7 @@ function ENT:OnRestore()
 end
 
 function ENT:PreEntityCopy()
-	local RD = CAF.GetAddon("Resource Distribution")
+	local RD = CAF.LibRD
 	RD.BuildDupeInfo(self)
 
 	if WireAddon ~= nil then
@@ -209,7 +209,7 @@ function ENT:PreEntityCopy()
 end
 
 function ENT:PostEntityPaste(Player, Ent, CreatedEntities)
-	local RD = CAF.GetAddon("Resource Distribution")
+	local RD = CAF.LibRD
 	RD.ApplyDupeInfo(Ent, CreatedEntities)
 
 	if WireAddon ~= nil and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then

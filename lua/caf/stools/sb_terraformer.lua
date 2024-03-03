@@ -33,7 +33,7 @@ local function gas_generator_func(ent, type, sub_type, devinfo, Extra_Data, ent_
 	local base_volume = 284267 --Change to the actual base volume later on
 	local base_mass = 200
 	local base_health = 600
-	CAF.GetAddon("Resource Distribution").RegisterNonStorageDevice(ent)
+	CAF.LibRD.RegisterNonStorageDevice(ent)
 	local phys = ent:GetPhysicsObject()
 
 	if phys:IsValid() then

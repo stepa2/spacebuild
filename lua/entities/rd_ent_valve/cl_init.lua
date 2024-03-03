@@ -7,7 +7,7 @@ OOO[1] = "Open"
 function ENT:Draw(bDontDrawModel)
 	self:DoNormalDraw()
 	--draw beams by MadDog
-	CAF.GetAddon("Resource Distribution").Beam_Render(self)
+	CAF.LibRD.Beam_Render(self)
 
 	if Wire_Render then
 		Wire_Render(self)

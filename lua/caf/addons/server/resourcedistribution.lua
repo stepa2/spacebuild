@@ -242,7 +242,7 @@ function RD.GetVersion()
 	return 3.1, "Alpha"
 end
 
-CAF.RegisterAddon("Resource Distribution", RD, "1")
+CAF.LibRD = RD
 
 local ResourceEnergyContents = {
 	water = 0.1

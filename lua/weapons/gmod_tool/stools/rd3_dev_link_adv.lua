@@ -39,7 +39,7 @@ function TOOL:LeftClick(tr)
 	--save clicked postion
 	self:SetObject(iNum, tr.Entity, tr.HitPos, tr.Entity:GetPhysicsObjectNum(tr.PhysicsBone), tr.PhysicsBone, tr.HitNormal)
 
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 
 	--first clicked object
 	if iNum == 1 then
@@ -169,7 +169,7 @@ function TOOL:RightClick(tr)
 	--save clicked postion
 	self:SetObject(iNum, tr.Entity, tr.HitPos, tr.Entity:GetPhysicsObjectNum(tr.PhysicsBone), tr.PhysicsBone, tr.HitNormal)
 	--add beam point
-	CAF.GetAddon("Resource Distribution").Beam_add(self:GetEnt(1), tr.Entity, tr.Entity:WorldToLocal(tr.HitPos + tr.HitNormal))
+	CAF.LibRD.Beam_add(self:GetEnt(1), tr.Entity, tr.Entity:WorldToLocal(tr.HitPos + tr.HitNormal))
 	--success!
 
 	return true
@@ -181,7 +181,7 @@ function TOOL:Reload(trace)
 	--if client exit
 	if CLIENT then return true end
 
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 
 	if trace.Entity.IsNode then
 		rd.UnlinkAllFromNode(trace.Entity.netid)

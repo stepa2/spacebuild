@@ -8,7 +8,7 @@ local pumps = {}
 util.AddNetworkString("RD_Add_ResourceRate_to_Pump")
 util.AddNetworkString("RD_Open_Pump_Menu")
 
-local RD = CAF.GetAddon("Resource Distribution")
+local RD = CAF.LibRD
 
 function ENT:CheckPlayerOK(ply)
 	if not ply then
@@ -343,8 +343,8 @@ function ENT:OnTakeDamage(DmgInfo)
 		return
 	end
 
-	if CAF and CAF.GetAddon("Life Support") then
-		CAF.GetAddon("Life Support").DamageLS(self, DmgInfo:GetDamage())
+	if CAF and CAF.LibLS then
+		CAF.LibLS.DamageLS(self, DmgInfo:GetDamage())
 	end
 end
 
@@ -453,7 +453,7 @@ function ENT:OnRestore()
 end
 
 function ENT:PreEntityCopy()
-	CAF.GetAddon("Resource Distribution").BuildDupeInfo(self)
+	CAF.LibRD.BuildDupeInfo(self)
 
 	if WireAddon ~= nil then
 		local DupeInfo = WireLib.BuildDupeInfo(self)
@@ -465,7 +465,7 @@ function ENT:PreEntityCopy()
 end
 
 function ENT:PostEntityPaste(Player, Ent, CreatedEntities)
-	CAF.GetAddon("Resource Distribution").ApplyDupeInfo(Ent, CreatedEntities)
+	CAF.LibRD.ApplyDupeInfo(Ent, CreatedEntities)
 
 	if WireAddon ~= nil and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then
 		WireLib.ApplyDupeInfo(Player, Ent, Ent.EntityMods.WireDupeInfo, function(id) return CreatedEntities[id] end)

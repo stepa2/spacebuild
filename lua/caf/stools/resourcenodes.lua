@@ -33,7 +33,7 @@ local function link_in_range(ent, range)
 	if not IsValid(ent) then
 		return
 	end
-	local rd = CAF.GetAddon("Resource Distribution")
+	local rd = CAF.LibRD
 	for k, v in pairs(ents.FindInSphere(ent:GetPos(), range)) do
 		local enttable = rd.GetEntityTable(v)
 

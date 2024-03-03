@@ -175,8 +175,8 @@ function ENT:Repair()
 end
 
 function ENT:Destruct()
-	if CAF and CAF.GetAddon("Life Support") then
-		CAF.GetAddon("Life Support").Destruct(self, true)
+	if CAF and CAF.LibLS then
+		CAF.LibLS.Destruct(self, true)
 	end
 end
 
@@ -188,7 +188,7 @@ end
 function ENT:Pump_Air()
 	self.energy = self:GetResourceAmount("energy")
 	local mul = 1
-	local SB = CAF.GetAddon("Spacebuild")
+	local SB = CAF.LibSB
 
 	if SB and self.environment and (self.environment:IsSpace() or self.environment:IsStar()) then
 		mul = 0 --Make the device still absorb energy, but not produce any gas anymore
@@ -209,8 +209,8 @@ function ENT:Pump_Air()
 		if self.overdrive == 1 then
 			ainc = ainc * 2
 
-			if CAF and CAF.GetAddon("Life Support") then
-				CAF.GetAddon("Life Support").DamageLS(self, math.random(2, 3))
+			if CAF and CAF.LibLS then
+				CAF.LibLS.DamageLS(self, math.random(2, 3))
 			else
 				self:SetHealth(self:Health() - math.Random(2, 3))
 

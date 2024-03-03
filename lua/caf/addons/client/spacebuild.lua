@@ -119,4 +119,4 @@ function SB.GetDescription()
 	return {"Spacebuild Addon", "", "Prviously a Gamemode", ""}
 end
 
-CAF.RegisterAddon("Spacebuild", SB, "1")
+CAF.LibSB = SB

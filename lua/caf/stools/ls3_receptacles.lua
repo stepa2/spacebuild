@@ -19,7 +19,7 @@ TOOL.ExtraCCVars = {
 
 function TOOL.EnableFunc()
 	if not CAF then return false end
-	if not CAF.GetAddon("Resource Distribution") then return false end
+	if not CAF.LibRD then return false end
 
 	return true
 end
@@ -119,7 +119,7 @@ local function gas_tank_func(ent, type, sub_type, devinfo, Extra_Data, ent_extra
 	end
 
 	ent.caf.custom.resource = res
-	CAF.GetAddon("Resource Distribution").AddResource(ent, res, math.Round(4600 * volume_mul))
+	CAF.LibRD.AddResource(ent, res, math.Round(4600 * volume_mul))
 	ent.MAXRESOURCE = math.Round(4600 * volume_mul)
 	local mass = math.Round(base_mass * volume_mul)
 	ent.mass = mass
@@ -139,7 +139,7 @@ local function energy_func(ent, type, sub_type, devinfo, Extra_Data, ent_extras)
 		volume_mul = math.Round(phys:GetVolume()) / base_volume
 	end
 
-	CAF.GetAddon("Resource Distribution").AddResource(ent, "energy", math.Round(3600 * volume_mul))
+	CAF.LibRD.AddResource(ent, "energy", math.Round(3600 * volume_mul))
 	ent.MAXRESOURCE = math.Round(3600 * volume_mul)
 	local mass = math.Round(base_mass * volume_mul)
 	ent.mass = mass
@@ -159,7 +159,7 @@ local function liquid_tank_func(ent, type, sub_type, devinfo, Extra_Data, ent_ex
 		volume_mul = math.Round(phys:GetVolume()) / base_volume
 	end
 
-	CAF.GetAddon("Resource Distribution").AddResource(ent, "water", math.Round(3600 * volume_mul))
+	CAF.LibRD.AddResource(ent, "water", math.Round(3600 * volume_mul))
 	ent.MAXRESOURCE = math.Round(3600 * volume_mul)
 	local mass = math.Round(base_mass * volume_mul)
 	ent.mass = mass
@@ -179,7 +179,7 @@ local function heavywater_tank_func(ent, type, sub_type, devinfo, Extra_Data, en
 		volume_mul = math.Round(phys:GetVolume()) / base_volume
 	end
 
-	CAF.GetAddon("Resource Distribution").AddResource(ent, "heavy water", math.Round(3600 * volume_mul))
+	CAF.LibRD.AddResource(ent, "heavy water", math.Round(3600 * volume_mul))
 	ent.MAXRESOURCE = math.Round(3600 * volume_mul)
 	local mass = math.Round(base_mass * volume_mul)
 	ent.mass = mass
@@ -199,7 +199,7 @@ local function cache_func(ent, type, sub_type, devinfo, Extra_Data, ent_extras)
 		volume_mul = math.Round(phys:GetVolume()) / base_volume
 	end
 
-	local RD = CAF.GetAddon("Resource Distribution")
+	local RD = CAF.LibRD
 	RD.AddResource(ent, "energy", math.Round(5500 * volume_mul))
 	RD.AddResource(ent, "oxygen", math.Round(6000 * volume_mul))
 	RD.AddResource(ent, "hydrogen", math.Round(3000 * volume_mul))
