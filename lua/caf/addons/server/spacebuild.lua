@@ -12,7 +12,7 @@ util.PrecacheModel("models/player/samzanemesis/MarineTech.mdl")
 
 local SB = {}
 --local NextUpdateTime
-local SB_InSpace = 0
+local SB_InSpace = false
 --SetGlobalInt("InSpace", 0)
 TrueSun = {}
 SunAngle = nil
@@ -52,7 +52,7 @@ function game.CleanUpMap(dontSendToClients, ExtraFilters)
 end
 
 local function PlayerNoClip(ply, on)
-	if SB_InSpace == 1 and not ply.EnableSpaceNoclip and ply.environment and ply.environment:IsSpace() then
+	if SB_InSpace and not ply.EnableSpaceNoclip and ply.environment and ply.environment:IsSpace() then
 		return false
 	end
 end
@@ -320,7 +320,7 @@ local function Register_Environments()
 			case1, case2, case3, case4, case5, case6, case7, case8, case9, case10, case11, case12, case13, case14, case15, case16, hash, angles, pos = c[1], c[2], c[3], c[4], c[5], c[6], c[7], c[8], c[9], c[10], c[11], c[12], c[13], c[14], c[15], c[16], nil, c[17], c[18]
 
 			if case1 == "planet" then
-				SB_InSpace = 1
+				SB_InSpace = true
 
 				--SetGlobalInt("InSpace", 1)
 				if not table.HasValue(TrueSun, pos) then
@@ -363,7 +363,7 @@ local function Register_Environments()
 					end
 				end
 			elseif case1 == "planet2" then
-				SB_InSpace = 1
+				SB_InSpace = true
 
 				--SetGlobalInt("InSpace", 1)
 				if  not table.HasValue(TrueSun, pos) then
@@ -412,7 +412,7 @@ local function Register_Environments()
 					print("Registered new SB3 planet", planet, planet:GetEnvironmentName())
 				end
 			elseif case1 == "cube" then
-				SB_InSpace = 1
+				SB_InSpace = true
 
 				--SetGlobalInt("InSpace", 1)
 				if table.HasValue(TrueSun, pos) then
@@ -536,7 +536,7 @@ local function Register_Environments()
 				Blooms[case16] = hash
 				print("Registered new planet bloom", case16)
 			elseif case1 == "star" then
-				SB_InSpace = 1
+				SB_InSpace = true
 
 				--SetGlobalInt("InSpace", 1)
 				if not table.HasValue(TrueSun, pos) then
@@ -550,7 +550,7 @@ local function Register_Environments()
 					print("Registered new SB2 star", planet, planet:GetEnvironmentName())
 				end
 			elseif case1 == "star2" then
-				SB_InSpace = 1
+				SB_InSpace = true
 
 				--SetGlobalInt("InSpace", 1)
 				if not table.HasValue(TrueSun, pos) then
@@ -590,7 +590,7 @@ local function Register_Environments()
 			end
 		end
 
-		if SB_InSpace == 1 then
+		if SB_InSpace then
 			SB.__Construct()
 		end
 	end)
@@ -632,7 +632,7 @@ end
 	Return false, the reason of why it wasn't able to start
 ]]
 function SB.__Construct()
-	if SB_InSpace == 1 then
+	if SB_InSpace then
 		hook.Add("PlayerNoClip", "SB_PlayerNoClip_Check", PlayerNoClip)
 		timer.Create("SBEnvironmentCheck", 1, 0, SB.PerformEnvironmentCheck)
 		ResetGravity()
@@ -646,7 +646,7 @@ end
 CAF.LibSB = SB
 
 function SB.PerformEnvironmentCheck()
-	if SB_InSpace == 0 then return end
+	if not SB_InSpace then return end
 
 	for k, ent in ipairs(ents.GetAll()) do
 		if not ent.SkipSBChecks and ent.environment and not ent.IsEnvironment then
@@ -673,7 +673,7 @@ concommand.Add("sb_toggle_space_noclip", function (ply, cmd, args)
 end)
 
 function SB.PerformEnvironmentCheckOnEnt(ent)
-	if SB_InSpace == 0 then return end
+	if not SB_InSpace then return end
 	if not ent then return end
 	if ent.SkipSBChecks then return end
 
