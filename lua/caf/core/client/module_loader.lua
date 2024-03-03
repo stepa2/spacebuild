@@ -1,6 +1,2 @@
-require("ArrayList")
-require("HashMap")
-require("caf_util")
-require("Json")
-
+﻿require("caf_util")
 require("cache")

@@ -1,10 +1,12 @@
 {
-	"title"		:	"Spacebuild 3 Workshop Edition",
+	"title"		:	"Spacebuild Unofficial V5",
 	"type"		:	"gamemode",
 	"tags"		:	[ "build", "fun" ],
 	"description":	"Garry's Mod Spacebuild Project",
 	"ignore"	:
 	[
+		".luacheckrc",
+		"*.js",
 		"*.psd",
 		"*.vcproj",
 		"*.svn*",
@@ -17,6 +19,7 @@
 		"NOTICE",
 		"*.md",
 		"*.gma",
-		"*.jpg"
+		"*.jpg",
+		"*.json"
 	]
 }

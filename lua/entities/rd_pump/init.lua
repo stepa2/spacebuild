@@ -1,83 +1,139 @@
-
-AddCSLuaFile( "cl_init.lua" )
-AddCSLuaFile( "shared.lua" )
-util.PrecacheSound( "RD/pump/beep-4.wav" )
-util.PrecacheSound( "RD/pump/beep-3.wav" )
-util.PrecacheSound( "RD/pump/beep-5.wav" )
-
-include('shared.lua')
+﻿AddCSLuaFile("cl_init.lua")
+AddCSLuaFile("shared.lua")
+util.PrecacheSound("RD/pump/beep-4.wav")
+util.PrecacheSound("RD/pump/beep-3.wav")
+util.PrecacheSound("RD/pump/beep-5.wav")
+include("shared.lua")
 local pumps = {}
+util.AddNetworkString("RD_Add_ResourceRate_to_Pump")
+util.AddNetworkString("RD_Open_Pump_Menu")
 
---[[
-	--SetResourceAmount
-	--PumpTurnOn
-	--PumpTurnOff
-]]
+local RD = CAF.GetAddon("Resource Distribution")
+
+function ENT:CheckPlayerOK(ply)
+	if not ply then
+		return true
+	end
+
+	if not IsValid(ply) then
+		return false
+	end
+
+	return self:CPPICanUse(ply)
+end
+
+local function HandleConCmdError(ply, ok, err)
+	if not ok and IsValid(ply) then
+		ply:ChatPrint(err)
+	end
+	return ok
+end
+
 local function TurnOnPump(ply, com, args)
 	local id = args[1]
 	if not id then return end
-	local ent = ents.GetByIndex( id )
+	local ent = ents.GetByIndex(id)
 	if not ent then return end
+
 	if ent.IsPump and ent.TurnOn then
-		ent:TurnOn()
+		HandleConCmdError(ply, ent:TurnOn(ply))
 	end
 end
-concommand.Add( "PumpTurnOn", TurnOnPump )  
+concommand.Add("PumpTurnOn", TurnOnPump)
 
 local function TurnOffPump(ply, com, args)
 	local id = args[1]
 	if not id then return end
-	local ent = ents.GetByIndex( id )
+	local ent = ents.GetByIndex(id)
 	if not ent then return end
+
 	if ent.IsPump and ent.TurnOff then
-		ent:TurnOff()
+		HandleConCmdError(ply, ent:TurnOff(ply))
 	end
 end
-concommand.Add( "PumpTurnOff", TurnOffPump )  
+concommand.Add("PumpTurnOff", TurnOffPump)
+
+function ENT:SetResourceAmount(ply, res, amount)
+	if not self:CheckPlayerOK(ply) then
+		return false, "You are not allowed to control this pump!"
+	end
+
+	if not amount then
+		return false, "Amount needs to be specified!"
+	end
+
+	amount = tonumber(amount)
+	if amount < 0 then
+		amount = 0
+	end
+
+	self.ResourcesToSend[res] = amount
+	net.Start("RD_Add_ResourceRate_to_Pump")
+		net.WriteEntity(self)
+		net.WriteString(res)
+		net.WriteUInt(amount, 32)
+	net.Broadcast()
+
+	return true
+end
 
 local function SetResourceAmount(ply, com, args)
 	local id = args[1]
 	if not id or not args[2] or not args[3] then return end
-	local ent = ents.GetByIndex( id )
+	local ent = ents.GetByIndex(id)
 	if not ent then return end
-	if ent.IsPump and ent.ResourcesToSend then
-		local amount = tonumber(args[3])
-		if amount < 0 then
-			amount = 0
-		end
-		ent.ResourcesToSend[args[2]] = amount
-		umsg.Start("RD_Add_ResourceRate_to_Pump")
-			umsg.Entity(ent)
-			umsg.String(args[2])
-			umsg.Short(amount)
-		umsg.End()
+
+	if ent.IsPump and ent.SetResourceAmount then
+		HandleConCmdError(ply, ent:SetResourceAmount(ply, args[2], tonumber(args[3])))
 	end
 end
-concommand.Add( "SetResourceAmount", SetResourceAmount )
+concommand.Add("SetResourceAmount", SetResourceAmount)
 
+function ENT:LinkToPump(ply, ent)
+	if not self:CheckPlayerOK(ply) then
+		return false, "You are not allowed to control this pump!"
+	end
+
+	if ent:GetClass() ~= self:GetClass() then
+		return false, "The other entity is not a pump"
+	end
+
+	if ent == self then
+		return false, "Pump cannot connect to itself"
+	end
+
+	if self.otherpump == ent then
+		return true
+	end
+
+	if self.otherpump then
+		self:EmitSound("RD/pump/beep-5.wav", 256)
+		return false, "This Pump is already connected to another pump!"
+	elseif self:GetPos():Distance(ent:GetPos()) > 512 then
+		self:EmitSound("RD/pump/beep-5.wav", 256)
+		return false, "There can only be a distance of 512 units between 2 pumps!"
+	else
+		self:Connect(ent)
+	end
+
+	return true
+end
 
 local function LinkToPump(ply, com, args)
 	local id = args[1]
 	local id2 = args[2]
-	if not id  or not id2 then return end
+	if not id or not id2 then return end
 	id = tonumber(id)
 	id2 = tonumber(id2)
-	local ent = ents.GetByIndex( id )
-	local ent2 = ents.GetByIndex( id2 )
+	local ent = ents.GetByIndex(id)
+	local ent2 = ents.GetByIndex(id2)
 	if not ent or not ent2 then return end
-	if ent.IsPump and ent2.IsPump then
-		if ent2.otherpump then
-			ent:EmitSound("RD/pump/beep-5.wav", 256)
-			ply:ChatPrint("This Pump is already connected to another pump!")
-		elseif ent2:GetPos():Distance(ent:GetPos()) > 512 then
-			ent:EmitSound("RD/pump/beep-5.wav", 256)
-			ply:ChatPrint("There can only be a distance of 512 units between 2 pumps!")
-		else
-			ent:Connect(ent2)
-		end
+
+	if ent.IsPump and ent.LinkToPump then
+		HandleConCmdError(ply, ent:LinkToPump(ply, ent2))
 	end
 end
-concommand.Add( "LinkToPump", LinkToPump )
+concommand.Add("LinkToPump", LinkToPump)
 
 local function SetPumpName(ply, com, args)
 	local id = args[1]
@@ -88,128 +144,156 @@ local function SetPumpName(ply, com, args)
 	local ent = ents.GetByIndex(id)
 	if not ent or not ent.IsPump then return end
 	local oldname = ent:GetPumpName()
-	ent:SetPumpName(name)
-	ply:ChatPrint("Changed name for pump <"..tostring(oldname).."> to <"..name..">");
+	if HandleConCmdError(ply, ent:SetPumpName(ply, name)) then
+		ply:ChatPrint("Changed name for pump <" .. tostring(oldname) .. "> to <" .. name .. ">")
+	end
 end
-concommand.Add( "SetPumpName", SetPumpName)
+concommand.Add("SetPumpName", SetPumpName)
 
 local function UnlinkPump(ply, com, args)
 	local id = args[1]
 	if not id then return end
-	local ent = ents.GetByIndex( id )
+	local ent = ents.GetByIndex(id)
 	if not ent then return end
+
 	if ent.IsPump then
 		ent:Disconnect()
 	end
 end
-concommand.Add( "UnlinkPump", UnlinkPump )    
+concommand.Add("UnlinkPump", UnlinkPump)
 
 local function UserConnect(ply)
-	if table.Count(pumps) > 0 then
-		for k, v in pairs(pumps) do
-			if IsValid(v) then
-				if table.Count(v.ResourcesToSend) > 0 then
-					for l, w in pairs(v.ResourcesToSend) do
-						umsg.Start("RD_Add_ResourceRate_to_Pump", ply)
-							umsg.Entity(v)
-							umsg.String(l)
-							umsg.Short(w)
-						umsg.End()
-					end
-				end
+	for k, v in pairs(pumps) do
+		if IsValid(v) then
+			for l, w in pairs(v.ResourcesToSend) do
+				net.Start("RD_Add_ResourceRate_to_Pump")
+					net.WriteEntity(v)
+					net.WriteString(l)
+					net.WriteUInt(w, 32)
+				net.Send(ply)
 			end
 		end
 	end
 end
-hook.Add("PlayerInitialSpawn", "RD_Pump_info_Update", UserConnect)
+hook.Add("PlayerFullLoad", "RD_Pump_info_Update", UserConnect)
 
 function ENT:Initialize()
-	--self.BaseClass.Initialize(self) --use this in all ents
-	self:PhysicsInit( SOLID_VPHYSICS )
-	self:SetMoveType( MOVETYPE_VPHYSICS )
-	self:SetSolid( SOLID_VPHYSICS )
-	self:SetNetworkedInt( "overlaymode", 1 )
-	self:SetNetworkedInt( "OOO", 0 )
+	self:PhysicsInit(SOLID_VPHYSICS)
+	self:SetMoveType(MOVETYPE_VPHYSICS)
+	self:SetSolid(SOLID_VPHYSICS)
+	self:SetNWInt("overlaymode", 1)
+	self:SetNWInt("OOO", 0)
 	self.Active = 0
 	self.ResourcesToSend = {}
 	self.netid = 0
-	self:SetNetworkedInt( "netid", self.netid )
+	self:SetNWInt("netid", self.netid)
 	self.otherpump = nil
 	self.WireConnectPump = -1
 	table.insert(pumps, self)
-	if not (WireAddon == nil) then
+
+	if WireAddon ~= nil then
 		self.WireDebugName = self.PrintName
-		self.Inputs = Wire_CreateInputs(self, { "On", "Disconnect", "ConnectID", "Connect"})
+
+		self.Inputs = Wire_CreateInputs(self, {"On", "Disconnect", "ConnectID", "Connect"})
+
 		self.Outputs = Wire_CreateOutputs(self, {"On", "PumpID", "ConnectedPumpID"})
+
 		Wire_TriggerOutput(self, "PumpID", self:EntIndex())
 		Wire_TriggerOutput(self, "ConnectedPumpID", -1)
 	else
-		self.Inputs = {{Name="On"},{Name="Disconnect"},{Name="ConnectID"},{Name="Connect"}}
+		self.Inputs = {
+			{
+				Name = "On"
+			},
+			{
+				Name = "Disconnect"
+			},
+			{
+				Name = "ConnectID"
+			},
+			{
+				Name = "Connect"
+			}
+		}
 	end
-	self:SetNetworkedString("name", "test");
-	self:SetPumpName("Pump_"..tostring(self:EntIndex()));
+
+	self:SetNWString("name", "test")
+	self:SetPumpName(nil, "Pump_" .. tostring(self:EntIndex()))
 end
 
 function ENT:GetPumpName()
-	return self:GetNetworkedString("name");
+	return self:GetNWString("name")
 end
 
-function ENT:SetPumpName(name)
-	self:SetNetworkedString("name", name);
+function ENT:SetPumpName(ply, name)
+	if not self:CheckPlayerOK(ply) then
+		return false, "You are not allowed to control this pump!"
+	end
+
+	self:SetNWString("name", name)
 end
 
 function ENT:SetNetwork(netid)
 	if not netid then return end
 	self.netid = netid
-	self:SetNetworkedInt( "netid", self.netid )
+	self:SetNWInt("netid", self.netid)
 end
 
-function ENT:TurnOn()
-	if (self.Active == 0) then
+function ENT:TurnOn(ply)
+	if not self:CheckPlayerOK(ply) then
+		return false, "You are not allowed to control this pump!"
+	end
+
+	if self.Active == 0 then
 		self.Active = 1
 		self:SetOOO(1)
-		if not (WireAddon == nil) then Wire_TriggerOutput(self, "On", self.Active) end
+
+		if WireAddon ~= nil then
+			Wire_TriggerOutput(self, "On", self.Active)
+		end
 	end
+
+	return true
 end
 
-function ENT:TurnOff()
-	if (self.Active == 1 ) then
+function ENT:TurnOff(ply)
+	if not self:CheckPlayerOK(ply) then
+		return false, "You are not allowed to control this pump!"
+	end
+
+	if self.Active == 1 then
 		self.Active = 0
 		self:SetOOO(0)
-		if not (WireAddon == nil) then Wire_TriggerOutput(self, "On", self.Active) end
+
+		if WireAddon ~= nil then
+			Wire_TriggerOutput(self, "On", self.Active)
+		end
 	end
+
+	return true
 end
 
 function ENT:TriggerInput(iname, value)
-	if (iname == "On") then
+	if iname == "On" then
 		if value == 0 then
 			self:TurnOff()
 		elseif value == 1 then
 			self:TurnOn()
 		end
-	elseif (iname == "Disconnect") then
+	elseif iname == "Disconnect" then
 		if value == 1 then
 			self:Disconnect()
 		end
-	elseif (iname == "ConnectID") then
+	elseif iname == "ConnectID" then
 		if value > -1 then
 			self.WireConnectPump = value
 		end
-	elseif (iname == "Connect") then
+	elseif iname == "Connect" then
 		if value ~= 0 and self.WireConnectPump >= 0 then
-			local ent2 = ents.GetByIndex( self.WireConnectPump )
+			local ent2 = ents.GetByIndex(self.WireConnectPump)
 			if not ent2 then return end
-			if ent2.IsPump then
-				if ent2.otherpump then
-					-- Can't connect to the other pump, because it already is connected to a pump
-					self:EmitSound("RD/pump/beep-5.wav", 256)
-				elseif ent2:GetPos():Distance(self:GetPos()) > 512 then
-					-- Can't connect to the other pump, because it is out of range
-					self:EmitSound("RD/pump/beep-5.wav", 256)
-				else
-					self:Connect(ent2)
-				end
-			end
+
+			self:LinkToPump(nil, ent2)
 		end
 	end
 end
@@ -219,10 +303,10 @@ end
 --give value as nil to toggle
 --override to do overdrive
 --AcceptInput (use action) calls this function with value = nil
-function ENT:SetActive( value, caller )
-	umsg.Start("RD_Open_Pump_Menu", caller)
-		umsg.Entity(self)
-	umsg.End()
+function ENT:SetActive(value, caller)
+	net.Start("RD_Open_Pump_Menu")
+	net.WriteEntity(self)
+	net.Send(caller)
 end
 
 function ENT:SetResourceNode(node)
@@ -231,47 +315,53 @@ function ENT:SetResourceNode(node)
 end
 
 function ENT:SetOOO(value)
-	self:SetNetworkedInt( "OOO", value )
+	self:SetNWInt("OOO", value)
 end
 
-AccessorFunc( ENT, "LSMULTIPLIER", "Multiplier", FORCE_NUMBER )
+AccessorFunc(ENT, "LSMULTIPLIER", "Multiplier", FORCE_NUMBER)
+
 function ENT:GetMultiplier()
 	return self.LSMULTIPLIER or 1
 end
 
 function ENT:Repair()
-	self:SetHealth( self:GetMaxHealth( ))
+	self:SetHealth(self:GetMaxHealth())
 end
 
-function ENT:AcceptInput(name,activator,caller)
+function ENT:AcceptInput(name, activator, caller)
 	if name == "Use" and caller:IsPlayer() and caller:KeyDownLast(IN_USE) == false then
-		self:SetActive( nil, caller )
+		self:SetActive(nil, caller)
 	end
 end
 
-function ENT:OnTakeDamage(DmgInfo)--should make the damage go to the shield if the shield is installed(CDS)
+--should make the damage go to the shield if the shield is installed(CDS)
+function ENT:OnTakeDamage(DmgInfo)
 	if self.Shield then
 		self.Shield:ShieldDamage(DmgInfo:GetDamage())
 		CDS_ShieldImpact(self:GetPos())
+
 		return
 	end
+
 	if CAF and CAF.GetAddon("Life Support") then
 		CAF.GetAddon("Life Support").DamageLS(self, DmgInfo:GetDamage())
 	end
 end
 
 function ENT:Think()
-	local RD = CAF.GetAddon("Resource Distribution")
 	if self.otherpump and self.otherpump:GetPos():Distance(self:GetPos()) > 768 then
 		self:Disconnect()
 	end
+
 	--if not self.otherpump then Wire_TriggerOutput(self, "ConnectedPumpID", -1) end --Suggested wireoutput fix, needed??
 	if self.node and (not IsValid(self.node) or self.node:GetPos():Distance(self:GetPos()) > self.node.range) then
-		RD.Beam_clear( self )
+		RD.Beam_clear(self)
+
 		if IsValid(self.node) then
-			self:EmitSound("physics/metal/metal_computer_impact_bullet"..math.random(1,3)..".wav", 500)
-			self.node:EmitSound("physics/metal/metal_computer_impact_bullet"..math.random(1,3)..".wav", 500)
+			self:EmitSound("physics/metal/metal_computer_impact_bullet" .. math.random(1, 3) .. ".wav", 500)
+			self.node:EmitSound("physics/metal/metal_computer_impact_bullet" .. math.random(1, 3) .. ".wav", 500)
 		end
+
 		self.node = nil
 		self:SetNetwork(0)
 		self.netid = 0
@@ -279,96 +369,105 @@ function ENT:Think()
 		self:SetNetwork(0)
 		self.netid = 0
 	end
+
 	if self.Active == 1 then
 		if not self.otherpump then
 			self:TurnOff()
 		else
-			if self.ResourcesToSend and table.Count(self.ResourcesToSend) > 0 then
+			if self.ResourcesToSend then
 				for k, v in pairs(self.ResourcesToSend) do
-					if RD.GetNetResourceAmount(self.netid, k) > 0 then
-						if RD.GetNetResourceAmount(self.netid, k) > v then
-							self:Send(k, v)
-						else
-							self:Send(k, RD.GetNetResourceAmount(self.netid, k))
-						end
+					local curResourceAmount, _, curResourceTemperature = RD.GetNetResourceData(self.netid, k)
+					if curResourceAmount == 0 then
+						continue
+					end
+					if curResourceAmount > v then
+						self:Send(k, v, curResourceTemperature)
+					else
+						self:Send(k, curResourceAmount, curResourceTemperature)
 					end
 				end
 			end
 		end
 	end
-	self:NextThink( CurTime() + 1 )
+
+	self:NextThink(CurTime() + 1)
+
 	return true
 end
 
-function ENT:Send(resource, amount)
+function ENT:Send(resource, amount, temperature)
 	if not self.otherpump then return end
-	local left = self.otherpump:Receive(resource, amount)
-	local RD = CAF.GetAddon("Resource Distribution")
+	local left = self.otherpump:Receive(resource, amount, temperature)
+	if not left then
+		self:Disconnect()
+		return
+	end
 	RD.ConsumeNetResource(self.netid, resource, amount - left)
 end
 
-function ENT:Receive(resource, amount)
+function ENT:Receive(resource, amount, temperature)
 	if not self.otherpump then return end
-	local RD = CAF.GetAddon("Resource Distribution")
-	return RD.SupplyNetResource(self.netid, resource, amount)
+	return RD.SupplyNetResource(self.netid, resource, amount, temperature)
 end
 
 function ENT:Connect(ent)
 	if ent and ent.IsPump then
-		self:SetNetworkedInt("connectedpump", ent:EntIndex())
+		self:SetNWInt("connectedpump", ent:EntIndex())
 		self.otherpump = ent
-		ent:SetNetworkedInt("connectedpump", self:EntIndex())
+		ent:SetNWInt("connectedpump", self:EntIndex())
 		ent.otherpump = self
 		Wire_TriggerOutput(self, "ConnectedPumpID", ent:EntIndex())
 		Wire_TriggerOutput(ent, "ConnectedPumpID", self:EntIndex())
-		self:EmitSound("RD/pump/beep-3.wav", 256) 
+		self:EmitSound("RD/pump/beep-3.wav", 256)
 		self.otherpump:EmitSound("RD/pump/beep-3.wav", 256)
 	end
 end
 
-function ENT:Disconnect()
+function ENT:Disconnect(ply)
 	if self.otherpump then
-		self:EmitSound("RD/pump/beep-4.wav", 256) 
+		self:EmitSound("RD/pump/beep-4.wav", 256)
 		self.otherpump:EmitSound("RD/pump/beep-4.wav", 256)
-		self.otherpump:SetNetworkedInt("connectedpump", 0)
+		self.otherpump:SetNWInt("connectedpump", 0)
 		self.otherpump.otherpump = nil
 		Wire_TriggerOutput(self, "ConnectedPumpID", -1)
 		Wire_TriggerOutput(self.otherpump, "ConnectedPumpID", -1)
-		self:SetNetworkedInt("connectedpump", 0)
+		self:SetNWInt("connectedpump", 0)
 		self.otherpump = nil
 	end
 end
 
 function ENT:OnRemove()
-	--self.BaseClass.OnRemove(self) --use this if you have to use OnRemove
 	self:Disconnect()
-	CAF.GetAddon("Resource Distribution").Unlink(self)
-	CAF.GetAddon("Resource Distribution").RemoveRDEntity(self)
-	if not (WireAddon == nil) then Wire_Remove(self) end
+	RD.Unlink(self)
+	RD.RemoveRDEntity(self)
+
+	if WireAddon ~= nil then
+		Wire_Remove(self)
+	end
 end
 
 function ENT:OnRestore()
-	--self.BaseClass.OnRestore(self) --use this if you have to use OnRestore
-	if not (WireAddon == nil) then Wire_Restored(self) end
+	if WireAddon ~= nil then
+		Wire_Restored(self)
+	end
 end
 
 function ENT:PreEntityCopy()
-	--self.BaseClass.PreEntityCopy(self) --use this if you have to use PreEntityCopy
-	local RD = CAF.GetAddon("Resource Distribution")
-	RD.BuildDupeInfo(self)
-	if not (WireAddon == nil) then
+	CAF.GetAddon("Resource Distribution").BuildDupeInfo(self)
+
+	if WireAddon ~= nil then
 		local DupeInfo = WireLib.BuildDupeInfo(self)
+
 		if DupeInfo then
-			duplicator.StoreEntityModifier( self, "WireDupeInfo", DupeInfo )
+			duplicator.StoreEntityModifier(self, "WireDupeInfo", DupeInfo)
 		end
 	end
 end
 
-function ENT:PostEntityPaste( Player, Ent, CreatedEntities )
-	--self.BaseClass.PostEntityPaste(self, Player, Ent, CreatedEntities ) --use this if you have to use PostEntityPaste
-	local RD = CAF.GetAddon("Resource Distribution")
-	RD.ApplyDupeInfo(Ent, CreatedEntities)
-	if not (WireAddon == nil) and (Ent.EntityMods) and (Ent.EntityMods.WireDupeInfo) then
+function ENT:PostEntityPaste(Player, Ent, CreatedEntities)
+	CAF.GetAddon("Resource Distribution").ApplyDupeInfo(Ent, CreatedEntities)
+
+	if WireAddon ~= nil and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then
 		WireLib.ApplyDupeInfo(Player, Ent, Ent.EntityMods.WireDupeInfo, function(id) return CreatedEntities[id] end)
 	end
 end

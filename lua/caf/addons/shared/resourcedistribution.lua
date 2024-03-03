@@ -1,54 +1,53 @@
---[[
-    --
-    nettable= {}
-    nettable[netid] = {}
-    nettable[netid].resources = {}
-    nettable[netid].resources[resource] = {}
-    nettable[netid].resources[resource] .value = value
-    nettable[netid].resources[resource] .maxvalue = value
-    nettable[netid].resources[resource].haschanged = true/false
-    nettable[netid].entities = {}
-    nettable[netid].haschanged = true/false
-    nettable[netid].clear = true/false
-    nettable[netid].new = true/false
-                .cons = {}
-    --
-    ent_table = {}
-    ent_table[entity] = {}
-    ent_table[entity].resources = {}
-    ent_table[entity].resources[resource] = {}
-    ent_table[entity].resources[resource].maxvalue = value
-    ent_table[entity].resources[resource].value = value
-    ent_table[entity].resources[resource].haschanged = true/false
-    ent_table[entity].network = networkid
-    --ent_table[entity].linkedto = {}--remove if simplified RD
-    ent_table[entity].clear = true/false
-    ent_talbe[entity].haschanged = true/false
-    ent_Table[entity].new = true/false
-    --
-    Simplified RD:
+if SERVER then
+	AddCSLuaFile()
+end
 
-        Instead of being able to connect everything to everything you will only be able to connect something to a resource Node (as long as you are in it's radius, 1024?)
-        You will also be able to connect resource nodes to eachother to combine resources like this.
-        This system should make RD simplifief because it's got less network parts to go through, less networks should be formed in total to, meaning that less network traffic should be able to be achieved to. Because the smaller amount of networks and that everything is connected to only 1 thing it should also make
-        it use less CPU and RAM compared to the current RD.
-        For linking this system can have 2 types of linking:
-            1) Wireless: No wire is drawn
-            2) wired: Same as the Wireless, but a wire is drawn (tool could be made like the wire stools, whit nodes you can put in between the start and end location of the wire.
-        What do you  guys think?
-            Pro's:
-                Simpler in code
-                Should be better performance wise
-                Easier to detect what is connected to what
-                Should be easier to make new devices to expand and stuff
-            Cons:
-                No linking between devices anymore, always an intermediate Resource Node in between
-]]
+local resourcenames = {}
+local resourceids = {}
+local resources = {}
 
+function RD:__AddResources()
+	self.AddProperResourceName("energy", CAF.GetLangVar("Energy"))
+	self.AddProperResourceName("water", CAF.GetLangVar("Water"))
+	self.AddProperResourceName("nitrogen", CAF.GetLangVar("Nitrogen"))
+	self.AddProperResourceName("hydrogen", CAF.GetLangVar("Hydrogen"))
+	self.AddProperResourceName("oxygen", CAF.GetLangVar("Oxygen"))
+	self.AddProperResourceName("carbon dioxide", CAF.GetLangVar("Carbon Dioxide"))
+	self.AddProperResourceName("heavy water", CAF.GetLangVar("Heavy Water"))
+end
 
+function RD.AddProperResourceName(resource, name)
+	if not resource or not name then return end
 
+	if not table.HasValue(resources, resource) then
+		table.insert(resources, resource)
+		resourceids[resource] = #resources
+	end
 
+	resourcenames[resource] = name
+end
 
+function RD.GetProperResourceName(resource)
+	if not resource then return "" end
+	if resourcenames[resource] then return resourcenames[resource] end
 
+	return resource
+end
 
+function RD.GetResourceID(resource)
+	return resourceids[resource]
+end
 
+function RD.GetResourceNameByID(id)
+	return resources[id]
+end
+
+function RD.GetAllRegisteredResources()
+	if not resourcenames or table.Count(resourcenames) < 0 then return {} end
+
+	return table.Copy(resourcenames)
+end
+
+function RD.GetRegisteredResources()
+	return table.Copy(resources)
+end

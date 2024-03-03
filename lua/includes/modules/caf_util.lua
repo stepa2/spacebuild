@@ -1,22 +1,8 @@
---=============================================================================--
--- 			Addon: CAF
--- 			Author: SnakeSVx
---			Version: 0.1
---
---  A really simple module to allow the creation of Java like ArrayLists
---
---=============================================================================--
-
-local IsValid = IsValid
-local util = util
-local string = string
-local tostring = tostring
-local Msg = Msg
-
-module( "caf_util" )
-
+﻿local bit = bit
+module("caf_util")
 local list = {}
 list.__index = list
 
-
-
+function isBitSet(value, b)
+	return bit.band(value, bit.lshift(1, b - 1)) ~= 0
+end
