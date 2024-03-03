@@ -14,8 +14,6 @@ end
 
 -- Variable Declarations
 CAF = {}
-local DEBUG = true
-CAF.DEBUG = DEBUG
 
 function CAF.AllowSpawn(type, sub_type, class, model)
 	local res = hook.Call("CAFTOOLAllowEntitySpawn", type, sub_type, class, model)

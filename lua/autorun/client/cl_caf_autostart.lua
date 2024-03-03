@@ -14,9 +14,6 @@ surface.CreateFont("GModCAFNotify", {
 	weight = 600
 })
 
---nederlands, english
-local DEBUG = true
-CAF.DEBUG = DEBUG
 --Derma stuff
 local MainInfoMenuData = nil
 --local MainStatusMenuData = nil;
