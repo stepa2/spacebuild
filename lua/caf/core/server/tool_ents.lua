@@ -44,10 +44,10 @@ function CAFEnts.MakeEnt(tool, ply, Ang, Pos, class, type, sub_type, model, froz
 		devinfo = tool.Devices[type].devices[sub_type]
 
 		if model and string.lower(devinfo.model) ~= string.lower(model) then
-			CAF.WriteToDebugFile("caf_tool_error", "CAF: model passed does not match what is defined for this device\n")
+			print("caf_tool_error", "CAF: model passed does not match what is defined for this device\n")
 		end
 	else
-		CAF.WriteToDebugFile("caf_tool_error", "CAF: Invalid Device Info! class:" .. tostring(class) .. " type:" .. tostring(type) .. " sub_type:" .. tostring(sub_type))
+		print("caf_tool_error", "CAF: Invalid Device Info! class:" .. tostring(class) .. " type:" .. tostring(type) .. " sub_type:" .. tostring(sub_type))
 
 		return false
 	end

@@ -51,7 +51,7 @@ local function OnAddonConstruct(name)
 		local test, err = pcall(Addons[name].__Construct)
 
 		if not test then
-			CAF.WriteToDebugFile("CAF_Construct", "Couldn't call constructor for " .. name .. " error: " .. err .. "\n")
+			print("CAF_Construct", "Couldn't call constructor for " .. name .. " error: " .. err .. "\n")
 			AddPopup(CAF.GetLangVar("Error loading Addon") .. ": " .. CAF.GetLangVar(name), "top", CAF.colors.red)
 		elseif not err then
 			AddPopup(CAF.GetLangVar("An error occured when trying to enable Addon") .. ": " .. CAF.GetLangVar(name), "top", CAF.colors.red)
@@ -61,20 +61,6 @@ local function OnAddonConstruct(name)
 	if not CAF.StartingUp then
 		hook.Call("CAFOnAddonConstruct", name)
 	end
-end
-
---Global function
-function CAF.WriteToDebugFile(filename, message)
-	if not filename or not message then return nil, "Missing Argument" end
-
-	print("Filename: " .. tostring(filename) .. ", Message: " .. tostring(message))
-end
-
-function CAF.ClearDebugFile(filename)
-	if not filename then return nil, "Missing Argument" end
-	local contents = file.Read("CAF_Debug/client/" .. filename .. ".txt")
-	contents = contents or ""
-	file.Write("CAF_Debug/client/" .. filename .. ".txt", "")
 end
 
 --Server-Client Synchronisation

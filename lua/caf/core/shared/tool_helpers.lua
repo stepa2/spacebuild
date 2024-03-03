@@ -114,12 +114,12 @@ function CAFToolSetup.RegEnts()
 
 		if not devlist.Name or devlist.Name == "" then
 			TOOL.Devices[devtype] = nil
-			CAF.WriteToDebugFile("caf_tool_error", "CAF: Bad device catagory definition, removing\n")
+			print("caf_tool_error", "CAF: Bad device catagory definition, removing\n")
 		else
 			for sub_type, dev in pairs(devlist.devices) do
 				if not dev.Name or dev.Name == "" or not dev.model or dev.model == "" then
 					devlist.devices[sub_type] = nil
-					CAF.WriteToDebugFile("caf_tool_error", "CAF: Bad device definition, removing\n")
+					print("caf_tool_error", "CAF: Bad device definition, removing\n")
 				else
 					dev.type = dev.type or devlist.type
 					dev.class = dev.class or devlist.class

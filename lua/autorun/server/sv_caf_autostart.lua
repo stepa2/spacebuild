@@ -110,31 +110,6 @@ local function OnAddonConstruct(name)
 end
 
 --[[
-	WriteToDebugFile
-	This function will write the selected message to 
-		1) the console
-		2) the specified file into the CAF_DEBUG/Server/ folder
-			If the file doesn't exist it will be created
-]]
-function CAF.WriteToDebugFile(filename, message)
-	if not filename or not message then return nil, "Missing Argument" end
-
-	print("Filename: " .. tostring(filename) .. ", Message: " .. tostring(message))
-end
-
---[[
-	ClearDebugFile
-		This function will clear the given file in the debug folder
-		It will return the content that was in the file before it got cleared
-]]
-function CAF.ClearDebugFile(filename)
-	if not filename then return nil, "Missing Argument" end
-	local contents = file.Read("CAF_Debug/server/" .. filename .. ".txt")
-	contents = contents or ""
-	file.Write("CAF_Debug/server/" .. filename .. ".txt", "")
-end
-
---[[
 	GetSavedAddonStatus
 		This function will return the the status that was stored in the SQL file last time to make it easier so admins won't need to disable Addons again every time.
 ]]
@@ -166,7 +141,7 @@ function CAF.Start()
 				local ok, err = pcall(Addons[v].AddResourcesToSend)
 
 				if not ok then
-					CAF.WriteToDebugFile("CAF_ResourceSend", "AddResourcesToSend Error: " .. err .. "\n")
+					print("CAF_ResourceSend", "AddResourcesToSend Error: " .. err .. "\n")
 				end
 			end
 
@@ -190,7 +165,7 @@ function CAF.Start()
 				local ok2, err = pcall(Addons[v].__AutoStart, state)
 
 				if not ok2 then
-					CAF.WriteToDebugFile("CAF_AutoStart", "Couldn't call AutoStart for " .. v .. ": " .. err .. "\n")
+					print("CAF_AutoStart", "Couldn't call AutoStart for " .. v .. ": " .. err .. "\n")
 				else
 					OnAddonConstruct(v)
 					print("-->", "Auto Started Addon: " .. v .. "\n")
@@ -199,7 +174,7 @@ function CAF.Start()
 				local ok2, err = pcall(Addons[v].__Construct)
 
 				if not ok2 then
-					CAF.WriteToDebugFile("CAF_Construct", "Couldn't call constructor for " .. v .. ": " .. err .. "\n")
+					print("CAF_Construct", "Couldn't call constructor for " .. v .. ": " .. err .. "\n")
 				else
 					OnAddonConstruct(v)
 					print("-->", "Loaded addon: " .. v .. "\n")
