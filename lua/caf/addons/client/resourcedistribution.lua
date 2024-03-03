@@ -165,13 +165,6 @@ function RD.__Construct()
 end
 
 --[[
-	Get the required Addons for this Addon Class
-]]
-function RD.GetRequiredAddons()
-	return {}
-end
-
---[[
 	Get the Version of this Custom Addon Class
 ]]
 function RD.GetVersion()

@@ -375,13 +375,6 @@ function LS.__Construct()
 end
 
 --[[
-	Get the required Addons for this Addon Class
-]]
-function LS.GetRequiredAddons()
-	return {"Resource Distribution"}
-end
-
---[[
 	Get the Version of this Custom Addon Class
 ]]
 function LS.GetVersion()
@@ -411,9 +404,6 @@ function LS.GetMenu(menutype, menuname)
 	end
 
 	return data
-end
-
-function LS.AddResourcesToSend()
 end
 
 --[[

@@ -95,31 +95,10 @@ function LS.__Construct()
 end
 
 --[[
-	Get the required Addons for this Addon Class
-]]
-function LS.GetRequiredAddons()
-	return {"Resource Distribution"}
-end
-
---[[
 	Get the Version of this Custom Addon Class
 ]]
 function LS.GetVersion()
 	return 3.08, "Beta"
-end
-
-function LS.AddResourcesToSend()
-	--[[local list = file.Find("models/props_phx/life_support/*.mdl", "GAME")
-	PrintTable(list)
-	for k,v in pairs(list) do
-		resource.AddFile("models/props_phx/life_support/"..v)
-	end	
-	list = file.Find("materials/props_phx/life_support/*.vtf", "GAME")
-	PrintTable(list) 
-	for k,v in pairs(list) do
-		resource.AddFile("materials/props_phx/life_support/"..v)
-	end
-	resource.AddFile("info.txt")]]
 end
 
 CAF.RegisterAddon("Life Support", LS, "2")

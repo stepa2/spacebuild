@@ -57,10 +57,6 @@ local function OnAddonConstruct(name)
 			AddPopup(CAF.GetLangVar("An error occured when trying to enable Addon") .. ": " .. CAF.GetLangVar(name), "top", CAF.colors.red)
 		end
 	end
-
-	if not CAF.StartingUp then
-		hook.Call("CAFOnAddonConstruct", name)
-	end
 end
 
 --Server-Client Synchronisation

@@ -686,53 +686,11 @@ function SB.__Construct()
 end
 
 --[[
-	Get the required Addons for this Addon Class
-	Optional
-	Put the string names of the Addons in here in table format
-	The CAF startup system will use this to decide if the Addon can be Started up or not. If a required addon isn't installed then Construct will not be called
-	Example: return {"Resource Distribution", "Life Support"}
-	
-	Works together with the startup Level number at the bottom of this file
-]]
-function SB.GetRequiredAddons()
-	return {}
-end
-
---[[
 	Get the Version of this Custom Addon Class
 	Optional (but should be put it in most cases!)
 ]]
 function SB.GetVersion()
 	return 3.1, "Beta"
-end
-
---[[
-	You can send all the files from here that you want to add to send to the client
-	Optional
-]]
-function SB.AddResourcesToSend()
-	resource.AddFile("models/player/samzanemesis/MarineMedic.mdl")
-	resource.AddFile("models/player/samzanemesis/MarineSpecial.mdl")
-	resource.AddFile("models/player/samzanemesis/MarineOfficer.mdl")
-	resource.AddFile("models/player/samzanemesis/MarineTech.mdl")
-	resource.AddFile("materials/models/player/male/medic_body.vmt")
-	resource.AddFile("materials/models/player/male/medic_body_female.vmt")
-	resource.AddFile("materials/models/player/male/medic_helmet.vmt")
-	resource.AddFile("materials/models/player/male/medic_helmet_female.vmt")
-	resource.AddFile("materials/models/player/male/officer_body.vmt")
-	resource.AddFile("materials/models/player/male/medic_helmet.vmt")
-	resource.AddFile("materials/models/player/male/special_weapons_body.vmt")
-	resource.AddFile("materials/models/player/male/special_weapons_body_female.vmt")
-	resource.AddFile("materials/models/player/male/special_weapons_helmet.vmt")
-	resource.AddFile("materials/models/player/male/special_weapons_helmet_female.vmt")
-	resource.AddFile("materials/models/player/male/tech_body.vmt")
-	resource.AddFile("materials/models/player/male/tech_helmet.vmt")
-	resource.AddFile("materials/models/player/male/back_unit/medic_back_unit.vmt")
-	resource.AddFile("materials/models/player/male/back_unit/medic_back_unit_female.vmt")
-	resource.AddFile("materials/models/player/male/back_unit/officer_back_unit.vmt")
-	resource.AddFile("materials/models/player/male/back_unit/special_weapons_back_unit.vmt")
-	resource.AddFile("materials/models/player/male/back_unit/special_weapons_back_unit_female.vmt")
-	resource.AddFile("materials/models/player/male/back_unit/tech_back_unit.vmt")
 end
 
 CAF.RegisterAddon("Spacebuild", SB, "1")

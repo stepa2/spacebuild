@@ -235,22 +235,11 @@ function RD.__Construct()
 	return true
 end
 
-
---[[
-	Get the required Addons for this Addon Class
-]]
-function RD.GetRequiredAddons()
-	return {}
-end
-
 --[[
 	Get the Version of this Custom Addon Class
 ]]
 function RD.GetVersion()
 	return 3.1, "Alpha"
-end
-
-function RD.AddResourcesToSend()
 end
 
 CAF.RegisterAddon("Resource Distribution", RD, "1")
