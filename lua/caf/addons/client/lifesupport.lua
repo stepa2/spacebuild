@@ -375,43 +375,4 @@ function LS.__Construct()
 	return true
 end
 
---[[
-	Get the Version of this Custom Addon Class
-]]
-function LS.GetVersion()
-	return 3.1, "Beta"
-end
-
---[[
-	Gets a menu from this Custom Addon Class
-]]
---Name is nil for main menu, String for others
-function LS.GetMenu(menutype, menuname)
-	local data = {}
-
-	if not menutype then
-		--Create Info Menu
-		data["Info"] = {}
-		local tmp = data["Info"]
-		tmp["Wiki Home"] = {}
-		tmp["Wiki Home"].localurl = "test/test.html"
-		tmp["Wiki Home"].interneturl = "http://www.snakesvx.net/index.php/module_Wiki/title_Garrysmod_Info_Life_Support"
-		--Create Help Menu
-		data["Help"] = {}
-		tmp = data["Help"]
-		tmp["Wiki Home"] = {}
-		tmp["Wiki Home"].localurl = "test/test.html"
-		tmp["Wiki Home"].interneturl = "http://www.snakesvx.net/index.php/module_Wiki/title_Garrysmod_Info_Life_Support"
-	end
-
-	return data
-end
-
---[[
-	Returns a table containing the Description of this addon
-]]
-function LS.GetDescription()
-	return {"Life Support 3", "", ""}
-end
-
 CAF.LibLS = LS

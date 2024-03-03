@@ -94,13 +94,6 @@ function LS.__Construct()
 	return true
 end
 
---[[
-	Get the Version of this Custom Addon Class
-]]
-function LS.GetVersion()
-	return 3.08, "Beta"
-end
-
 CAF.LibLS = LS
 
 --Extra Methodes
@@ -273,17 +266,13 @@ end
 local Ply = FindMetaTable("Player")
 
 function Ply:Ls_Init()
-	if LS.GetVersion and LS.GetVersion() >= 0.1 then
-		self.suit = self.suit or {}
-		self.caf = self.caf or {}
-		self.caf.custom = self.caf.custom or {}
-		self.caf.custom.ls = {}
-		self:LsResetSuit()
+	self.suit = self.suit or {}
+	self.caf = self.caf or {}
+	self.caf.custom = self.caf.custom or {}
+	self.caf.custom.ls = {}
+	self:LsResetSuit()
 
-		return true
-	end
-
-	return false
+	return true
 end
 
 function Ply:LsResetSuit()

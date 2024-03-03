@@ -235,13 +235,6 @@ function RD.__Construct()
 	return true
 end
 
---[[
-	Get the Version of this Custom Addon Class
-]]
-function RD.GetVersion()
-	return 3.1, "Alpha"
-end
-
 CAF.LibRD = RD
 
 local ResourceEnergyContents = {

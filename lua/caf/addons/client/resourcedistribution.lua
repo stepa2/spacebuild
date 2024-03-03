@@ -164,30 +164,6 @@ function RD.__Construct()
 	return true
 end
 
---[[
-	Get the Version of this Custom Addon Class
-]]
-function RD.GetVersion()
-	return 3.1, "Alpha"
-end
-
---[[
-	Gets a menu from this Custom Addon Class
-]]
---Name is nil for main menu, String for others
-function RD.GetMenu(menutype, menuname)
-	local data = {}
-
-	return data
-end
-
---[[
-	Returns a table containing the Description of this addon
-]]
-function RD.GetDescription()
-	return {"Resource Distribution", "", ""}
-end
-
 CAF.LibRD = RD
 
 function RD.GetNetResourceAmount(netid, resource)

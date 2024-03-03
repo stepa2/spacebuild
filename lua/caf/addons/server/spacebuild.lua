@@ -685,14 +685,6 @@ function SB.__Construct()
 	return false, "Not on a Spacebuild Map!"
 end
 
---[[
-	Get the Version of this Custom Addon Class
-	Optional (but should be put it in most cases!)
-]]
-function SB.GetVersion()
-	return 3.1, "Beta"
-end
-
 CAF.LibSB = SB
 
 function SB.PerformEnvironmentCheck()
