@@ -1,8 +1,6 @@
 
 CAF = {}
 
-AddCSLuaFile("vgui/caf_gui.lua")
-AddCSLuaFile("vgui/caf_gui_button.lua")
 AddCSLuaFile("caf/core/tool_loader_sh.lua")
 
 stp.IncludeList("caf/core/", {
