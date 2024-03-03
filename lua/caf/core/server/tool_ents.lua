@@ -1,5 +1,4 @@
-﻿include("caf/core/shared/caf_tools.lua")
-CAFEnts = {}
+﻿CAFEnts = {}
 
 CAFEnts.FORCE_REMOVE_ENT = "DELETE THIS"
 

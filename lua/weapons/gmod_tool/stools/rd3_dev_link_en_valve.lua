@@ -7,10 +7,8 @@ TOOL.Category = "Resource Distribution"
 TOOL.Name = "#Entity Valve Link Tool"
 TOOL.Command = nil
 TOOL.ConfigName = ''
+TOOL.Tab = "Custom Addon Framework"
 
-if CLIENT and GetConVarNumber("CAF_UseTab") == 1 then
-	TOOL.Tab = "Custom Addon Framework"
-end
 
 if CLIENT then
 	language.Add("tool.rd3_dev_link_en_valve.name", "Entity Valve Link Tool")

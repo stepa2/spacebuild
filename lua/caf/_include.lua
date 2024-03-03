@@ -1,9 +1,17 @@
 
 CAF = {}
 
-stp.IncludeFile("caf/core/general_caf_sh.lua")
-stp.IncludeFile("caf/core/icosphere_sv.lua")
-stp.IncludeFile("caf/core/popup_sh.lua")
+AddCSLuaFile("vgui/caf_gui.lua")
+AddCSLuaFile("vgui/caf_gui_button.lua")
+
+stp.IncludeList("caf/core/", {
+    "general_caf_sh.lua",
+    "icosphere_sv.lua",
+    "popup_sh.lua",
+    "module_loader_sh.lua",
+    "other_sv.lua",
+    "tools_sh.lua"
+})
 
 hook.Add("InitPostEntity", "CAF_Start", function()
 	CAF.LibRD.__Construct()
