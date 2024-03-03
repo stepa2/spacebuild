@@ -92,11 +92,7 @@ local function lifesupport_HUDPaint()
 	if GetConVarString("cl_hudversion") ~= "" then
 		return
 	end
-	local ls_sb_mode = false
-
-	if CAF.LibSB then
-		ls_sb_mode = true
-	end
+	local ls_sb_mode = true
 
 	local ply = LocalPlayer()
 	if not ply or not ply:Alive() then return end

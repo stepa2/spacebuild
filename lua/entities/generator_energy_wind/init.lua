@@ -132,18 +132,14 @@ function ENT:Think()
 	self.thinkcount = self.thinkcount + 1
 
 	if self.thinkcount == 10 then
-		local SB = CAF.LibSB
+		if self.environment then
+			local planet = self.environment:IsOnPlanet()
 
-		if SB then
-			if self.environment then
-				local planet = self.environment:IsOnPlanet()
-
-				if planet and planet:GetAtmosphere() > 0 then
-					self:SetPlaybackRate(planet:GetAtmosphere())
-					self:TurnOn()
-				else
-					self:TurnOff()
-				end
+			if planet and planet:GetAtmosphere() > 0 then
+				self:SetPlaybackRate(planet:GetAtmosphere())
+				self:TurnOn()
+			else
+				self:TurnOff()
 			end
 		else
 			self:SetPlaybackRate(1)

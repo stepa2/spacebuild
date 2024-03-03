@@ -11,12 +11,16 @@ stp.IncludeList("caf/", {
     "other_sv.lua",
     "other_cl.lua",
     "tools_sh.lua",
-    "entity_util_sv.lua"
+    "entity_util_sv.lua",
+
+    "spacebuild/fx_sh.lua"
 })
 
 hook.Add("InitPostEntity", "CAF_Start", function()
 	CAF.LibRD.__Construct()
-	CAF.LibSB.__Construct()
+    if SERVER then
+	    CAF.LibSB.__Construct()
+    end
 
 	CAF.LibLS.__Construct()
 end)

@@ -12,10 +12,6 @@ TOOL.LimitName = "ls3_environmental_control"
 TOOL.Limit = 30
 CAFToolSetup.SetLang("Environmental Controls", "Create life support devices attached to any surface.", "Left-Click: Spawn a Device.  Reload: Repair Device.")
 
-function TOOL.EnableFunc()
-	return not not (CAF and CAF.LibRD)
-end
-
 TOOL.ExtraCCVars = {
 	extra_num = 0,
 	extra_bool = 0,
@@ -58,12 +54,6 @@ local function environmental_control_func(ent, type, sub_type, devinfo, Extra_Da
 	return mass, maxhealth
 end
 
-local function sbCheck()
-	if CAF.LibSB then return true end
-
-	return false
-end
-
 TOOL.Devices = {
 	other_dispenser = {
 		Name = "Suit Dispensers",
@@ -84,7 +74,6 @@ TOOL.Devices = {
 		type = "base_climate_control",
 		class = "base_climate_control",
 		func = environmental_control_func,
-		EnableFunc = sbCheck,
 		devices = {
 			normal = {
 				Name = "Climate Regulator",
@@ -99,7 +88,6 @@ TOOL.Devices = {
 		type = "other_probe",
 		class = "other_probe",
 		func = environmental_control_func,
-		EnableFunc = sbCheck,
 		devices = {
 			normal = {
 				Name = "Atmospheric Probe",

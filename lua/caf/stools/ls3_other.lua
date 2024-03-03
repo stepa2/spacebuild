@@ -12,14 +12,6 @@ TOOL.LimitName = "ls3_other"
 TOOL.Limit = 30
 CAFToolSetup.SetLang("Life Support Special Devices", "Create Special Devices attached to any surface.", "Left-Click: Spawn a Device.  Reload: Repair Device.")
 
-function TOOL.EnableFunc()
-	if not CAF then return false end
-	local rd = CAF.LibRD
-	if not rd then return false end
-
-	return true
-end
-
 TOOL.ExtraCCVars = {}
 
 local function screen_func(ent, type, sub_type, devinfo, Extra_Data, ent_extras)

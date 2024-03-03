@@ -100,15 +100,11 @@ function ENT:Think()
 	self.thinkcount = self.thinkcount + 1
 
 	if self.thinkcount == 10 then
-		local SB = CAF.LibSB
-
-		if SB then
-			if self.environment then
-				if not self.environment:IsOnPlanet() then
-					self:TurnOn()
-				else
-					self:TurnOff()
-				end
+		if self.environment then
+			if not self.environment:IsOnPlanet() then
+				self:TurnOn()
+			else
+				self:TurnOff()
 			end
 		else
 			self:TurnOff()

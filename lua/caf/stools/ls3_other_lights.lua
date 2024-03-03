@@ -12,12 +12,6 @@ TOOL.LimitName = "ls3_other_lights"
 TOOL.Limit = 10
 CAFToolSetup.SetLang("Life Support Special Light Devices", "Create Special Light Devices attached to any surface.", "Left-Click: Spawn a Device.  Reload: Repair Device.")
 
-function TOOL.EnableFunc()
-	if CAF or not CAF.LibRD then return false end
-
-	return true
-end
-
 TOOL.ExtraCCVars = {}
 
 local function light_func(ent, type, sub_type, devinfo, Extra_Data, ent_extras)

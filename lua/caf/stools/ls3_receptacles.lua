@@ -17,13 +17,6 @@ TOOL.ExtraCCVars = {
 	extra_bool = 0,
 }
 
-function TOOL.EnableFunc()
-	if not CAF then return false end
-	if not CAF.LibRD then return false end
-
-	return true
-end
-
 function TOOL.ExtraCCVarsCP(tool, panel)
 	panel:NumSlider("Extra Number", "ls3_receptacles_extra_num", 0, 10, 0)
 	panel:CheckBox("Extra Bool", "ls3_receptacles_extra_bool")

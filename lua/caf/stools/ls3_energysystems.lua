@@ -12,14 +12,6 @@ TOOL.LimitName = "ls3_energysystems"
 TOOL.Limit = 30
 CAFToolSetup.SetLang("Life Support Generators", "Create Generators attached to any surface.", "Left-Click: Spawn a Device.  Reload: Repair Device.")
 
-function TOOL.EnableFunc()
-	if not CAF then return false end
-	local rd = CAF.LibRD
-	if not rd then return false end
-
-	return true
-end
-
 TOOL.ExtraCCVars = {
 	extra_num = 0,
 	extra_bool = 0,

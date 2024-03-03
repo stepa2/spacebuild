@@ -60,14 +60,8 @@ function ENT:Extract_Energy(mul)
 	mul = mul or 0
 	if mul == 0 then return end
 	local inc = 0
-	local SB = CAF.LibSB
 
-	if SB then
-		if not self.environment then return end
-		inc = math.ceil(Energy_Increment / ((self.environment:GetAtmosphere()) + 1))
-	else
-		inc = math.ceil(Energy_Increment / 2)
-	end
+	inc = math.ceil(Energy_Increment / ((self.environment and self.environment:GetAtmosphere() or 1) + 1))
 
 	if self.damaged == 1 then
 		inc = math.ceil(inc / 2)
