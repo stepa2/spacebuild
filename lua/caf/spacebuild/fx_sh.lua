@@ -14,6 +14,15 @@ if SERVER then
             net.Broadcast()
         end
     end
+
+    
+	hook.Add("PlayerFullLoad", "SB.SendSunConfig", function(ply)
+        for _, v in ipairs(CAF.LibSB:GetStars()) do
+			if IsValid(v) then
+				CAF.LibSB.SendSunConfig(v, ply)
+			end
+		end
+    end)
 else
     local stars = {}
 

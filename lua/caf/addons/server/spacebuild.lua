@@ -57,17 +57,6 @@ local function PlayerNoClip(ply, on)
 	end
 end
 
---Send the player info about the Stars and Planets for Effects
-local function PlayerInitialSpawn(ply)
-	if Stars then
-		for k, v in pairs(Stars) do
-			if IsValid(v) then
-				CAF.LibSB.SendSunConfig(v)
-			end
-		end
-	end
-end
-
 local function Register_Sun()
 	Msg("Registering Sun\n")
 	local suns = ents.FindByClass("env_sun")
@@ -645,13 +634,8 @@ end
 function SB.__Construct()
 	if SB_InSpace == 1 then
 		hook.Add("PlayerNoClip", "SB_PlayerNoClip_Check", PlayerNoClip)
-		hook.Add("PlayerFullLoad", "SB_PlayerInitialSpawn_Check", PlayerInitialSpawn)
 		timer.Create("SBEnvironmentCheck", 1, 0, SB.PerformEnvironmentCheck)
 		ResetGravity()
-
-		for k, v in pairs(player.GetAll()) do
-			PlayerInitialSpawn(v)
-		end
 
 		return true
 	end
@@ -727,21 +711,16 @@ function SB.PerformEnvironmentCheckOnEnt(ent)
 	end
 end
 
-local function cloneTable(tbl)
-	local tmp = {}
-	for k, v in pairs(tbl) do
-		table.insert(tmp, v)
-	end
-	return tmp
-end
 
 -- Environment Functions
+-- Do not modify returned table
 function SB.GetPlanets()
-	return cloneTable(Planets)
+	return Planets
 end
 
+-- Do not modify returned table
 function SB.GetStars()
-	return cloneTable(Stars)
+	return Stars
 end
 
 function SB.OnEnvironmentChanged(ent)
@@ -794,19 +773,19 @@ function SB.RemoveEnvironment(env)
 	if not env or not env.GetEnvClass or env:GetEnvClass() ~= "SB ENVIRONMENT" then return end
 
 	if env.IsStar and env:IsStar() then
-		for k, v in pairs(Stars) do
+		for k, v in ipairs(Stars) do
 			if env == v then
 				table.remove(Stars, k)
 			end
 		end
 	elseif env.IsPlanet and env:IsPlanet() then
-		for k, v in pairs(Planets) do
+		for k, v in ipairs(Planets) do
 			if env == v then
 				table.remove(Planets, k)
 			end
 		end
 	else
-		for k, v in pairs(Environments) do
+		for k, v in ipairs(Environments) do
 			if env == v then
 				table.remove(Environments, k)
 			end
@@ -817,15 +796,15 @@ end
 function SB.GetEnvironments()
 	local tmp = {}
 
-	for k, v in pairs(Planets) do
+	for k, v in ipairs(Planets) do
 		table.insert(tmp, v)
 	end
 
-	for k, v in pairs(Stars) do
+	for k, v in ipairs(Stars) do
 		table.insert(tmp, v)
 	end
 
-	for k, v in pairs(Environments) do
+	for k, v in ipairs(Environments) do
 		table.insert(tmp, v)
 	end
 
