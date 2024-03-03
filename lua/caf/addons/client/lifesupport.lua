@@ -388,21 +388,6 @@ function LS.GetVersion()
 	return 3.1, "Beta"
 end
 
-local isuptodatecheck
-
---[[
-	Update check
-]]
-function LS.IsUpToDate(callBackfn)
-	if not CAF.HasInternet then return end
-
-	if isuptodatecheck ~= nil then
-		callBackfn(isuptodatecheck)
-
-		return
-	end
-end
-
 --[[
 	Gets a menu from this Custom Addon Class
 ]]

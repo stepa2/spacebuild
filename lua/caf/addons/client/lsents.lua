@@ -23,21 +23,6 @@ function RD.GetVersion()
 	return 3.05, "Beta"
 end
 
-local isuptodatecheck
-
---[[
-	Update check
-]]
-function RD.IsUpToDate(callBackfn)
-	if not CAF.HasInternet then return end
-
-	if isuptodatecheck ~= nil then
-		callBackfn(isuptodatecheck)
-
-		return
-	end
-end
-
 --[[
 	Gets a menu from this Custom Addon Class
 ]]
