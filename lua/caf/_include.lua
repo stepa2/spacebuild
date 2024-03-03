@@ -1,9 +1,9 @@
 
 CAF = {}
 
-AddCSLuaFile("caf/core/tool_loader_sh.lua")
+AddCSLuaFile("caf/tool_loader_sh.lua")
 
-stp.IncludeList("caf/core/", {
+stp.IncludeList("caf/", {
     "general_caf_sh.lua",
     "icosphere_sv.lua",
     "popup_sh.lua",
@@ -55,4 +55,4 @@ else
 end
 
 
-stp.IncludeFile("caf/core/player_full_load_sh.lua")
+stp.IncludeFile("caf/player_full_load_sh.lua")
