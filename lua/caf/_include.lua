@@ -3,6 +3,7 @@ CAF = {}
 
 AddCSLuaFile("vgui/caf_gui.lua")
 AddCSLuaFile("vgui/caf_gui_button.lua")
+AddCSLuaFile("caf/core/tool_loader_sh.lua")
 
 stp.IncludeList("caf/core/", {
     "general_caf_sh.lua",
@@ -10,7 +11,9 @@ stp.IncludeList("caf/core/", {
     "popup_sh.lua",
     "module_loader_sh.lua",
     "other_sv.lua",
-    "tools_sh.lua"
+    "other_cl.lua",
+    "tools_sh.lua",
+    "entity_util_sv.lua"
 })
 
 hook.Add("InitPostEntity", "CAF_Start", function()
@@ -21,18 +24,6 @@ hook.Add("InitPostEntity", "CAF_Start", function()
 end)
 
 if SERVER then
-    for k, File in ipairs(file.Find("caf/core/server/*.lua", "LUA")) do
-        include("caf/core/server/" .. File)
-    end
-    
-    for k, File in ipairs(file.Find("CAF/Core/client/*.lua", "LUA")) do
-        AddCSLuaFile("caf/core/client/" .. File)
-    end
-    
-    for k, File in ipairs(file.Find("CAF/Core/shared/*.lua", "LUA")) do
-        AddCSLuaFile("caf/core/shared/" .. File)
-    end
-    
     for k, File in ipairs(file.Find("caf/languagevars/*.lua", "LUA")) do
         AddCSLuaFile("caf/languagevars/" .. File)
         include("caf/languagevars/" .. File)
@@ -51,12 +42,6 @@ if SERVER then
         AddCSLuaFile("caf/addons/shared/" .. File)
     end
 else
-    local coreFiles = file.Find("caf/core/client/*.lua", "LUA")
-
-    for k, File in ipairs(coreFiles) do
-        include("caf/core/client/" .. File)
-    end
-
     local languageFiles = file.Find("caf/languagevars/*.lua", "LUA")
 
     for k, File in ipairs(languageFiles) do

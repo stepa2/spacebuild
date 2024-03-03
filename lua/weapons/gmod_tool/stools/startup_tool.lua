@@ -1,5 +1,7 @@
-﻿include("caf/core/shared/tool_manifest.lua")
+﻿TOOL = nil
+include("caf/core/shared/tool_manifest.lua")
 TOOL = ToolObj:Create()
+
 TOOL.Category = "CAF"
 TOOL.Mode = "startup_tool"
 TOOL.Name = "CAF Tools Startup"

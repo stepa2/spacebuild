@@ -1,8 +1,4 @@
-﻿--load our other stools first
---include( "RD2/tool_manifest.lua" )
---dev link stool
---TOOL			= ToolObj:Create()
-TOOL.Mode = "rd3_dev_link"
+﻿TOOL.Mode = "rd3_dev_link"
 TOOL.Category = "Resource Distribution"
 TOOL.Name = "#Link Tool"
 TOOL.Command = nil

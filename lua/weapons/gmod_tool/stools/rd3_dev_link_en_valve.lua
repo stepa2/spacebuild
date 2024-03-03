@@ -1,8 +1,4 @@
-﻿--load our other stools first
---include( "RD2/tool_manifest.lua" )
---dev link stool
---TOOL			= ToolObj:Create()
-TOOL.Mode = "rd3_dev_link_en_valve"
+﻿TOOL.Mode = "rd3_dev_link_en_valve"
 TOOL.Category = "Resource Distribution"
 TOOL.Name = "#Entity Valve Link Tool"
 TOOL.Command = nil
