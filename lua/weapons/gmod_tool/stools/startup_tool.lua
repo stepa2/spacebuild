@@ -1,5 +1,5 @@
 ﻿TOOL = nil
-include("caf/core/shared/tool_manifest.lua")
+include("caf/core/tool_loader_sh.lua")
 TOOL = ToolObj:Create()
 
 TOOL.Category = "CAF"
