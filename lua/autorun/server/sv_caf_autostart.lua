@@ -103,22 +103,6 @@ local function LoadAddonStatus(addon, defaultstatus)
 	return tobool(defaultstatus)
 end
 
-local function OnEntitySpawn(ent , enttype , ply)
-	if not IsValid(ent) then
-		return
-	end
-	ent.caf = ent.caf or {}
-	ent.caf.custom = ent.caf.custom or {}
-	if ent.caf.custom.canreceivedamage == nil then
-		ent.caf.custom.canreceivedamage = true
-	end
-	if ent.caf.custom.canreceiveheatdamage == nil then
-		ent.caf.custom.canreceiveheatdamage = true
-	end
-
-	hook.Call("CAFOnEntitySpawn", nil, ent, enttype, ply)
-end
-
 local function OnAddonConstruct(name)
 	if not name then return end
 	net.Start("CAF_Addon_Construct")
@@ -129,43 +113,6 @@ local function OnAddonConstruct(name)
 		hook.Call("CAFOnAddonConstruct", name)
 	end
 end
-
---Gmod Spawn Hooks
-local function SpawnedSent(ply, ent)
-	--Msg("Sent Spawned\n")
-	OnEntitySpawn(ent, "SENT", ply)
-end
-
-local function SpawnedVehicle(ply, ent)
-	--Msg("Vehicle Spawned\n")
-	OnEntitySpawn(ent, "VEHICLE", ply)
-end
-
-local function SpawnedEnt(ply, model, ent)
-	--Msg("Prop Spawned\n")
-	OnEntitySpawn(ent, "PROP", ply)
-end
-
-local function PlayerSpawn(ply)
-	--Msg("Prop Spawned\n")
-	OnEntitySpawn(ply, "PLAYER", ply)
-end
-
-local function NPCSpawn(ply, ent)
-	--Msg("Prop Spawned\n")
-	OnEntitySpawn(ent, "NPC", ply)
-end
-
-hook.Add("PlayerSpawnedNPC", "CAF NPC Spawn", NPCSpawn)
-hook.Add("PlayerInitialSpawn", "CAF PLAYER Spawn", PlayerSpawn)
-hook.Add("PlayerSpawnedProp", "CAF PROP Spawn", SpawnedEnt)
-hook.Add("PlayerSpawnedSENT", "CAF SENT Spawn", SpawnedSent)
-hook.Add("PlayerSpawnedVehicle", "CAF VEHICLE Spawn", SpawnedVehicle)
-
---Global function
---[[
-
-]]
 
 --[[
 	WriteToDebugFile
@@ -340,17 +287,6 @@ function CAF2.PlayerSpawn(ply)
 end
 
 hook.Add("PlayerFullLoad", "CAF_In_Spawn", CAF2.PlayerSpawn)
-local oldcreate = ents.Create
-
-ents.Create = function(class)
-	local ent = oldcreate(class)
-
-	timer.Simple(0.1, function()
-		OnEntitySpawn(ent, "SENT")
-	end)
-
-	return ent
-end
 
 --msg, location, color, displaytime
 function CAF2.POPUP(ply, msg, location, color, displaytime)

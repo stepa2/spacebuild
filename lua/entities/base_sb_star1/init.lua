@@ -11,13 +11,6 @@ function ENT:Initialize(skipCompatibility)
 	self:SetNotSolid(true)
 	self:DrawShadow(false)
 
-	if CAF then
-		self.caf = self.caf or {}
-		self.caf.custom = self.caf.custom or {}
-		self.caf.custom.canreceivedamage = false
-		self.caf.custom.canreceiveheatdamage = false
-	end
-
 	if not skipCompatibility then
 		self.sbenvironment.temperature2 = 0
 		self.sbenvironment.temperature3 = 0

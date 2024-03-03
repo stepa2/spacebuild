@@ -12,13 +12,6 @@ function ENT:Initialize()
 	self.sbenvironment.unstable = false
 
 	self:DrawShadow(false)
-
-	if CAF then
-		self.caf = self.caf or {}
-		self.caf.custom = self.caf.custom or {}
-		self.caf.custom.canreceivedamage = false
-		self.caf.custom.canreceiveheatdamage = false
-	end
 end
 
 function ENT:SBEnvPhysics(ent)

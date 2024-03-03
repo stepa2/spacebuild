@@ -19,13 +19,6 @@ function ENT:Initialize(skipCompatibility)
 		self.sbenvironment.color = {}
 		self.sbenvironment.bloom = {}
 	end
-
-	if CAF then
-		self.caf = self.caf or {}
-		self.caf.custom = self.caf.custom or {}
-		self.caf.custom.canreceivedamage = false
-		self.caf.custom.canreceiveheatdamage = false
-	end
 end
 
 function ENT:GetSunburn()

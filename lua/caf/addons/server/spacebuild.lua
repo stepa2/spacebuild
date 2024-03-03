@@ -19,7 +19,6 @@ SB.Override_PlayerHeatDestroy = 0
 SB.Override_EntityHeatDestroy = 0
 SB.Override_PressureDamage = 0
 SB.PlayerOverride = 0
-local sb_spawned_entities = {}
 local volumes = {}
 CreateConVar("SB_NoClip", "1")
 CreateConVar("SB_PlanetNoClipOnly", "1")
@@ -54,15 +53,6 @@ function game.CleanUpMap(dontSendToClients, ExtraFilters)
 
 	originalCleanUpMap(dontSendToClients, ExtraFilters)
 end
-
-local function OnEntitySpawn(ent)
-	--Msg("Spawn: "..tostring(ent).."\n")
-	if not table.HasValue(sb_spawned_entities, ent) then
-		table.insert(sb_spawned_entities, ent)
-	end
-end
-
-hook.Add("CAFOnEntitySpawn", "SB_OnEntitySpawn", OnEntitySpawn)
 
 local function PlayerNoClip(ply, on)
 	if SB_InSpace == 1 and not ply.EnableSpaceNoclip and ply.environment and ply.environment:IsSpace() then
@@ -656,21 +646,17 @@ function SB.__AutoStart()
 end
 
 local function ResetGravity()
-	for k, ent in ipairs(sb_spawned_entities) do
-		if ent and IsValid(ent) then
-			local phys = ent:GetPhysicsObject()
+	for k, ent in ipairs(ents.GetAll()) do
+		local phys = ent:GetPhysicsObject()
 
-			if phys:IsValid() and not (ent.IgnoreGravity and ent.IgnoreGravity == true) then
-				ent:SetGravity(1)
-				ent.gravity = 1
-				if ent:IsPlayer() then
-					ent:SetNWFloat("gravity", ent.gravity)
-				end
-				phys:EnableGravity(true)
-				phys:EnableDrag(true)
+		if IsValid(phys) and not (ent.IgnoreGravity and ent.IgnoreGravity == true) then
+			ent:SetGravity(1)
+			ent.gravity = 1
+			if ent:IsPlayer() then
+				ent:SetNWFloat("gravity", ent.gravity)
 			end
-		else
-			table.remove(sb_spawned_entities, k)
+			phys:EnableGravity(true)
+			phys:EnableDrag(true)
 		end
 	end
 end
@@ -754,12 +740,10 @@ CAF.RegisterAddon("Spacebuild", SB, "1")
 function SB.PerformEnvironmentCheck()
 	if SB_InSpace == 0 then return end
 
-	for k, ent in ipairs(sb_spawned_entities) do
-		if IsValid(ent) and not ent.SkipSBChecks and ent.environment and not ent.IsEnvironment then
+	for k, ent in ipairs(ents.GetAll()) do
+		if not ent.SkipSBChecks and ent.environment and not ent.IsEnvironment then
 			ent.environment:UpdateGravity(ent)
 			ent.environment:UpdatePressure(ent)
-		else
-			table.remove(sb_spawned_entities, k)
 		end
 	end
 end
