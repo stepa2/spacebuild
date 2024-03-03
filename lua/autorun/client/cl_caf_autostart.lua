@@ -63,7 +63,5 @@ for k, File in ipairs(addonFiles) do
 	end
 end
 
-hook.Add("InitPostEntity", "InitPostEntity_FullLoad", function()
-	net.Start("CAF_PlayerFullLoad")
-	net.SendToServer()
-end)
+
+stp.IncludeFile("caf/core/player_full_load_sh.lua")

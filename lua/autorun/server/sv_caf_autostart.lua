@@ -103,11 +103,5 @@ for k, File in ipairs(file.Find("caf/addons/shared/*.lua", "LUA")) do
 	end
 end
 
-net.Receive("CAF_PlayerFullLoad", function(_, ply)
-	if ply.PlayerFullLoaded then
-		return
-	end
-	ply.PlayerFullLoaded = true
-	hook.Run("PlayerFullLoad", ply)
-end)
-util.AddNetworkString("CAF_PlayerFullLoad")
+
+stp.IncludeFile("caf/core/player_full_load_sh.lua")
