@@ -7,6 +7,7 @@ end
 CAF = {}
 
 stp.IncludeFile("caf/core/general_caf_sh.lua")
+stp.IncludeFile("caf/core/icosphere_sv.lua")
 stp.IncludeFile("caf/core/popup_sh.lua")
 
 hook.Add("InitPostEntity", "CAF_Start", function()
