@@ -6,23 +6,8 @@ end
 
 local net = net
 
-local net_pools = {"CAF_Addon_POPUP"}
-
-for _, v in pairs(net_pools) do
-	util.AddNetworkString(v)
-end
-
 -- Variable Declarations
 CAF = {}
-
-function CAF.AllowSpawn(type, sub_type, class, model)
-	local res = hook.Call("CAFTOOLAllowEntitySpawn", type, sub_type, class, model)
-	if res ~= nil then
-		return res
-	end
-	return true
-end
-
 
 local function ErrorOffStuff(String)
 	Msg("----------------------------------------------------------------------\n")
@@ -46,30 +31,12 @@ hook.Add("InitPostEntity", "CAF_Start", function()
 	CAF.LibLS.__Construct()
 end)
 
---msg, location, color, displaytime
-function CAF.POPUP(ply, msg, location, color, displaytime)
-	if msg then
-		location = location or "top"
-		color = color or CAF.colors.white
-		displaytime = displaytime or 1
-		net.Start("CAF_Addon_POPUP")
-		net.WriteString(msg)
-		net.WriteString(location)
-		net.WriteUInt(color.r, 8)
-		net.WriteUInt(color.g, 8)
-		net.WriteUInt(color.b, 8)
-		net.WriteUInt(color.a, 8)
-		net.WriteUInt(displaytime, 16)
-		net.Send(ply)
-	end
-end
-
-CAF = CAF
-
 --[[
 	The following code sends the clientside and shared files to the client and includes CAF core code
 ]]
 --Send Client and Shared files to the client and Include the ServerAddons
+
+stp.IncludeFile("caf/core/popup_sh.lua")
 
 --Core files
 

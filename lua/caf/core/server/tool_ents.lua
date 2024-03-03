@@ -85,9 +85,7 @@ function CAFEnts.MakeEnt(tool, ply, Ang, Pos, class, type, sub_type, model, froz
 
 		return
 	end
-
-	if not CAF.AllowSpawn(type, sub_type, class, model) then return end
-
+	
 	if devinfo.group.MakeFunc then
 		ent = devinfo.group.MakeFunc(tool, ply, Ang, Pos, class, type, sub_type, model, frozen, Extra_Data, devinfo)
 		if not IsValid(ent) then return false end
