@@ -214,24 +214,12 @@ function sb_space.Get()
 end
 
 
-local function ResetGravity()
-	for k, ent in ipairs(ents.GetAll()) do
-		local phys = ent:GetPhysicsObject()
-
-		if IsValid(phys) and not (ent.IgnoreGravity and ent.IgnoreGravity == true) then
-			ent:SetGravity(1)
-			ent.gravity = 1
-			if ent:IsPlayer() then
-				ent:SetNWFloat("gravity", ent.gravity)
-			end
-			phys:EnableGravity(true)
-			phys:EnableDrag(true)
-		end
-	end
+function SB.StartEnvironmentChecker()
+	timer.Create("SBEnvironmentCheck", 1, 0, SB.PerformEnvironmentCheck)
 end
 
 function SB.PerformEnvironmentCheck()
-	if not SB_InSpace then return end
+	if not SB.HasSpace then return end
 
 	for k, ent in ipairs(ents.GetAll()) do
 		if not ent.SkipSBChecks and ent.environment and not ent.IsEnvironment then
@@ -243,7 +231,7 @@ end
 
 
 function SB.PerformEnvironmentCheckOnEnt(ent)
-	if not SB_InSpace then return end
+	if not SB.HasSpace then return end
 	if not ent then return end
 	if ent.SkipSBChecks then return end
 
@@ -400,4 +388,20 @@ function SB.FindClosestPlanet(pos, starsto)
 	end
 
 	return closestplanet
+end
+
+function SB.ResetGravity()
+	for k, ent in ipairs(ents.GetAll()) do
+		local phys = ent:GetPhysicsObject()
+
+		if IsValid(phys) and not (ent.IgnoreGravity and ent.IgnoreGravity == true) then
+			ent:SetGravity(1)
+			ent.gravity = 1
+			if ent:IsPlayer() then
+				ent:SetNWFloat("gravity", ent.gravity)
+			end
+			phys:EnableGravity(true)
+			phys:EnableDrag(true)
+		end
+	end
 end

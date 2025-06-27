@@ -21,7 +21,11 @@ stp.IncludeList("caf/", {
 hook.Add("InitPostEntity", "CAF_Start", function()
 	CAF.LibRD.__Construct()
     if SERVER then
-	    CAF.LibSB.__Construct()
+	    CAF.LibSB.Register_Sun()
+	    CAF.LibSB.Register_Environments()
+        CAF.LibSB.ResetGravity()
+
+	    CAF.LibSB.StartEnvironmentChecker()
     end
 
 	CAF.LibLS.__Construct()

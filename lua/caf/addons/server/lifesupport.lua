@@ -77,8 +77,6 @@ function LS.__Construct()
 
 	hook.Add("PlayerSpawnedVehicle", "LS_vehicle_spawn", LS_Reg_Veh)
 
-	CAF.LibSB.AddOverride_PressureDamage()
-
 	if SunAngle == nil then
 		SunAngle = Vector(0, 0, -1)
 	end

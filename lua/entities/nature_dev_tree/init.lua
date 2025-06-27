@@ -6,6 +6,9 @@ function ENT:Initialize()
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
+	
+	self:AddEFlags(EFL_KEEP_ON_RECREATE_ENTITIES)
+
 	self.rate = 0
 end
 

@@ -35,6 +35,8 @@ function ENT:Initialize()
 		name = "No Name"
 	}
 
+	self:AddEFlags(EFL_KEEP_ON_RECREATE_ENTITIES)
+
 	CAF.LibSB.AddEnvironment(self)
 end
 
@@ -449,12 +451,6 @@ end
 
 local SB = CAF.LibSB
 function ENT:UpdatePressure(ent)
-	if not ent or SB.Override_PressureDamage > 0 then return end
-	if ent:IsPlayer() and SB.PlayerOverride > 0 then return end
-
-	if self.sbenvironment.pressure and self.sbenvironment.pressure > 1.5 then
-		ent:TakeDamage((self.sbenvironment.pressure - 1.5) * 10)
-	end
 end
 
 --Converts air1 to air2 for the max amount of the specified value

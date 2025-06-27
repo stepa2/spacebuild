@@ -59,7 +59,7 @@ function SB.Register_Environments()
 			case1, case2, case3, case4, case5, case6, case7, case8, case9, case10, case11, case12, case13, case14, case15, case16, hash, angles, pos = c[1], c[2], c[3], c[4], c[5], c[6], c[7], c[8], c[9], c[10], c[11], c[12], c[13], c[14], c[15], c[16], nil, c[17], c[18]
 
 			if case1 == "planet" then
-				SB_InSpace = true
+				SB.HasSpace = true
 
 				--SetGlobalInt("InSpace", 1)
 				if not table.HasValue(TrueSun, pos) then
@@ -102,7 +102,7 @@ function SB.Register_Environments()
 					end
 				end
 			elseif case1 == "planet2" then
-				SB_InSpace = true
+				SB.HasSpace = true
 
 				--SetGlobalInt("InSpace", 1)
 				if  not table.HasValue(TrueSun, pos) then
@@ -151,7 +151,7 @@ function SB.Register_Environments()
 					print("Registered new SB3 planet", planet, planet:GetEnvironmentName())
 				end
 			elseif case1 == "cube" then
-				SB_InSpace = true
+				SB.HasSpace = true
 
 				--SetGlobalInt("InSpace", 1)
 				if table.HasValue(TrueSun, pos) then
@@ -275,7 +275,7 @@ function SB.Register_Environments()
 				Blooms[case16] = hash
 				print("Registered new planet bloom", case16)
 			elseif case1 == "star" then
-				SB_InSpace = true
+				SB.HasSpace = true
 
 				--SetGlobalInt("InSpace", 1)
 				if not table.HasValue(TrueSun, pos) then
@@ -289,7 +289,7 @@ function SB.Register_Environments()
 					print("Registered new SB2 star", planet, planet:GetEnvironmentName())
 				end
 			elseif case1 == "star2" then
-				SB_InSpace = true
+				SB.HasSpace = true
 
 				--SetGlobalInt("InSpace", 1)
 				if not table.HasValue(TrueSun, pos) then
@@ -329,7 +329,7 @@ function SB.Register_Environments()
 			end
 		end
 
-		if SB_InSpace then
+		if SB.HasInSpace then
 			CAF.LibSB.__Construct()
 		end
 	end)
