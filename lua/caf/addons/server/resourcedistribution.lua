@@ -5,10 +5,6 @@ local resourcenames = {}
 local resources = {}
 local rd_cache = cache.create(1, true) --Store data for 1 second
 
-_G.RD = RD
-include("caf/addons/shared/resourcedistribution.lua")
-_G.RD = nil
-
 --Local functions/variables
 --Precache some sounds for snapping
 for i = 1, 3 do
@@ -229,8 +225,6 @@ function RD.__Construct()
 	nextnetid = 1
 	nettable = {}
 	ent_table = {}
-
-	RD:__AddResources()
 
 	return true
 end

@@ -7,10 +7,6 @@ local rd_cache = cache.create(1, false) --Store data for 1 second
 ]]
 --local functions
 
-_G.RD = RD
-include("caf/addons/shared/resourcedistribution.lua")
-_G.RD = nil
-
 RD_OverLay_Distance = CreateClientConVar("rd_overlay_distance", "512", false, false)
 RD_OverLay_Mode = CreateClientConVar("rd_overlay_mode", "-1", false, false)
 local client_chosen_number = CreateClientConVar("number_to_send", "1", false, false)
@@ -152,17 +148,6 @@ local function AddNetworkToCache(nrofbytes)
 end
 
 net.Receive("RD_Network_Data", AddNetworkToCache)
-
---end local functions
---The Class
---[[
-	The Constructor for this Custom Addon Class
-]]
-function RD.__Construct()
-	RD:__AddResources()
-
-	return true
-end
 
 CAF.LibRD = RD
 
