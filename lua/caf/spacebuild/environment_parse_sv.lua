@@ -1,5 +1,6 @@
+local SB = CAF.LibSB
 
-local function Register_Environments()
+function SB.Register_Environments()
 	local CONFIGS = {}
 	Msg("Registering planets\n")
 	local Blooms = {}
@@ -329,7 +330,7 @@ local function Register_Environments()
 		end
 
 		if SB_InSpace then
-			SB.__Construct()
+			CAF.LibSB.__Construct()
 		end
 	end)
 end

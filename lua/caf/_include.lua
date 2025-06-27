@@ -1,5 +1,5 @@
 
-CAF = {}
+CAF = { LibSB = {} }
 
 AddCSLuaFile("caf/tool_loader_sh.lua")
 
@@ -14,6 +14,7 @@ stp.IncludeList("caf/", {
     "entity_util_sv.lua",
 
     "spacebuild/environment_sv.lua",
+    "spacebuild/environment_parse_sv.lua",
     "spacebuild/fx_sh.lua"
 })
 

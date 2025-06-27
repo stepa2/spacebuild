@@ -1,12 +1,14 @@
 TrueSun = {}
 SunAngle = nil
 
+local SB = CAF.LibSB
+
 local Environments = {}
 local Planets = {}
 local Stars = {}
 local numenv = 0
 
-local function Register_Sun()
+function SB.Register_Sun()
 	Msg("Registering Sun\n")
 	local suns = ents.FindByClass("env_sun")
 

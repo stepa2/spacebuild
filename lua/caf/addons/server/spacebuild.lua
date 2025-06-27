@@ -63,8 +63,8 @@ end
 	Return nil or false = addon didn't get enabled
 ]]
 function SB.__AutoStart()
-	Register_Sun()
-	Register_Environments()
+	SB.Register_Sun()
+	SB.Register_Environments()
 end
 
 --[[
