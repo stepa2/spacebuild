@@ -109,30 +109,9 @@ end
 
 function ENT:AcceptInput(name, activator, caller)
 	if name == "Use" and caller:IsPlayer() and caller:KeyDownLast(IN_USE) == false then
-		if self.Inputs and caller.useaction and caller.useaction == true then
-			local maxz = table.Count(self.Inputs)
-			local last = false
-			local num = 1
-
-			for k, v in pairs(self.Inputs) do
-				if num >= maxz then
-					last = true
-				end
-
-				net.Start("RD_AddInputToMenu")
-				net.WriteBool(last)
-				net.WriteString(v.Name)
-				net.WriteEntity(self)
-				net.Send(caller)
-				num = num + 1
-			end
-		else
-			self:SetActive(nil, caller)
-		end
+		self:SetActive(nil, caller)
 	end
 end
-
-util.AddNetworkString("RD_AddInputToMenu")
 
 --should make the damage go to the shield if the shield is installed(CDS)
 function ENT:OnTakeDamage(DmgInfo)
@@ -154,12 +133,6 @@ function ENT:OnRemove()
 
 	if WireLib then
 		WireLib.Remove(self)
-	end
-
-	if self.InputsBeingTriggered then
-		for k, v in pairs(self.InputsBeingTriggered) do
-			hook.Remove("Think", "ButtonHoldThinkNumber" .. v.hooknum)
-		end
 	end
 end
 

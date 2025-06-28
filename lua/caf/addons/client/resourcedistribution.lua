@@ -9,8 +9,6 @@ local rd_cache = cache.create(1, false) --Store data for 1 second
 
 RD_OverLay_Distance = CreateClientConVar("rd_overlay_distance", "512", false, false)
 RD_OverLay_Mode = CreateClientConVar("rd_overlay_mode", "-1", false, false)
-local client_chosen_number = CreateClientConVar("number_to_send", "1", false, false)
-local client_chosen_hold = CreateClientConVar("number_to_hold", "0", false, false)
 
 local REQUEST_ENT = 1
 local REQUEST_NET = 2
@@ -254,64 +252,3 @@ function RD.PrintDebug(ent)
 		end
 	end
 end
-
---Alternate Use Code--
-local function GenUseMenu(ent)
-	local SmallFrame = vgui.Create("DFrame")
-	SmallFrame:SetPos((ScrW() / 2) - 110, (ScrH() / 2) - 100)
-	SmallFrame:SetSize(220, (#ent.Inputs * 40) + 90)
-	SmallFrame:SetTitle(ent.PrintName)
-	local ypos = 30
-	local HoldSlider = vgui.Create("DNumSlider", SmallFrame)
-	HoldSlider:SetPos(10, ypos)
-	HoldSlider:SetSize(200, 30)
-	HoldSlider:SetText("Time to Hold:")
-	HoldSlider:SetMin(0)
-	HoldSlider:SetMax(10)
-	HoldSlider:SetDecimals(1)
-	HoldSlider:SetConVar("number_to_hold")
-	ypos = ypos + 40
-
-	for k, v in pairs(ent.Inputs) do
-		local NumSliderThingy = vgui.Create("DNumSlider", SmallFrame)
-		NumSliderThingy:SetPos(10, ypos)
-		NumSliderThingy:SetSize(120, 30)
-		NumSliderThingy:SetText(v .. " :")
-		NumSliderThingy:SetMin(0)
-		NumSliderThingy:SetMax(10)
-		NumSliderThingy:SetDecimals(0)
-		NumSliderThingy:SetConVar("number_to_send")
-		local SendButton = vgui.Create("DButton", SmallFrame)
-		SendButton:SetPos(140, ypos)
-		SendButton:SetText("Send Command")
-		SendButton:SizeToContents()
-
-		SendButton.DoClick = function()
-			RunConsoleCommand("send_input_selection_to_server", ent:EntIndex(), v, client_chosen_number:GetInt(), client_chosen_hold:GetFloat())
-		end
-
-		ypos = ypos + 40
-	end
-
-	SmallFrame:MakePopup()
-end
-
-local function RecieveInputs()
-	local last = net.ReadBool()
-	local input = net.ReadString()
-	local ent = net.ReadEntity()
-
-	if not ent.Inputs then
-		ent.Inputs = {}
-	end
-
-	if not table.HasValue(ent.Inputs, input) then
-		table.insert(ent.Inputs, input)
-	end
-
-	if last and last == true then
-		GenUseMenu(ent)
-	end
-end
-
-net.Receive("RD_AddInputToMenu", RecieveInputs)

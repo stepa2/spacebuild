@@ -4,8 +4,6 @@ local OOO = {}
 OOO[0] = "Off"
 OOO[1] = "On"
 OOO[2] = "Overdrive"
-CreateClientConVar("number_to_send", "0", true, false) -- TODO Unused?
-CreateClientConVar("number_to_hold", "1", true, false)
 
 local RD = CAF.LibRD
 
