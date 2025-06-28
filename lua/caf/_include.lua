@@ -14,6 +14,7 @@ stp.IncludeList("caf/", {
     "entity_util_sv.lua",
 
     "resource/types_sh.lua",
+    "resource/beam_sh.lua",
 
     "spacebuild/environment_sv.lua",
     "spacebuild/environment_parse_sv.lua",
