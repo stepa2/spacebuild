@@ -14,18 +14,6 @@ end
 util.PrecacheSound("physics/metal/metal_box_impact_soft2.wav")
 local nextnetid = 1
 
-local function WriteBool(bool)
-	net.WriteBit(bool)
-end
-
-local function WriteShort(short)
-	return net.WriteInt(short, 16)
-end
-
-local function WriteLong(long)
-	return net.WriteInt(long, 32)
-end
-
 local function WriteResource(name)
 	local id = RD.GetResourceID(name) or 0
 	net.WriteUInt(id, 8)
@@ -38,15 +26,15 @@ util.AddNetworkString("RD_Entity_Data")
 
 local function sendEntityData(ply, entid, rddata)
 	net.Start("RD_Entity_Data")
-	WriteShort(entid) --send key to update
-	WriteBool(false) --Update
-	WriteShort(rddata.network) --send network used in entity
-	WriteShort(table.Count(rddata.resources)) --How many resources are going to be send?
+	net.WriteInt(entid, 16) --send key to update
+	net.WriteBool(false) --Update
+	net.WriteInt(rddata.network, 16) --send network used in entity
+	net.WriteInt(table.Count(rddata.resources), 16) --How many resources are going to be send?
 
 	for l, w in pairs(rddata.resources) do
 		WriteResource(l)
-		WriteLong(w.maxvalue)
-		WriteLong(w.value)
+		net.WriteInt(w.maxvalue, 32)
+		net.WriteInt(w.value, 32)
 		net.WriteFloat(w.temperature)
 	end
 
@@ -61,23 +49,23 @@ util.AddNetworkString("RD_Network_Data")
 
 local function sendNetworkData(ply, netid, rddata)
 	net.Start("RD_Network_Data")
-	WriteShort(netid) --send key to update
-	WriteBool(false) --Up to date
-	WriteShort(table.Count(rddata.resources)) --How many resources are going to be send?
+	net.WriteInt(netid, 16) --send key to update
+	net.WriteBool(false) --Up to date
+	net.WriteInt(table.Count(rddata.resources), 16) --How many resources are going to be send?
 
 	for l, w in pairs(rddata.resources) do
 		WriteResource(l)
-		WriteLong(w.maxvalue)
-		WriteLong(w.value)
+		net.WriteInt(w.maxvalue, 32)
+		net.WriteInt(w.value, 32)
 		net.WriteFloat(w.temperature)
 	end
 
 	local nr_of_cons = #rddata.cons
-	WriteShort(nr_of_cons) --How many connections are going to be send?
+	net.WriteInt(nr_of_cons, 16) --How many connections are going to be send?
 
 	if nr_of_cons > 0 then
 		for l, w in pairs(rddata.cons) do
-			WriteShort(w)
+			net.WriteInt(w, 16)
 		end
 	end
 

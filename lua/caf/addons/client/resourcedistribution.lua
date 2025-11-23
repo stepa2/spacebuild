@@ -21,18 +21,6 @@ end
 
 net.Receive("RD_ClearNets", ClearNets)
 
-local function ReadBool()
-	return net.ReadBit() == 1
-end
-
-local function ReadShort()
-	return net.ReadInt(16)
-end
-
-local function ReadLong()
-	return net.ReadInt(32)
-end
-
 local function ReadResource()
 	local id = net.ReadUInt(8)
 	if id == 0 then
@@ -49,16 +37,16 @@ local function AddEntityToCache(nrofbytes)
 	end
 
 	local data = {}
-	data.entid = ReadShort() --Key
-	local up_to_date = ReadBool()
+	data.entid = net.ReadInt(16) --Key
+	local up_to_date = net.ReadBool()
 
 	if up_to_date then
 		rd_cache:update("entity_" .. tostring(data.entid))
 	end
 
-	data.network = ReadShort() --network key
+	data.network = net.ReadInt(16) --network key
 	data.resources = {}
-	local nr_of_resources = ReadShort()
+	local nr_of_resources = net.ReadInt(16)
 
 	if nr_of_resources > 0 then
 		--print("nr_of_sources", nr_of_resources)
@@ -70,8 +58,8 @@ local function AddEntityToCache(nrofbytes)
 		for i = 1, nr_of_resources do
 			--print(i)
 			resource = ReadResource()
-			maxvalue = ReadLong()
-			value = ReadLong()
+			maxvalue = net.ReadInt(32)()
+			value = net.ReadInt(32)()
 			temperature = net.ReadFloat()
 
 			if not resource then
@@ -97,8 +85,8 @@ local function AddNetworkToCache(nrofbytes)
 	end
 
 	local data = {}
-	data.netid = ReadShort() --network key
-	local up_to_date = ReadBool()
+	data.netid = net.ReadInt(16) --network key
+	local up_to_date = net.ReadBool()
 
 	if up_to_date then
 		rd_cache:update("network_" .. tostring(data.netid))
@@ -106,7 +94,7 @@ local function AddNetworkToCache(nrofbytes)
 	end
 
 	data.resources = {}
-	local nr_of_resources = ReadShort()
+	local nr_of_resources = net.ReadInt(16)
 
 	if nr_of_resources > 0 then
 		--print("nr_of_sources", nr_of_resources)
@@ -118,8 +106,8 @@ local function AddNetworkToCache(nrofbytes)
 		for _ = 1, nr_of_resources do
 			--print(i)
 			resource = ReadResource()
-			maxvalue = ReadLong()
-			value = ReadLong()
+			maxvalue = net.ReadInt(32)()
+			value = net.ReadInt(32)()
 			temperature = net.ReadFloat()
 
 			data.resources[resource] = {
@@ -131,13 +119,13 @@ local function AddNetworkToCache(nrofbytes)
 	end
 
 	data.cons = {}
-	local nr_of_cons = ReadShort()
+	local nr_of_cons = net.ReadInt(16)
 
 	if nr_of_cons > 0 then
 		--print("nr_of_cons", nr_of_cons)
 		for i = 1, nr_of_cons do
 			--print(i)
-			local con = ReadShort()
+			local con = net.ReadInt(16)
 			table.insert(data.cons, con)
 		end
 	end
